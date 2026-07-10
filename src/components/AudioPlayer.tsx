@@ -75,7 +75,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="flex flex-wrap items-center gap-3">
         <button
           onClick={controls.togglePlay}
           disabled={isLoading.value}
@@ -85,7 +85,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
           {isLoading.value ? <Spinner size="sm" /> : isPlaying.value ? <Pause size={20} /> : <Play size={20} />}
         </button>
 
-        <div class="flex items-center gap-2 flex-1">
+        <div class="flex items-center gap-2 min-w-0 flex-[2] sm:flex-1">
           <IconButton
             icon={VolumeIcon}
             label={muted.value ? 'Activar sonido' : 'Silenciar'}
@@ -93,14 +93,16 @@ export default function AudioPlayer({ onNext, controls }: Props) {
             pressed={muted.value}
             size="sm"
           />
-          <Slider
-            label="Volumen"
-            min={0}
-            max={1}
-            step={0.05}
-            value={muted.value ? 0 : volume.value}
-            onChange={handleVolumeChange}
-          />
+          <div class="flex-1 min-w-[60px]">
+            <Slider
+              label="Volumen"
+              min={0}
+              max={1}
+              step={0.05}
+              value={muted.value ? 0 : volume.value}
+              onChange={handleVolumeChange}
+            />
+          </div>
         </div>
 
         {onNext && (

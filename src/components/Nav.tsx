@@ -34,7 +34,7 @@ export default function Nav({ lang: initialLang }: Props) {
 
   return (
     <nav
-      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)]"
+      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
       aria-label={t('NAV.APP_NAME')}
     >
       <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
@@ -127,10 +127,10 @@ export default function Nav({ lang: initialLang }: Props) {
 
       {menuOpen && (
         <div
-          class="md:hidden absolute top-16 left-0 right-0 bg-[var(--color-bg-surface)] border-b border-[var(--color-border)] animate-slide-down"
+          class="md:hidden fixed inset-0 top-16 z-[var(--z-modal)] bg-[var(--color-bg-surface)] animate-slide-down overflow-y-auto"
           role="menu"
         >
-          <div class="flex flex-col p-4 gap-2">
+          <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
             <a href="/" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
               <HomeIcon size={18} aria-hidden="true" />
               {t('NAV.HOME')}

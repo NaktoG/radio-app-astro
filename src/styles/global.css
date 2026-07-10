@@ -59,11 +59,12 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: var(--font-sans);
-  min-height: 100vh;
+  min-height: 100dvh;
   background: linear-gradient(
     135deg,
     var(--color-bg-base) 0%,
@@ -73,6 +74,16 @@ body {
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* iOS safe area for fixed nav */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .nav-safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
 }
 
 @utility glass {
@@ -194,7 +205,12 @@ body {
   background-color: var(--color-bg-glass);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 1rem;
+
+  @media (width >= 40rem) {
+    padding: 1.5rem;
+  }
+
   transition: all var(--duration-normal) var(--ease-out);
 
   &:hover {
@@ -204,18 +220,83 @@ body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--color-accent-soft);
   border-radius: var(--radius-full);
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-accent);
+}
+
+/* Touch behavior for interactive elements */
+button, a, select, input, textarea, label {
+  touch-action: manipulation;
+}
+
+/* Range slider custom styling */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid var(--color-bg-base);
+  cursor: pointer;
+  box-shadow: 0 0 8px color-mix(in oklab, var(--color-accent) 40%, transparent);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid var(--color-bg-base);
+  cursor: pointer;
+  border: none;
+}
+
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--color-accent-soft), 0 0 8px color-mix(in oklab, var(--color-accent) 40%, transparent);
+}
+
+input[type="range"]:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px var(--color-accent-soft);
+}
+
+/* Scrollable areas */
+.scrollable-touch {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Mobile menu safe area */
+.mobile-menu-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+}
+
+/* Responsive fluid text utilities */
+.text-fluid-xs { font-size: clamp(0.75rem, 2vw, 0.875rem); }
+.text-fluid-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
+.text-fluid-base { font-size: clamp(1rem, 3vw, 1.125rem); }
+.text-fluid-lg { font-size: clamp(1.125rem, 4vw, 1.25rem); }
+.text-fluid-xl { font-size: clamp(1.5rem, 5vw, 2rem); }
+.text-fluid-2xl { font-size: clamp(2rem, 6vw, 3rem); }
+.text-fluid-3xl { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+
+/* Smooth scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent-soft) transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {

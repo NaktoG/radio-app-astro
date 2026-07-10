@@ -45,20 +45,20 @@ export default function Filter({ onChange }: Props) {
   }
 
   return (
-    <div class="flex flex-wrap gap-3 items-end">
+    <div class="flex flex-wrap gap-2 items-end">
       <Select
         label={t('PLAYER.COUNTRY')}
         options={COUNTRY_FILTER_OPTIONS}
         value={country}
         onChange={(v) => { setCountry(v); emit(v, limit) }}
-        class="md:w-48"
+        class="sm:w-48"
       />
       <Select
         label={t('PLAYER.LIMIT')}
         options={LIMIT_OPTIONS}
         value={String(limit)}
         onChange={(v) => { const n = Number(v); setLimit(n); emit(country, n) }}
-        class="md:w-32"
+        class="sm:w-32"
       />
     </div>
   )

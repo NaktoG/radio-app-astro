@@ -56,8 +56,8 @@ export default function SearchForm({ onResults }: Props) {
 
   return (
     <form onSubmit={handleSubmit} class="space-y-4">
-      <div class="flex flex-col md:flex-row gap-4">
-        <div class="flex-1">
+      <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <div class="flex-1 min-w-0">
           <div class="relative">
             <Input
               label={t('SEARCH.SEARCH_LABEL')}
@@ -79,7 +79,7 @@ export default function SearchForm({ onResults }: Props) {
           options={COUNTRY_OPTIONS}
           value={country}
           onChange={(v) => { setCountry(v); doSearch(query, v, tag) }}
-          class="md:w-48"
+          class="sm:w-48"
         />
         <Input
           label={t('SEARCH.TAG_LABEL')}
@@ -91,7 +91,7 @@ export default function SearchForm({ onResults }: Props) {
             doSearch(query, country, v)
           }}
           placeholder={t('SEARCH.TAG_PLACEHOLDER')}
-          class="md:w-48"
+          class="sm:w-48"
         />
       </div>
       <div class="flex gap-3">

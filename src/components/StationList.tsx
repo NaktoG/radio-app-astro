@@ -39,11 +39,11 @@ export default function StationList({
   }
 
   return (
-    <ul
-      class="space-y-2 max-h-[60vh] overflow-y-auto pr-2"
-      role="listbox"
-      aria-label={t('PLAYER.STATIONS_LIST')}
-    >
+<ul
+  class="space-y-2 max-h-[40dvh] md:max-h-[60dvh] overflow-y-auto pr-2 scrollable-touch"
+  role="listbox"
+  aria-label={t('PLAYER.STATIONS_LIST')}
+>
       {stations.map((station, i) => {
         const fav = favorites.value.has(station.stationuuid)
         const isSelected = i === currentIndex

@@ -48,11 +48,11 @@ const faqs = lang === 'en' ? faqsEn : faqsEs
 
 <BaseLayout title={title}>
   <section class="max-w-3xl mx-auto px-4 py-24">
-    <h1 class="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">{title}</h1>
+    <h1 class="text-fluid-2xl font-bold mb-8 text-center bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">{title}</h1>
     <div class="space-y-4">
       {faqs.map((faq) => (
         <details class="card group cursor-pointer">
-          <summary class="font-semibold text-lg list-none flex items-center justify-between text-[var(--color-text-primary)]">
+          <summary class="font-semibold text-fluid-sm md:text-lg list-none flex items-center justify-between text-[var(--color-text-primary)] min-h-11">
             {faq.q}
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)] group-open:rotate-180 transition-transform flex-shrink-0"><path d="m6 9 6 6 6-6"/></svg>
           </summary>
