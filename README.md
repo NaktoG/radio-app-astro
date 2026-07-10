@@ -68,8 +68,8 @@ Las estaciones se obtienen de la API pública de [Radio Browser](https://www.rad
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/NaktoG/radio-app.git
-cd radio-app
+git clone https://github.com/NaktoG/radio-app-astro.git
+cd radio-app-astro
 
 # Iniciar en modo desarrollo
 docker compose up -d
@@ -84,8 +84,8 @@ La aplicación estará disponible en `http://localhost:4321`.
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/NaktoG/radio-app.git
-cd radio-app
+git clone https://github.com/NaktoG/radio-app-astro.git
+cd radio-app-astro
 
 # Instalar dependencias
 npm install
