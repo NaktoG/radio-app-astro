@@ -7,7 +7,6 @@ import { useAudio } from '../lib/useAudio'
 import { EmptyState } from '../ui'
 import { useI18n } from '../i18n/client'
 import { setStation } from '../stores/player'
-import { useFavoritesStore, toggleFavorite } from '../stores/favorites'
 import type { Radio } from '../lib/types'
 
 export default function SearchContainer() {
@@ -16,7 +15,6 @@ export default function SearchContainer() {
   const [query, setQuery] = useState('')
   const [selectedStation, setSelectedStation] = useState<Radio | null>(null)
   const audio = useAudio()
-  const { favorites } = useFavoritesStore()
 
   function handleResults(stations: Radio[], q: string) {
     setResults(stations)
@@ -44,8 +42,6 @@ export default function SearchContainer() {
             stations={results}
             currentIndex={-1}
             onSelect={(i) => handleSelect(results[i])}
-            favorites={favorites.value}
-            onToggleFavorite={toggleFavorite}
           />
         </div>
       )}

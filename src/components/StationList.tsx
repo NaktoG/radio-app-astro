@@ -2,14 +2,13 @@ import { Heart, Radio as RadioIcon } from 'lucide-preact'
 import type { Radio } from '../lib/types'
 import { Image, Spinner, EmptyState, IconButton } from '../ui'
 import { useI18n } from '../i18n/client'
+import { useFavoritesStore, toggleFavorite } from '../stores/favorites'
 
 interface Props {
   stations: Radio[]
   currentIndex: number
   onSelect: (index: number) => void
   loading?: boolean
-  favorites?: Set<string>
-  onToggleFavorite?: (uuid: string) => void
 }
 
 export default function StationList({
@@ -17,10 +16,9 @@ export default function StationList({
   currentIndex,
   onSelect,
   loading,
-  favorites,
-  onToggleFavorite,
 }: Props) {
   const { t } = useI18n()
+  const { favorites } = useFavoritesStore()
 
   if (loading) {
     return (
@@ -47,7 +45,7 @@ export default function StationList({
       aria-label={t('PLAYER.STATIONS_LIST')}
     >
       {stations.map((station, i) => {
-        const fav = favorites && onToggleFavorite ? favorites.has(station.stationuuid) : false
+        const fav = favorites.value.has(station.stationuuid)
         const isSelected = i === currentIndex
         return (
           <li
@@ -83,15 +81,13 @@ export default function StationList({
                 {station.votes}
               </span>
             </button>
-            {onToggleFavorite && (
-              <IconButton
-                icon={Heart}
-                label={fav ? `Quitar ${station.name} de favoritos` : `Agregar ${station.name} a favoritos`}
-                onClick={() => onToggleFavorite(station.stationuuid)}
-                pressed={fav}
-                size="sm"
-              />
-            )}
+            <IconButton
+              icon={Heart}
+              label={fav ? `Quitar ${station.name} de favoritos` : `Agregar ${station.name} a favoritos`}
+              onClick={() => toggleFavorite(station.stationuuid)}
+              pressed={fav}
+              size="sm"
+            />
           </li>
         )
       })}

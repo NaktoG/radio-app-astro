@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'preact/hooks'
-import { Radio, Menu, X, Globe, LogOut, Home as HomeIcon, Search, Music } from 'lucide-preact'
+import { Radio, Menu, X, Globe, LogOut, Home as HomeIcon, Search, Music, Heart } from 'lucide-preact'
 import { useAuth, logout as doLogout, initAuth } from '../lib/auth'
 import { useI18n, setLang } from '../i18n/client'
-import { IconButton, Button } from '../ui'
+import { IconButton } from '../ui'
 
 interface Props {
   lang: string
@@ -62,6 +62,12 @@ export default function Nav({ lang: initialLang }: Props) {
             <Search size={16} aria-hidden="true" />
             {t('NAV.SEARCH')}
           </a>
+          {isAuthenticated.value && (
+            <a href="/favorites" class="btn-ghost text-sm">
+              <Heart size={16} aria-hidden="true" />
+              {t('NAV.FAVORITES')}
+            </a>
+          )}
 
           {isAuthenticated.value ? (
             <div class="flex items-center gap-3 ml-2 bg-[var(--color-accent-soft)] px-3 py-1.5 rounded-lg">
@@ -137,6 +143,12 @@ export default function Nav({ lang: initialLang }: Props) {
               <Search size={18} aria-hidden="true" />
               {t('NAV.SEARCH')}
             </a>
+            {isAuthenticated.value && (
+              <a href="/favorites" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
+                <Heart size={18} aria-hidden="true" />
+                {t('NAV.FAVORITES')}
+              </a>
+            )}
             {isAuthenticated.value ? (
               <button
                 onClick={() => { handleLogout(); setMenuOpen(false) }}

@@ -65,3 +65,8 @@ export async function searchStations(query: string, country?: string, tag?: stri
   if (tag) params.tag = tag
   return proxyFetch('/json/stations/search', params)
 }
+
+export async function fetchStationsByUuids(uuids: string[]): Promise<Radio[]> {
+  if (uuids.length === 0) return []
+  return proxyFetch('/json/stations/byuuid', { uuids: uuids.join(',') })
+}

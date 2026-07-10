@@ -4,6 +4,7 @@
     "HOME": "Inicio",
     "SEARCH": "Buscar",
     "PLAYER": "Reproductor",
+    "FAVORITES": "Favoritos",
     "LOGIN": "Iniciar Sesión",
     "LOGOUT": "Salir",
     "REGISTER": "Registrarse",
@@ -102,6 +103,13 @@
     "SHOW_ALL": "Mostrar todas",
     "SHOW_FAV": "Mostrar solo favoritos",
     "NO_FAV": "No hay favoritos todavía. Haz clic en el corazón de una estación para agregarla."
+  },
+  "FAVORITES": {
+    "TITLE": "Mis Favoritos",
+    "LOADING": "Cargando tus favoritos...",
+    "COUNT": "{count} estaciones guardadas",
+    "EMPTY_TITLE": "Sin favoritos aún",
+    "EMPTY_DESC": "Explora estaciones y haz clic en el corazón ❤️ para guardar tus favoritas"
   },
   "LEGAL": {
     "TERMS": "Términos y Condiciones",

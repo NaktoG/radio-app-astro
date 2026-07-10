@@ -4,6 +4,7 @@
     "HOME": "Home",
     "SEARCH": "Search",
     "PLAYER": "Player",
+    "FAVORITES": "Favorites",
     "LOGIN": "Sign In",
     "LOGOUT": "Sign Out",
     "REGISTER": "Sign Up",
@@ -102,6 +103,13 @@
     "SHOW_ALL": "Show all",
     "SHOW_FAV": "Show favorites only",
     "NO_FAV": "No favorites yet. Click the heart on a station to add it."
+  },
+  "FAVORITES": {
+    "TITLE": "My Favorites",
+    "LOADING": "Loading your favorites...",
+    "COUNT": "{count} saved stations",
+    "EMPTY_TITLE": "No favorites yet",
+    "EMPTY_DESC": "Explore stations and click the heart ❤️ to save your favorites"
   },
   "LEGAL": {
     "TERMS": "Terms and Conditions",

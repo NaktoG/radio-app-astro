@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'preact/hooks'
 import { Heart } from 'lucide-preact'
 import { fetchStations } from '../lib/api'
 import { useAudio } from '../lib/useAudio'
-import { useFavoritesStore, toggleFavorite } from '../stores/favorites'
+import { useFavoritesStore } from '../stores/favorites'
 import { setStation } from '../stores/player'
 import AudioPlayer from './AudioPlayer'
 import StationList from './StationList'
@@ -92,8 +92,6 @@ export default function RadioPlayer() {
           currentIndex={currentIndex}
           onSelect={handleSelect}
           loading={loading}
-          favorites={favorites.value}
-          onToggleFavorite={toggleFavorite}
         />
         {showFavorites && displayedStations.length === 0 && (
           <p class="text-center text-[var(--color-text-muted)] text-sm py-4">

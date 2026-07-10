@@ -33,6 +33,19 @@ const TIME_WINDOW = 15 * 60 * 1000
 const BLOCK_DURATION = 30 * 60 * 1000
 const SESSION_DURATION = 7 * 24 * 60 * 60 * 1000 // 7 días en ms
 
+const AUTH_COOKIE = 'radio_app_session'
+
+function setAuthCookie() {
+  if (typeof document === 'undefined') return
+  const expires = new Date(Date.now() + SESSION_DURATION).toUTCString()
+  document.cookie = `${AUTH_COOKIE}=true;path=/;expires=${expires};SameSite=Lax`
+}
+
+function clearAuthCookie() {
+  if (typeof document === 'undefined') return
+  document.cookie = `${AUTH_COOKIE}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT;SameSite=Lax`
+}
+
 const currentUser = signal<User | null>(null)
 const isAuthenticated = signal(false)
 const authLoading = signal(true)
@@ -170,6 +183,7 @@ export async function login(credentials: LoginCredentials): Promise<AuthResponse
   StorageUtil.setItem(STORAGE_KEYS.AUTH_TOKEN, token)
   currentUser.value = storedUser
   isAuthenticated.value = true
+  setAuthCookie()
 
   return { success: true, user: storedUser, token, message: '¡Inicio de sesión exitoso!' }
 }
@@ -215,6 +229,7 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
   StorageUtil.setItem(STORAGE_KEYS.AUTH_TOKEN, token)
   currentUser.value = newUser
   isAuthenticated.value = true
+  setAuthCookie()
 
   return { success: true, user: newUser, token, message: '¡Registro exitoso!' }
 }
@@ -225,4 +240,5 @@ export function logout() {
   StorageUtil.removeItem(STORAGE_KEYS.USER_PASSWORD)
   currentUser.value = null
   isAuthenticated.value = false
+  clearAuthCookie()
 }
