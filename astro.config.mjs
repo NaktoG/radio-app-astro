@@ -1,13 +1,12 @@
 import { defineConfig } from 'astro/config'
 import preact from '@astrojs/preact'
-import node from '@astrojs/node'
+import netlify from '@astrojs/netlify'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   integrations: [preact()],
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
-  server: { host: true },
+  adapter: netlify(),
   compressHTML: true,
   build: {
     inlineStylesheets: 'auto',

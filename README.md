@@ -9,6 +9,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/PLACEHOLDER/deploy-status)](https://app.netlify.com/sites/radio-app/deploys)
 
 </div>
 
@@ -253,6 +254,32 @@ docker run -p 4321:4321 radio-app:prod
 - **dev**: Instalación completa + hot-reload
 - **build**: `npm ci` + `astro build` optimizado
 - **prod**: Usuario non-root, healthcheck habilitado, solo archivos de producción
+
+## Deploy en Netlify
+
+### Requisitos
+
+- Repositorio en GitHub
+- Cuenta en [Netlify](https://www.netlify.com/)
+
+### Pasos
+
+1. Ir a [app.netlify.com](https://app.netlify.com/) → **Add new site** → **Import an existing project**
+2. Conectar con GitHub y seleccionar `NaktoG/radio-app-astro`
+3. En **Build settings**, Netlify detecta automáticamente:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+4. En **Advanced** → **Environment variables**, agregar:
+   - `NODE_VERSION = 22`
+5. Click en **Deploy**
+
+### Verificar deploy
+
+- Visitar `https://<nombre-app>.netlify.app`
+- El build tarda ~2 minutos en primera ejecución
+- Los endpoints API y el proxy de imágenes funcionan out-of-the-box
+
+> ⚠️ **Nota**: Si migraste desde `@astrojs/node`, asegúrate de que tu `astro.config.mjs` use `@astrojs/netlify`. Este proyecto ya está configurado correctamente.
 
 ## Contribución
 
