@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import es from '../i18n/es.json'
+import en from '../i18n/en.json'
+
+export const prerender = false
+
+const lang = Astro.locals.lang as string
+const dict = lang === 'en' ? en : es
+const h = dict.HOME
+---
+
+<BaseLayout title={dict.NAV.APP_NAME}>
+  <section class="min-h-[85vh] flex flex-col items-center justify-center text-center px-4">
+    <div class="animate-fade-in max-w-4xl">
+      <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-[var(--color-accent-hover)] via-[var(--color-pink-hover)] to-[var(--color-accent)] bg-clip-text text-transparent leading-tight">
+        {h.HERO.TITLE}
+      </h1>
+      <p class="text-xl md:text-2xl text-[var(--color-text-secondary)] mb-12 max-w-2xl mx-auto font-light">
+        {h.HERO.SUBTITLE}
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/player" class="btn-primary text-lg">{h.HERO.BTN_EXPLORE}</a>
+        <a href="/search" class="btn-secondary text-lg">{h.HERO.BTN_SEARCH}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-4 pb-24">
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="card text-center animate-slide-up" style="animation-delay: 0ms">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-accent-soft)] mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)]"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.GLOBAL.TITLE}</h3>
+        <p class="text-[var(--color-text-muted)]">{h.FEATURES.GLOBAL.DESC}</p>
+      </div>
+      <div class="card text-center animate-slide-up" style="animation-delay: 100ms">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-accent-soft)] mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)]"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.SEARCH.TITLE}</h3>
+        <p class="text-[var(--color-text-muted)]">{h.FEATURES.SEARCH.DESC}</p>
+      </div>
+      <div class="card text-center animate-slide-up" style="animation-delay: 200ms">
+        <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-accent-soft)] mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)]"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.PLAYER.TITLE}</h3>
+        <p class="text-[var(--color-text-muted)]">{h.FEATURES.PLAYER.DESC}</p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

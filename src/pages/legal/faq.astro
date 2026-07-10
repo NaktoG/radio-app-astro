@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import es from '../../i18n/es.json'
+import en from '../../i18n/en.json'
+
+const lang = Astro.locals.lang as string
+const dict = lang === 'en' ? en : es
+const title = dict.LEGAL.FAQ
+
+const faqsEs = [
+  { q: '¿Qué es Radio App?', a: 'Radio App es un reproductor de radio en línea que te permite escuchar miles de estaciones de radio de todo el mundo.' },
+  { q: '¿Es gratis?', a: 'Sí, Radio App es completamente gratis. No hay planes de pago ni suscripciones.' },
+  { q: '¿Necesito crear una cuenta?', a: 'No es necesario. Puedes escuchar radio sin cuenta. La cuenta es opcional para guardar favoritos.' },
+  { q: '¿Cómo busco estaciones?', a: 'Usa la página de búsqueda para encontrar estaciones por nombre, país o género.' },
+  { q: '¿Por qué algunas estaciones no se reproducen?', a: 'Las estaciones son proporcionadas por terceros. Algunas pueden estar offline o tener enlaces caídos.' },
+  { q: '¿Puedo escuchar radio sin conexión?', a: 'No, Radio App requiere conexión a internet para transmitir las estaciones en vivo.' },
+  { q: '¿Cómo puedo recuperar mi contraseña?', a: 'Como no almacenamos email, no podemos recuperar contraseñas. Deberás crear una cuenta nueva.' },
+  { q: '¿Qué datos recopilan?', a: 'Solo almacenamos tu alias y preferencias localmente en tu navegador.' },
+  { q: '¿Cómo guardo mis favoritos?', a: 'Haz clic en el icono de corazón durante la reproducción para agregar una estación a favoritos.' },
+  { q: '¿En qué navegadores funciona?', a: 'Funciona en Chrome, Firefox, Safari, Edge y cualquier navegador moderno.' },
+  { q: '¿Hay aplicación móvil?', a: 'Por ahora solo versión web. La versión móvil está en nuestro roadmap.' },
+  { q: '¿De dónde vienen las estaciones?', a: 'Las estaciones se obtienen de la API pública de Radio Browser, una base de datos colaborativa.' },
+  { q: '¿Cómo reportar una estación?', a: 'Abre un issue en nuestro repositorio de GitHub con los detalles de la estación.' },
+  { q: '¿Hay publicidad?', a: 'No, Radio App no muestra publicidad.' },
+  { q: '¿Tienen sugerencias?', a: '¡Sí! Abre un issue en GitHub con tus sugerencias o características deseadas.' },
+]
+
+const faqsEn = [
+  { q: 'What is Radio App?', a: 'Radio App is an online radio player that lets you listen to thousands of radio stations from around the world.' },
+  { q: 'Is it free?', a: 'Yes, Radio App is completely free. There are no paid plans or subscriptions.' },
+  { q: 'Do I need an account?', a: 'No. You can listen to radio without an account. The account is optional for saving favorites.' },
+  { q: 'How do I search for stations?', a: 'Use the search page to find stations by name, country, or genre.' },
+  { q: 'Why do some stations not play?', a: 'Stations are provided by third parties. Some may be offline or have broken links.' },
+  { q: 'Can I listen offline?', a: 'No, Radio App requires an internet connection to stream live stations.' },
+  { q: 'How can I recover my password?', a: 'Since we do not store email, we cannot recover passwords. You will need to create a new account.' },
+  { q: 'What data do you collect?', a: 'We only store your alias and preferences locally in your browser.' },
+  { q: 'How do I save favorites?', a: 'Click the heart icon during playback to add a station to favorites.' },
+  { q: 'Which browsers are supported?', a: 'It works on Chrome, Firefox, Safari, Edge, and any modern browser.' },
+  { q: 'Is there a mobile app?', a: 'Currently web only. A mobile version is on our roadmap.' },
+  { q: 'Where do the stations come from?', a: 'Stations are obtained from the public Radio Browser API, a collaborative database.' },
+  { q: 'How do I report a station?', a: 'Open an issue on our GitHub repository with the station details.' },
+  { q: 'Is there advertising?', a: 'No, Radio App does not show advertising.' },
+  { q: 'Can I suggest features?', a: 'Yes! Open an issue on GitHub with your suggestions or desired features.' },
+]
+
+const faqs = lang === 'en' ? faqsEn : faqsEs
+---
+
+<BaseLayout title={title}>
+  <section class="max-w-3xl mx-auto px-4 py-24">
+    <h1 class="text-4xl font-bold mb-8 text-center bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">{title}</h1>
+    <div class="space-y-4">
+      {faqs.map((faq) => (
+        <details class="card group cursor-pointer">
+          <summary class="font-semibold text-lg list-none flex items-center justify-between text-[var(--color-text-primary)]">
+            {faq.q}
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-accent)] group-open:rotate-180 transition-transform flex-shrink-0"><path d="m6 9 6 6 6-6"/></svg>
+          </summary>
+          <p class="mt-4 text-[var(--color-text-secondary)] leading-relaxed">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

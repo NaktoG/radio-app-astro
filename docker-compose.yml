@@ -1,0 +1,15 @@
+services:
+  radio-app:
+    build:
+      context: .
+      target: dev
+    container_name: radio-app
+    ports:
+      - "4321:4321"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    stdin_open: true
+    tty: true

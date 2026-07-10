@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import es from '../../i18n/es.json'
+import en from '../../i18n/en.json'
+
+const lang = Astro.locals.lang as string
+const dict = lang === 'en' ? en : es
+const title = dict.LEGAL.TERMS
+const updatedText = lang === 'en' ? 'Last updated: January 15, 2025' : 'Última actualización: 15 de enero, 2025'
+const sections = lang === 'en' ? [
+  { h: '1. Acceptance of Terms', p: 'By accessing and using Radio App, you agree to comply with these terms. If you do not agree, do not use the service.' },
+  { h: '2. Service Description', p: 'Radio App is an online radio player that provides access to public radio stations through the Radio Browser API. We do not host or transmit content directly.' },
+  { h: '3. Use of Service', p: 'You must be at least 13 years old to use the service. You must not use the service for illegal activities. You must not attempt to access unauthorized areas of the system.' },
+  { h: '4. Third-Party Content', p: 'Radio stations are provided by third parties through the public Radio Browser API. We are not responsible for the transmitted content.' },
+  { h: '5. Registration and Security', p: 'You are responsible for maintaining the confidentiality of your credentials. Notify us immediately of any unauthorized use.' },
+  { h: '6. Intellectual Property', p: 'The code and design of Radio App are protected by copyright. Station content belongs to their respective owners.' },
+  { h: '7. Limitation of Liability', p: 'Radio App is provided "as is". We do not guarantee continuous availability or streaming quality from third-party stations.' },
+  { h: '8. Service Modifications', p: 'We reserve the right to modify or discontinue the service at any time without prior notice.' },
+  { h: '9. Terms Modifications', p: 'We may update these terms. Continued use of the service after changes constitutes acceptance of the new terms.' },
+  { h: '10. Governing Law', p: 'These terms are governed by the laws of the developer\'s country of residence.' },
+  { h: '11. Contact', p: 'For questions about these terms, open an issue on our GitHub repository.' },
+] : [
+  { h: '1. Aceptación de los Términos', p: 'Al acceder y usar Radio App, aceptas cumplir con estos términos. Si no estás de acuerdo, no uses el servicio.' },
+  { h: '2. Descripción del Servicio', p: 'Radio App es un reproductor de radio en línea que proporciona acceso a estaciones de radio públicas a través de la API de Radio Browser. No alojamos ni transmitimos contenido directamente.' },
+  { h: '3. Uso del Servicio', p: 'Debes tener al menos 13 años para usar el servicio. No debes usar el servicio para actividades ilegales. No debes intentar acceder a áreas no autorizadas del sistema.' },
+  { h: '4. Contenido de Terceros', p: 'Las estaciones de radio son proporcionadas por terceros a través de la API pública de Radio Browser. No somos responsables del contenido transmitido.' },
+  { h: '5. Registro y Seguridad', p: 'Eres responsable de mantener la confidencialidad de tus credenciales. Notifícanos inmediatamente sobre cualquier uso no autorizado.' },
+  { h: '6. Propiedad Intelectual', p: 'El código y diseño de Radio App están protegidos por derechos de autor. El contenido de las estaciones pertenece a sus respectivos dueños.' },
+  { h: '7. Limitación de Responsabilidad', p: 'Radio App se proporciona "tal cual". No garantizamos disponibilidad continua ni calidad del streaming de estaciones de terceros.' },
+  { h: '8. Modificaciones del Servicio', p: 'Nos reservamos el derecho de modificar o discontinuar el servicio en cualquier momento sin previo aviso.' },
+  { h: '9. Modificaciones de los Términos', p: 'Podemos actualizar estos términos. El uso continuado del servicio después de los cambios constituye la aceptación de los nuevos términos.' },
+  { h: '10. Ley Aplicable', p: 'Estos términos se rigen por las leyes del país de residencia del desarrollador.' },
+  { h: '11. Contacto', p: 'Para preguntas sobre estos términos, abre un issue en nuestro repositorio de GitHub.' },
+]
+---
+
+<BaseLayout title={title}>
+  <article class="max-w-3xl mx-auto px-4 py-24">
+    <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">{title}</h1>
+    <p class="text-[var(--color-text-muted)] mb-12">{updatedText}</p>
+
+    {sections.map((s) => (
+      <section class="mb-8">
+        <h2 class="text-xl font-semibold mb-2 text-[var(--color-accent-hover)]">{s.h}</h2>
+        <p class="text-[var(--color-text-secondary)] leading-relaxed">{s.p}</p>
+      </section>
+    ))}
+  </article>
+</BaseLayout>

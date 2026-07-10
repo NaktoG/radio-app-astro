@@ -1,0 +1,116 @@
+{
+  "NAV": {
+    "APP_NAME": "Radio App",
+    "HOME": "Inicio",
+    "SEARCH": "Buscar",
+    "PLAYER": "Reproductor",
+    "LOGIN": "Iniciar Sesión",
+    "LOGOUT": "Salir",
+    "REGISTER": "Registrarse",
+    "HELLO": "Hola"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Iniciar Sesión",
+      "SUBTITLE": "Accede a tu cuenta de Radio App",
+      "USERNAME_LABEL": "Nombre de usuario",
+      "USERNAME_PLACEHOLDER": "usuario123",
+      "PASSWORD_LABEL": "Contraseña",
+      "PASSWORD_PLACEHOLDER": "••••••••",
+      "SUBMIT": "Iniciar Sesión",
+      "SUBMIT_LOADING": "Iniciando sesión...",
+      "NO_ACCOUNT": "¿No tienes una cuenta?",
+      "REGISTER_LINK": "Regístrate aquí"
+    },
+    "REGISTER": {
+      "TITLE": "Crear Cuenta",
+      "SUBTITLE": "Únete a Radio App",
+      "USERNAME_LABEL": "Nombre de usuario",
+      "USERNAME_PLACEHOLDER": "usuario123",
+      "PASSWORD_LABEL": "Contraseña",
+      "CONFIRM_PASSWORD_LABEL": "Confirmar Contraseña",
+      "SUBMIT": "Registrarse",
+      "SUBMIT_LOADING": "Registrando...",
+      "HAVE_ACCOUNT": "¿Ya tienes cuenta?",
+      "LOGIN_LINK": "Inicia sesión"
+    },
+    "MESSAGES": {
+      "LOGIN_SUCCESS": "Login exitoso",
+      "REGISTER_SUCCESS": "Registro exitoso",
+      "LOGOUT_SUCCESS": "Sesión cerrada correctamente",
+      "INVALID_CREDENTIALS": "Credenciales inválidas",
+      "USERNAME_EXISTS": "El nombre de usuario ya existe en este navegador",
+      "GENERIC_ERROR": "Error inesperado"
+    }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE": "Escucha Radio de Todo el Mundo",
+      "SUBTITLE": "Miles de estaciones de radio en vivo. Música, noticias, deportes y más. Todo gratis.",
+      "BTN_EXPLORE": "Explorar Estaciones",
+      "BTN_SEARCH": "Buscar Radios"
+    },
+    "FEATURES": {
+      "GLOBAL": {
+        "TITLE": "Radio Global",
+        "DESC": "Accede a estaciones de radio de más de 190 países alrededor del mundo."
+      },
+      "SEARCH": {
+        "TITLE": "Búsqueda Avanzada",
+        "DESC": "Encuentra fácilmente tus estaciones favoritas por país, género o nombre."
+      },
+      "PLAYER": {
+        "TITLE": "Reproductor Moderno",
+        "DESC": "Interfaz intuitiva y moderna para la mejor experiencia de escucha."
+      }
+    },
+    "FOOTER": {
+      "COPYRIGHT": "© 2026 Radio App. Todos los derechos reservados.",
+      "TERMS": "Términos",
+      "PRIVACY": "Privacidad",
+      "FAQ": "FAQ"
+    }
+  },
+  "SEARCH": {
+    "TITLE": "Buscador de Radios",
+    "SEARCH_LABEL": "Buscar por nombre",
+    "SEARCH_PLACEHOLDER": "Ej: Rock, Jazz, Noticias...",
+    "COUNTRY_LABEL": "País",
+    "TAG_LABEL": "Género",
+    "TAG_PLACEHOLDER": "Ej: pop, rock, jazz...",
+    "BTN_SEARCH": "Buscar",
+    "BTN_SEARCHING": "Buscando...",
+    "BTN_CLEAR": "Limpiar",
+    "RESULTS": "Resultados",
+    "NO_RESULTS": "No se encontraron resultados",
+    "NO_RESULTS_DESC": "Intenta con otros términos de búsqueda",
+    "EMPTY_TITLE": "Busca tu radio",
+    "EMPTY_DESC": "Escribe el nombre de una estación, elige un país o un género para empezar"
+  },
+  "PLAYER": {
+    "NOW_PLAYING": "Reproduciendo ahora",
+    "SELECT_STATION": "Selecciona una estación para empezar",
+    "LOADING": "Cargando estaciones...",
+    "ERROR": "No se pudo reproducir esta estación",
+    "ERROR_RETRY": "Siguiente →",
+    "COUNTRY": "País",
+    "LIMIT": "Límite",
+    "STATIONS_LIST": "Lista de estaciones",
+    "VOTES": "votos",
+    "NO_STATIONS_TITLE": "Sin estaciones",
+    "NO_STATIONS_DESC": "Selecciona un país y límite para cargar estaciones",
+    "SHOW_ALL": "Mostrar todas",
+    "SHOW_FAV": "Mostrar solo favoritos",
+    "NO_FAV": "No hay favoritos todavía. Haz clic en el corazón de una estación para agregarla."
+  },
+  "LEGAL": {
+    "TERMS": "Términos y Condiciones",
+    "PRIVACY": "Política de Privacidad",
+    "FAQ": "Preguntas Frecuentes"
+  },
+  "NOT_FOUND": {
+    "TITLE": "404 - Página no encontrada",
+    "MESSAGE": "La página que buscas no existe",
+    "BTN_HOME": "Volver al inicio"
+  }
+}

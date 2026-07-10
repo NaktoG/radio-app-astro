@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import AuthForm from '../../components/AuthForm'
+import es from '../../i18n/es.json'
+import en from '../../i18n/en.json'
+
+const lang = Astro.locals.lang as string
+const dict = lang === 'en' ? en : es
+const title = dict.AUTH.REGISTER.TITLE
+---
+
+<BaseLayout title={title}>
+  <section class="min-h-[80vh] flex flex-col items-center justify-center px-4">
+    <div class="w-full max-w-md text-center mb-8">
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">
+        {title}
+      </h1>
+      <p class="text-[var(--color-text-muted)] mt-2">{dict.AUTH.REGISTER.SUBTITLE}</p>
+    </div>
+    <AuthForm mode="register" client:load />
+  </section>
+</BaseLayout>

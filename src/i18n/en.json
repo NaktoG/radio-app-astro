@@ -1,0 +1,116 @@
+{
+  "NAV": {
+    "APP_NAME": "Radio App",
+    "HOME": "Home",
+    "SEARCH": "Search",
+    "PLAYER": "Player",
+    "LOGIN": "Sign In",
+    "LOGOUT": "Sign Out",
+    "REGISTER": "Sign Up",
+    "HELLO": "Hi"
+  },
+  "AUTH": {
+    "LOGIN": {
+      "TITLE": "Sign In",
+      "SUBTITLE": "Access your Radio App account",
+      "USERNAME_LABEL": "Username",
+      "USERNAME_PLACEHOLDER": "user123",
+      "PASSWORD_LABEL": "Password",
+      "PASSWORD_PLACEHOLDER": "••••••••",
+      "SUBMIT": "Sign In",
+      "SUBMIT_LOADING": "Signing in...",
+      "NO_ACCOUNT": "Don't have an account?",
+      "REGISTER_LINK": "Sign up here"
+    },
+    "REGISTER": {
+      "TITLE": "Create Account",
+      "SUBTITLE": "Join Radio App",
+      "USERNAME_LABEL": "Username",
+      "USERNAME_PLACEHOLDER": "user123",
+      "PASSWORD_LABEL": "Password",
+      "CONFIRM_PASSWORD_LABEL": "Confirm Password",
+      "SUBMIT": "Sign Up",
+      "SUBMIT_LOADING": "Registering...",
+      "HAVE_ACCOUNT": "Already have an account?",
+      "LOGIN_LINK": "Sign in"
+    },
+    "MESSAGES": {
+      "LOGIN_SUCCESS": "Login successful",
+      "REGISTER_SUCCESS": "Registration successful",
+      "LOGOUT_SUCCESS": "Signed out successfully",
+      "INVALID_CREDENTIALS": "Invalid credentials",
+      "USERNAME_EXISTS": "This username already exists in this browser",
+      "GENERIC_ERROR": "Unexpected error"
+    }
+  },
+  "HOME": {
+    "HERO": {
+      "TITLE": "Listen to Radio from Around the World",
+      "SUBTITLE": "Thousands of live radio stations. Music, news, sports and more. All free.",
+      "BTN_EXPLORE": "Explore Stations",
+      "BTN_SEARCH": "Search Radios"
+    },
+    "FEATURES": {
+      "GLOBAL": {
+        "TITLE": "Global Radio",
+        "DESC": "Access radio stations from over 190 countries around the world."
+      },
+      "SEARCH": {
+        "TITLE": "Advanced Search",
+        "DESC": "Easily find your favorite stations by country, genre or name."
+      },
+      "PLAYER": {
+        "TITLE": "Modern Player",
+        "DESC": "Intuitive and modern interface for the best listening experience."
+      }
+    },
+    "FOOTER": {
+      "COPYRIGHT": "© 2026 Radio App. All rights reserved.",
+      "TERMS": "Terms",
+      "PRIVACY": "Privacy",
+      "FAQ": "FAQ"
+    }
+  },
+  "SEARCH": {
+    "TITLE": "Radio Search",
+    "SEARCH_LABEL": "Search by name",
+    "SEARCH_PLACEHOLDER": "e.g. Rock, Jazz, News...",
+    "COUNTRY_LABEL": "Country",
+    "TAG_LABEL": "Genre",
+    "TAG_PLACEHOLDER": "e.g. pop, rock, jazz...",
+    "BTN_SEARCH": "Search",
+    "BTN_SEARCHING": "Searching...",
+    "BTN_CLEAR": "Clear",
+    "RESULTS": "Results",
+    "NO_RESULTS": "No results found",
+    "NO_RESULTS_DESC": "Try different search terms",
+    "EMPTY_TITLE": "Search for radio",
+    "EMPTY_DESC": "Type a station name, pick a country or a genre to get started"
+  },
+  "PLAYER": {
+    "NOW_PLAYING": "Now playing",
+    "SELECT_STATION": "Select a station to start",
+    "LOADING": "Loading stations...",
+    "ERROR": "Could not play this station",
+    "ERROR_RETRY": "Next →",
+    "COUNTRY": "Country",
+    "LIMIT": "Limit",
+    "STATIONS_LIST": "Stations list",
+    "VOTES": "votes",
+    "NO_STATIONS_TITLE": "No stations",
+    "NO_STATIONS_DESC": "Select a country and limit to load stations",
+    "SHOW_ALL": "Show all",
+    "SHOW_FAV": "Show favorites only",
+    "NO_FAV": "No favorites yet. Click the heart on a station to add it."
+  },
+  "LEGAL": {
+    "TERMS": "Terms and Conditions",
+    "PRIVACY": "Privacy Policy",
+    "FAQ": "Frequently Asked Questions"
+  },
+  "NOT_FOUND": {
+    "TITLE": "404 - Page not found",
+    "MESSAGE": "The page you are looking for does not exist",
+    "BTN_HOME": "Back to home"
+  }
+}

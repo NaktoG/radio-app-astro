@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import es from '../../i18n/es.json'
+import en from '../../i18n/en.json'
+
+const lang = Astro.locals.lang as string
+const dict = lang === 'en' ? en : es
+const title = dict.LEGAL.PRIVACY
+const updatedText = lang === 'en' ? 'Last updated: July 9, 2026' : 'Última actualización: 9 de julio, 2026'
+
+const sectionsEs = [
+  { h: '1. Introducción', p: 'En Radio App, tu privacidad es importante. Esta política explica qué información recopilamos y cómo la usamos.' },
+  { h: '2. Información que Recopilamos', p: 'Solo recopilamos: alias y contraseña (hasheada con bcrypt), preferencias (tema, idioma, volumen), y datos de uso local (estaciones escuchadas, favoritos). No requerimos email.' },
+  { h: '3. Cómo Usamos tu Información', p: 'Para proporcionar y mejorar el servicio, personalizar tu experiencia, y mantener la seguridad de tu cuenta.' },
+  { h: '4. Compartición de Información', p: 'No compartimos tu información personal con terceros. Las estaciones se obtienen de la API pública de Radio Browser. Las imágenes de estaciones se sirven a través de un proxy server-side.' },
+  { h: '5. Almacenamiento de Datos', p: 'Todos tus datos se almacenan localmente en tu navegador (localStorage). No tenemos servidores que almacenen tu información personal. La autenticación es client-side: tu hash de contraseña se guarda en tu navegador, no en nuestros servidores.' },
+  { h: '6. Seguridad de Datos', p: 'Usamos bcrypt (cost factor 12) para hashear contraseñas. Como los datos son locales, eres responsable de la seguridad de tu dispositivo. La auth client-side tiene limitaciones conocidas: no es adecuada para entornos multi-usuario sensibles.' },
+  { h: '7. Tus Derechos', p: 'Puedes eliminar todos tus datos en cualquier momento borrando los datos locales del navegador, o usando la función de logout que limpia la sesión activa.' },
+  { h: '8. Cookies', p: 'Usamos una cookie esencial llamada radio_lang para recordar tu preferencia de idioma (válida 1 año). No usamos cookies de rastreo, analytics ni publicidad. Esta cookie es necesaria para el funcionamiento del servicio y no requiere consentimiento bajo ePrivacy Art. 5(3).' },
+  { h: '9. Cambios a esta Política', p: 'Notificaremos cambios importantes a través de la aplicación.' },
+  { h: '10. Contacto', p: 'Para preguntas sobre privacidad, abre un issue en nuestro repositorio de GitHub.' },
+]
+
+const sectionsEn = [
+  { h: '1. Introduction', p: 'At Radio App, your privacy matters. This policy explains what information we collect and how we use it.' },
+  { h: '2. Information We Collect', p: 'We only collect: alias and password (hashed with bcrypt), preferences (theme, language, volume), and local usage data (stations listened to, favorites). We do not require email.' },
+  { h: '3. How We Use Your Information', p: 'To provide and improve the service, personalize your experience, and maintain account security.' },
+  { h: '4. Information Sharing', p: 'We do not share your personal information with third parties. Stations are obtained from the public Radio Browser API. Station images are served through a server-side proxy.' },
+  { h: '5. Data Storage', p: 'All your data is stored locally in your browser (localStorage). We do not have servers that store your personal information. Authentication is client-side: your password hash is saved in your browser, not on our servers.' },
+  { h: '6. Data Security', p: 'We use bcrypt (cost factor 12) to hash passwords. Since data is local, you are responsible for your device security. Client-side auth has known limitations: it is not suitable for sensitive multi-user environments.' },
+  { h: '7. Your Rights', p: 'You can delete all your data at any time by clearing local browser data, or using the logout function which clears the active session.' },
+  { h: '8. Cookies', p: 'We use one essential cookie called radio_lang to remember your language preference (valid 1 year). We do not use tracking, analytics, or advertising cookies. This cookie is necessary for the service and does not require consent under ePrivacy Art. 5(3).' },
+  { h: '9. Changes to This Policy', p: 'We will notify important changes through the application.' },
+  { h: '10. Contact', p: 'For privacy questions, open an issue on our GitHub repository.' },
+]
+
+const sections = lang === 'en' ? sectionsEn : sectionsEs
+---
+
+<BaseLayout title={title}>
+  <article class="max-w-3xl mx-auto px-4 py-24">
+    <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">{title}</h1>
+    <p class="text-[var(--color-text-muted)] mb-12">{updatedText}</p>
+
+    {sections.map((s) => (
+      <section class="mb-8">
+        <h2 class="text-xl font-semibold mb-2 text-[var(--color-accent-hover)]">{s.h}</h2>
+        <p class="text-[var(--color-text-secondary)] leading-relaxed">{s.p}</p>
+      </section>
+    ))}
+  </article>
+</BaseLayout>
