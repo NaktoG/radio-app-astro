@@ -102,7 +102,8 @@
     "NO_STATIONS_DESC": "Select a country and limit to load stations",
     "SHOW_ALL": "Show all",
     "SHOW_FAV": "Show favorites only",
-    "NO_FAV": "No favorites yet. Click the heart on a station to add it."
+    "NO_FAV": "No favorites yet. Click the heart on a station to add it.",
+    "NEXT": "Next"
   },
   "FAVORITES": {
     "TITLE": "My Favorites",

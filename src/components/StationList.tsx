@@ -50,11 +50,12 @@ export default function StationList({
         return (
           <li
             key={station.stationuuid || i}
-            class={`rounded-lg transition-all duration-200 flex items-center gap-3 p-3 ${
+            class={`animate-stagger rounded-lg transition-all duration-200 flex items-center gap-3 p-3 ${
               isSelected
                 ? 'bg-[var(--color-accent-soft)] border border-[var(--color-accent)]'
                 : 'glass hover:border-[var(--color-border-strong)]'
             }`}
+            style={`animation-delay: ${i * 0.04}s`}
           >
             <button
               onClick={() => onSelect(i)}

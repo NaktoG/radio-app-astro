@@ -102,7 +102,8 @@
     "NO_STATIONS_DESC": "Selecciona un país y límite para cargar estaciones",
     "SHOW_ALL": "Mostrar todas",
     "SHOW_FAV": "Mostrar solo favoritos",
-    "NO_FAV": "No hay favoritos todavía. Haz clic en el corazón de una estación para agregarla."
+    "NO_FAV": "No hay favoritos todavía. Haz clic en el corazón de una estación para agregarla.",
+    "NEXT": "Siguiente"
   },
   "FAVORITES": {
     "TITLE": "Mis Favoritos",

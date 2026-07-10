@@ -5,13 +5,15 @@ import {
   setVolume as storeSetVolume,
   toggleMute as storeToggleMute,
 } from '../stores/player'
-import { Image, Spinner, ErrorAlert, IconButton, Slider, Badge } from '../ui'
+import { Image, Spinner, ErrorAlert, IconButton, Slider } from '../ui'
 import type { AudioControls } from '../lib/useAudio'
 
 interface Props {
   onNext?: () => void
   controls: AudioControls
 }
+
+const WAVE_COUNT = 8
 
 export default function AudioPlayer({ onNext, controls }: Props) {
   const { t } = useI18n()
@@ -39,75 +41,129 @@ export default function AudioPlayer({ onNext, controls }: Props) {
 
   if (!station) {
     return (
-      <div class="card text-center py-12">
-        <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-[var(--color-accent-soft)] mb-4">
-          <RadioIcon size={32} class="text-[var(--color-accent)]" aria-hidden="true" />
+      <div class="card flex flex-col items-center justify-center py-16 text-center animate-scale-in">
+        <div class="w-20 h-20 rounded-full bg-[var(--color-accent-soft)] flex items-center justify-center mb-5">
+          <RadioIcon size={36} class="text-[var(--color-accent)]" aria-hidden="true" />
         </div>
-        <p class="text-[var(--color-text-muted)]">{t('PLAYER.SELECT_STATION')}</p>
+        <p class="text-[var(--color-text-muted)] text-lg">{t('PLAYER.SELECT_STATION')}</p>
       </div>
     )
   }
 
   const VolumeIcon = muted.value || volume.value === 0 ? VolumeX : volume.value < 0.4 ? Volume1 : Volume2
+  const containerClass = isPlaying.value && !hasError.value ? 'card-glow' : 'card'
 
   return (
-    <div class="card animate-fade-in">
-      <div class="flex items-center gap-4 mb-5">
-        <Image
-          src={station.favicon ? `/api/image-proxy?url=${encodeURIComponent(station.favicon)}` : undefined}
-          alt={`Logo de ${station.name}`}
-          class="w-16 h-16 rounded-xl object-cover bg-[var(--color-bg-elevated)]"
-        />
-        <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2 mb-1">
-            <span class="text-xs text-[var(--color-text-muted)]">{t('PLAYER.NOW_PLAYING')}</span>
-            {isPlaying.value && (
-              <Badge variant="accent">
-                <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse" />
-                LIVE
-              </Badge>
-            )}
-          </div>
-          <p class="font-bold text-lg truncate text-[var(--color-text-primary)]">{station.name}</p>
-          <p class="text-sm text-[var(--color-text-muted)] truncate">
-            {station.tags} · {station.codec} {station.bitrate}kbps
-          </p>
+    <div class={`${containerClass} animate-scale-in`}>
+      <div class="flex flex-col items-center text-center mb-6">
+        <div class="relative mb-5">
+          <Image
+            src={station.favicon ? `/api/image-proxy?url=${encodeURIComponent(station.favicon)}` : undefined}
+            alt={`Logo de ${station.name}`}
+            class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-[var(--color-bg-elevated)] shadow-lg"
+          />
+          {isPlaying.value && !hasError.value && (
+            <div class="absolute -inset-2 rounded-3xl border border-[var(--color-accent-soft)] opacity-50 animate-spin-slow pointer-events-none" />
+          )}
         </div>
+
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xs text-[var(--color-text-muted)] font-medium uppercase tracking-wider">
+            {t('PLAYER.NOW_PLAYING')}
+          </span>
+          {isPlaying.value && !hasError.value && (
+            <span class="flex items-center gap-1.5 text-xs font-semibold text-[var(--color-accent)]">
+              <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-accent)] animate-pulse" />
+              LIVE
+            </span>
+          )}
+        </div>
+
+        <h2 class="text-xl sm:text-2xl font-bold truncate max-w-full text-[var(--color-text-primary)]">
+          {station.name}
+        </h2>
+        <p class="text-sm text-[var(--color-text-muted)] truncate max-w-full mt-1">
+          {station.tags} · {station.codec} {station.bitrate}kbps
+        </p>
       </div>
 
-      <div class="flex flex-wrap items-center gap-3">
+      <div class="flex items-end justify-center gap-1.5 h-16 mb-6" aria-hidden="true">
+        {Array.from({ length: WAVE_COUNT }, (_, i) => (
+          <span
+            key={i}
+            class={`w-1.5 rounded-full ${
+              isPlaying.value && !hasError.value
+                ? 'bg-[var(--color-accent)]'
+                : 'bg-[var(--color-border-strong)]'
+            }`}
+            style={{
+              height: isPlaying.value && !hasError.value
+                ? `${18 + Math.sin(i * 2.5) * 40 + 30}%`
+                : '30%',
+              animation: isPlaying.value && !hasError.value
+                ? `bar-wave ${0.4 + i * 0.08}s ease-in-out infinite`
+                : 'none',
+              animationDelay: `${i * 0.1}s`,
+              opacity: isPlaying.value && !hasError.value ? 1 : 0.3,
+            }}
+          />
+        ))}
+      </div>
+
+      <div class="flex items-center justify-center gap-4 mb-5">
         <button
           onClick={controls.togglePlay}
           disabled={isLoading.value}
-          class="btn-primary !p-3 disabled:opacity-50"
+          class={`
+            relative flex items-center justify-center
+            w-16 h-16 sm:w-20 sm:h-20 rounded-full
+            bg-gradient-to-r from-[var(--color-accent)] to-[var(--color-pink)]
+            text-white transition-all duration-300 ease-out
+            disabled:opacity-50 disabled:cursor-not-allowed
+            ${isPlaying.value && !hasError.value ? 'shadow-[var(--shadow-glow)]' : ''}
+            hover:shadow-[var(--shadow-glow)] hover:scale-105
+            active:scale-95 focus:outline-none focus-visible:ring-4 focus-visible:ring-[var(--color-accent-soft)]
+          `}
           aria-label={isLoading.value ? 'Cargando stream' : isPlaying.value ? 'Pausar' : 'Reproducir'}
         >
-          {isLoading.value ? <Spinner size="sm" /> : isPlaying.value ? <Pause size={20} /> : <Play size={20} />}
+          {isLoading.value ? (
+            <Spinner size="sm" />
+          ) : isPlaying.value ? (
+            <Pause size={28} fill="currentColor" />
+          ) : (
+            <Play size={28} fill="currentColor" class="ml-1" />
+          )}
         </button>
 
-        <div class="flex items-center gap-2 min-w-0 flex-[2] sm:flex-1">
-          <IconButton
-            icon={VolumeIcon}
-            label={muted.value ? 'Activar sonido' : 'Silenciar'}
-            onClick={handleMute}
-            pressed={muted.value}
-            size="sm"
-          />
-          <div class="flex-1 min-w-[60px]">
-            <Slider
-              label="Volumen"
-              min={0}
-              max={1}
-              step={0.05}
-              value={muted.value ? 0 : volume.value}
-              onChange={handleVolumeChange}
-            />
-          </div>
-        </div>
-
         {onNext && (
-          <IconButton icon={SkipForward} label="Siguiente estación" onClick={onNext} size="md" />
+          <button
+            onClick={onNext}
+            class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full glass text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[color-mix(in_oklab,white_10%,transparent)] transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+            aria-label={t('PLAYER.NEXT')}
+          >
+            <SkipForward size={22} />
+          </button>
         )}
+      </div>
+
+      <div class="flex items-center gap-3 px-2">
+        <IconButton
+          icon={VolumeIcon}
+          label={muted.value ? 'Activar sonido' : 'Silenciar'}
+          onClick={handleMute}
+          pressed={muted.value}
+          size="sm"
+        />
+        <div class="flex-1">
+          <Slider
+            label="Volumen"
+            min={0}
+            max={1}
+            step={0.05}
+            value={muted.value ? 0 : volume.value}
+            onChange={handleVolumeChange}
+          />
+        </div>
       </div>
 
       {hasError.value && (
@@ -125,18 +181,6 @@ export default function AudioPlayer({ onNext, controls }: Props) {
               )
             }
           />
-        </div>
-      )}
-
-      {isPlaying.value && !hasError.value && (
-        <div class="mt-4 flex items-center gap-1 h-6" aria-hidden="true">
-          {[0, 0.15, 0.3, 0.45, 0.6].map((delay) => (
-            <span
-              key={delay}
-              class="w-1 bg-[var(--color-accent)] rounded-full origin-bottom"
-              style={`animation: pulse-bar 0.8s ease-in-out infinite; animation-delay: ${delay}s; height: ${20 + Math.random() * 60}%`}
-            />
-          ))}
         </div>
       )}
     </div>

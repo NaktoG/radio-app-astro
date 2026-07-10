@@ -7,45 +7,48 @@
 @theme {
   --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  --color-bg-base: oklch(21% 0.034 264.665);
-  --color-bg-surface: oklch(28% 0.05 280);
-  --color-bg-elevated: oklch(35% 0.07 290);
-  --color-bg-glass: color-mix(in oklab, white 8%, transparent);
+  --color-bg-base: oklch(11% 0.025 260);
+  --color-bg-surface: oklch(16% 0.03 270);
+  --color-bg-elevated: oklch(22% 0.04 280);
+  --color-bg-glass: color-mix(in oklab, white 6%, transparent);
 
   --color-text-primary: oklch(98% 0 0);
-  --color-text-secondary: oklch(80% 0.02 260);
-  --color-text-muted: oklch(65% 0.03 260);
+  --color-text-secondary: oklch(82% 0.015 260);
+  --color-text-muted: oklch(60% 0.025 260);
 
-  --color-accent: oklch(62.7% 0.265 303.9);
-  --color-accent-hover: oklch(71.4% 0.203 305.504);
-  --color-accent-active: oklch(55.8% 0.288 302.321);
-  --color-accent-soft: color-mix(in oklab, oklch(62.7% 0.265 303.9) 20%, transparent);
+  --color-accent: oklch(68% 0.24 300);
+  --color-accent-hover: oklch(75% 0.2 300);
+  --color-accent-active: oklch(58% 0.28 300);
+  --color-accent-soft: color-mix(in oklab, oklch(68% 0.24 300) 15%, transparent);
+  --color-accent-glow: 0 0 30px color-mix(in oklab, oklch(68% 0.24 300) 30%, transparent);
 
-  --color-pink: oklch(65.6% 0.241 354.308);
-  --color-pink-hover: oklch(71.8% 0.202 349.761);
+  --color-pink: oklch(68% 0.22 350);
+  --color-pink-hover: oklch(74% 0.18 350);
 
-  --color-danger: oklch(63.7% 0.237 25.331);
-  --color-danger-soft: color-mix(in oklab, oklch(63.7% 0.237 25.331) 15%, transparent);
-  --color-success: oklch(72% 0.19 162);
-  --color-success-soft: color-mix(in oklab, oklch(72% 0.19 162) 15%, transparent);
+  --color-danger: oklch(65% 0.22 25);
+  --color-danger-soft: color-mix(in oklab, oklch(65% 0.22 25) 15%, transparent);
+  --color-success: oklch(75% 0.18 160);
+  --color-success-soft: color-mix(in oklab, oklch(75% 0.18 160) 15%, transparent);
 
-  --color-border: color-mix(in oklab, white 15%, transparent);
-  --color-border-strong: color-mix(in oklab, white 25%, transparent);
+  --color-border: color-mix(in oklab, white 10%, transparent);
+  --color-border-strong: color-mix(in oklab, white 18%, transparent);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.5rem;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.2);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.3);
-  --shadow-glow: 0 0 20px color-mix(in oklab, oklch(62.7% 0.265 303.9) 40%, transparent);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+  --shadow-glow: 0 0 30px color-mix(in oklab, oklch(68% 0.24 300) 35%, transparent);
 
   --duration-fast: 150ms;
-  --duration-normal: 250ms;
-  --duration-slow: 400ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -66,10 +69,11 @@ body {
   font-family: var(--font-sans);
   min-height: 100dvh;
   background: linear-gradient(
-    135deg,
-    var(--color-bg-base) 0%,
-    oklch(30% 0.08 290) 50%,
-    oklch(33% 0.1 275) 100%
+    160deg,
+    oklch(8% 0.02 260) 0%,
+    oklch(14% 0.04 270) 30%,
+    oklch(18% 0.06 280) 60%,
+    oklch(12% 0.05 250) 100%
   );
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
@@ -77,6 +81,63 @@ body {
   overscroll-behavior: none;
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  position: relative;
+}
+
+/* Animated background waves layer */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.wave-bg {
+  position: fixed;
+  inset: -20%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.5;
+}
+
+.wave-bg svg {
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  left: -10%;
+  top: -10%;
+}
+
+.wave-layer {
+  animation: wave-move-1 20s ease-in-out infinite;
+}
+
+.wave-layer:nth-child(2) {
+  animation: wave-move-2 25s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+.wave-layer:nth-child(3) {
+  animation: wave-move-3 18s ease-in-out infinite;
+  animation-delay: -7s;
+}
+
+.wave-layer.paused {
+  animation-play-state: paused;
+  opacity: 0.3;
+}
+
+.wave-layer.slow {
+  animation-duration: 40s;
+}
+
+/* Content layer above waves */
+.content-layer {
+  position: relative;
+  z-index: 1;
 }
 
 /* iOS safe area for fixed nav */
@@ -87,9 +148,15 @@ body {
 }
 
 @utility glass {
-  backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(20px) saturate(180%);
   background-color: var(--color-bg-glass);
   border: 1px solid var(--color-border);
+}
+
+@utility glass-strong {
+  backdrop-filter: blur(24px) saturate(200%);
+  background-color: color-mix(in oklab, white 8%, transparent);
+  border: 1px solid var(--color-border-strong);
 }
 
 @utility btn-primary {
@@ -116,7 +183,7 @@ body {
       var(--color-pink-hover)
     );
     box-shadow: var(--shadow-glow);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
   }
 
   &:active {
@@ -146,8 +213,9 @@ body {
   min-height: 44px;
 
   &:hover {
-    background-color: color-mix(in oklab, white 15%, transparent);
+    background-color: color-mix(in oklab, white 12%, transparent);
     border-color: var(--color-border-strong);
+    transform: translateY(-1px);
   }
 
   &:active {
@@ -175,7 +243,7 @@ body {
 @utility input-field {
   width: 100%;
   padding: 0.75rem 1rem;
-  background-color: var(--color-bg-glass);
+  background-color: color-mix(in oklab, white 5%, transparent);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
@@ -201,10 +269,10 @@ body {
 }
 
 @utility card {
-  backdrop-filter: blur(16px) saturate(150%);
-  background-color: var(--color-bg-glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  background-color: color-mix(in oklab, white 5%, transparent);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   padding: 1rem;
 
   @media (width >= 40rem) {
@@ -214,8 +282,27 @@ body {
   transition: all var(--duration-normal) var(--ease-out);
 
   &:hover {
-    background-color: color-mix(in oklab, white 12%, transparent);
+    background-color: color-mix(in oklab, white 8%, transparent);
     border-color: var(--color-border-strong);
+  }
+}
+
+@utility card-glow {
+  backdrop-filter: blur(24px) saturate(200%);
+  background-color: color-mix(in oklab, white 5%, transparent);
+  border: 1px solid var(--color-accent-soft);
+  border-radius: var(--radius-2xl);
+  padding: 1rem;
+
+  @media (width >= 40rem) {
+    padding: 1.5rem;
+  }
+
+  transition: all var(--duration-normal) var(--ease-out);
+  animation: glow-pulse 3s ease-in-out infinite;
+
+  &:hover {
+    border-color: var(--color-accent);
   }
 }
 
@@ -252,7 +339,7 @@ input[type="range"]::-webkit-slider-thumb {
   background: var(--color-accent);
   border: 2px solid var(--color-bg-base);
   cursor: pointer;
-  box-shadow: 0 0 8px color-mix(in oklab, var(--color-accent) 40%, transparent);
+  box-shadow: 0 0 12px color-mix(in oklab, var(--color-accent) 40%, transparent);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -266,7 +353,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px var(--color-accent-soft), 0 0 8px color-mix(in oklab, var(--color-accent) 40%, transparent);
+  box-shadow: 0 0 0 3px var(--color-accent-soft), 0 0 12px color-mix(in oklab, var(--color-accent) 40%, transparent);
 }
 
 input[type="range"]:focus-visible::-moz-range-thumb {
@@ -324,4 +411,12 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 
 @utility animate-scale-in {
   animation: scale-in var(--duration-fast) var(--ease-spring) both;
+}
+
+@utility animate-stagger {
+  animation: stagger-fade 0.5s var(--ease-out) both;
+}
+
+@utility animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
 }

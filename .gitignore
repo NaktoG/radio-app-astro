@@ -4,6 +4,7 @@
 # Build output
 /dist
 /.astro
+/.netlify
 
 # Environment
 .env
