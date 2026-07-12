@@ -126,38 +126,38 @@ export default function Nav({ lang: initialLang }: Props) {
       {menuOpen && (
         <>
           <button
-            class="md:hidden fixed inset-0 top-16 z-[var(--z-modal)] bg-black/55 backdrop-blur-sm"
+            class="mobile-nav-backdrop"
             aria-label="Cerrar menú"
             onClick={() => setMenuOpen(false)}
           />
           <div
             id="mobile-nav-menu"
-            class="md:hidden fixed left-3 right-3 top-[calc(4rem+env(safe-area-inset-top,0px)+0.5rem)] bottom-3 z-[var(--z-toast)] rounded-2xl glass-strong border border-[var(--color-border-strong)] animate-slide-down overflow-y-auto"
+            class="mobile-nav-drawer animate-slide-down"
             role="menu"
           >
             <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
               <button
                 onClick={handleLangChange}
-                class="btn-ghost justify-start text-[var(--color-text-primary)]"
+                class="mobile-nav-item"
                 role="menuitem"
               >
                 <Languages size={18} aria-hidden="true" />
                 {lang.value === 'es' ? 'English' : 'Español'}
               </button>
-              <a href="/" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+              <a href="/" class="mobile-nav-item" onClick={() => setMenuOpen(false)} role="menuitem">
                 <House size={18} aria-hidden="true" />
                 {t('NAV.HOME')}
               </a>
-              <a href="/player" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+              <a href="/player" class="mobile-nav-item" onClick={() => setMenuOpen(false)} role="menuitem">
                 <Headphones size={18} aria-hidden="true" />
                 {t('NAV.PLAYER')}
               </a>
-              <a href="/search" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+              <a href="/search" class="mobile-nav-item" onClick={() => setMenuOpen(false)} role="menuitem">
                 <SearchCheck size={18} aria-hidden="true" />
                 {t('NAV.SEARCH')}
               </a>
               {isAuthenticated.value && (
-                <a href="/favorites" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                <a href="/favorites" class="mobile-nav-item" onClick={() => setMenuOpen(false)} role="menuitem">
                   <HeartPulse size={18} aria-hidden="true" />
                   {t('NAV.FAVORITES')}
                 </a>
@@ -165,7 +165,7 @@ export default function Nav({ lang: initialLang }: Props) {
               {isAuthenticated.value ? (
                 <button
                   onClick={() => { handleLogout(); setMenuOpen(false) }}
-                  class="btn-ghost justify-start text-[var(--color-danger)]"
+                  class="mobile-nav-item text-[var(--color-danger)]"
                   role="menuitem"
                 >
                   <LogOut size={18} aria-hidden="true" />
@@ -173,7 +173,7 @@ export default function Nav({ lang: initialLang }: Props) {
                 </button>
               ) : (
                 <>
-                  <a href="/auth/login" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                  <a href="/auth/login" class="mobile-nav-item" onClick={() => setMenuOpen(false)} role="menuitem">
                     {t('NAV.LOGIN')}
                   </a>
                   <a
