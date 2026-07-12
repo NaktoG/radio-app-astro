@@ -108,22 +108,18 @@ export default function Nav({ lang: initialLang }: Props) {
           />
         </div>
 
-        <div class="md:hidden flex items-center gap-2">
-          <IconButton
-            icon={Languages}
-            label={lang.value === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            onClick={handleLangChange}
-            size="sm"
-            class="glass border border-[var(--color-border)]"
-          />
-          <IconButton
-            icon={menuOpen ? X : Menu}
-            label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+        <div class="md:hidden flex items-center">
+          <button
+            type="button"
             onClick={() => setMenuOpen(!menuOpen)}
-            pressed={menuOpen}
-            size="sm"
-            class="glass border border-[var(--color-border)]"
-          />
+            class="inline-flex min-h-11 items-center gap-2 rounded-full border border-[var(--color-border-strong)] bg-[color-mix(in_oklab,var(--color-accent)_16%,var(--color-bg-surface))] px-3 py-2 text-sm font-semibold text-[var(--color-text-primary)] shadow-[0_0_20px_color-mix(in_oklab,var(--color-accent)_18%,transparent)] transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav-menu"
+          >
+            {menuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+            <span>{menuOpen ? 'Cerrar' : 'Menú'}</span>
+          </button>
         </div>
       </div>
 
@@ -135,10 +131,19 @@ export default function Nav({ lang: initialLang }: Props) {
             onClick={() => setMenuOpen(false)}
           />
           <div
+            id="mobile-nav-menu"
             class="md:hidden fixed left-3 right-3 top-[calc(4rem+env(safe-area-inset-top,0px)+0.5rem)] bottom-3 z-[var(--z-toast)] rounded-2xl glass-strong border border-[var(--color-border-strong)] animate-slide-down overflow-y-auto"
             role="menu"
           >
             <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
+              <button
+                onClick={handleLangChange}
+                class="btn-ghost justify-start text-[var(--color-text-primary)]"
+                role="menuitem"
+              >
+                <Languages size={18} aria-hidden="true" />
+                {lang.value === 'es' ? 'English' : 'Español'}
+              </button>
               <a href="/" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
                 <House size={18} aria-hidden="true" />
                 {t('NAV.HOME')}
