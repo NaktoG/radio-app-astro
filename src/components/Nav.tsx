@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks'
-import { RadioTower, Menu, X, Languages, LogOut, House, SearchCheck, Headphones, HeartPulse } from 'lucide-preact'
+import { RadioTower, Menu, X, Languages, LogOut, House, SearchCheck, Headphones, HeartPulse, Github } from 'lucide-preact'
 import { useAuth, logout as doLogout, initAuth } from '../lib/auth'
 import { useI18n, setLang } from '../i18n/client'
 import { IconButton } from '../ui'
@@ -7,6 +7,8 @@ import { IconButton } from '../ui'
 interface Props {
   lang: string
 }
+
+const GITHUB_URL = 'https://github.com/NaktoG/radio-app-astro'
 
 export default function Nav({ lang: initialLang }: Props) {
   const { isAuthenticated, currentUser } = useAuth()
@@ -69,6 +71,16 @@ export default function Nav({ lang: initialLang }: Props) {
               {t('NAV.FAVORITES')}
             </a>
           )}
+          <a
+            href={GITHUB_URL}
+            class="btn-ghost text-sm"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Ver repositorio en GitHub"
+          >
+            <Github size={16} aria-hidden="true" />
+            GitHub
+          </a>
 
           {isAuthenticated.value ? (
             <div class="flex items-center gap-3 ml-2 bg-[var(--color-accent-soft)] px-3 py-1.5 rounded-lg">
@@ -165,6 +177,10 @@ export default function Nav({ lang: initialLang }: Props) {
                   {t('NAV.FAVORITES')}
                 </a>
               )}
+              <a href={GITHUB_URL} class="mobile-nav-item" target="_blank" rel="noreferrer" role="menuitem">
+                <Github size={18} aria-hidden="true" />
+                GitHub
+              </a>
               {isAuthenticated.value ? (
                 <button
                   onClick={() => { handleLogout(); setMenuOpen(false) }}

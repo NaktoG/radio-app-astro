@@ -4,6 +4,8 @@
 
 ### Streaming de radio mundial en tiempo real
 
+**Repositorio:** [github.com/NaktoG/radio-app-astro](https://github.com/NaktoG/radio-app-astro)
+
 [![Astro](https://img.shields.io/badge/Astro-7.0-FF5D01?logo=astro&logoColor=white)](https://astro.build)
 [![Preact](https://img.shields.io/badge/Preact-10.25-673AB8?logo=preact&logoColor=white)](https://preactjs.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -32,6 +34,7 @@ Las estaciones se obtienen de la API pública de [Radio Browser](https://www.rad
 | 🌐 **Internacionalización** | Soporte bilingüe español/inglés con detección automática por cookie |
 | 🖼️ **Proxy de imágenes** | Server-side image proxy con protección SSRF y límites de tamaño |
 | 🌙 **Modo oscuro** | Diseño dark-first nativo (sin toggle) |
+| 📲 **PWA instalable** | Manifest, service worker, soporte iOS/Android y fallback offline |
 | 📱 **Responsive** | Mobile-first con menú hamburger y breakpoints adaptables |
 | ♿ **Accesibilidad** | WCAG 2.1 AA: targets 44px, focus visible, reduced motion, ARIA |
 | ⚡ **Performance** | Islands architecture de Astro: JavaScript solo donde se necesita |
@@ -109,6 +112,33 @@ npm run dev
 | `npm run lint` | Linting con ESLint |
 | `npm run format` | Formatear código con Prettier |
 | `npm run format:check` | Verificar formato sin modificar |
+
+## PWA
+
+La app es instalable como PWA:
+
+- Manifest: `public/manifest.webmanifest`
+- Service worker: `public/sw.js`
+- Fallback offline: `public/offline.html`
+- Iconos: `public/pwa-icon.svg` y `public/maskable-icon.svg`
+
+El service worker cachea navegación y assets estáticos. No cachea `/api/`, proxy de imágenes ni streams de radio para evitar reproducir datos obsoletos o romper radios en vivo.
+
+### Instalación en móvil
+
+- iPhone/Safari: abrir la URL de Netlify → Compartir → **Agregar a pantalla de inicio**.
+- Android/Chrome: abrir la URL → menú del navegador → **Instalar app**.
+
+## Autenticación local
+
+La autenticación actual es client-side y demostrativa. El usuario registrado queda guardado en `localStorage` del navegador, junto con el hash de contraseña. Cerrar sesión elimina solo el token de sesión, no la cuenta local, por lo que el usuario puede volver a iniciar sesión sin registrarse nuevamente.
+
+Limitaciones conocidas:
+
+- No es autenticación productiva segura.
+- Los datos existen solo en el navegador/dispositivo donde se registró el usuario.
+- Si el usuario limpia datos del sitio, usa otro navegador o cambia de dispositivo, deberá registrarse nuevamente.
+- Para producción real, mover autenticación a backend con base de datos y sesiones server-side.
 
 ## Estructura del proyecto
 

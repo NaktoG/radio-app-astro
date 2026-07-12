@@ -146,10 +146,10 @@ export function initAuth() {
     isAuthenticated.value = true
   } else {
     if (token) {
-      StorageUtil.removeItem(STORAGE_KEYS.USER_DATA)
       StorageUtil.removeItem(STORAGE_KEYS.AUTH_TOKEN)
-      StorageUtil.removeItem(STORAGE_KEYS.USER_PASSWORD)
     }
+    currentUser.value = null
+    isAuthenticated.value = false
   }
   authLoading.value = false
 }
@@ -235,9 +235,7 @@ export async function register(data: RegisterData): Promise<AuthResponse> {
 }
 
 export function logout() {
-  StorageUtil.removeItem(STORAGE_KEYS.USER_DATA)
   StorageUtil.removeItem(STORAGE_KEYS.AUTH_TOKEN)
-  StorageUtil.removeItem(STORAGE_KEYS.USER_PASSWORD)
   currentUser.value = null
   isAuthenticated.value = false
   clearAuthCookie()
