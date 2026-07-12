@@ -23,14 +23,13 @@ const COUNTRY_FILTER_OPTIONS = [
 const LIMIT_OPTIONS = [
   { value: '50', label: '50' },
   { value: '100', label: '100' },
-  { value: '200', label: '200' },
-  { value: '300', label: '300' },
+  { value: '150', label: '150' },
 ]
 
 export default function Filter({ onChange }: Props) {
   const { t } = useI18n()
   const [country, setCountry] = useState('AR')
-  const [limit, setLimit] = useState(300)
+  const [limit, setLimit] = useState(150)
   const [ready, setReady] = useState(false)
 
   useEffect(() => {

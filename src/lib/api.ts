@@ -2,10 +2,21 @@ import type { Radio, StationFilter } from './types'
 
 const DEFAULT_PARAMS: StationFilter = {
   countrycode: 'AR',
-  limit: 300,
+  limit: 150,
   order: 'votes',
   reverse: true,
 }
+
+const DIRECT_MIRRORS = [
+  'https://all.api.radio-browser.info',
+  'https://de1.api.radio-browser.info',
+  'https://de2.api.radio-browser.info',
+  'https://at1.api.radio-browser.info',
+  'https://nl1.api.radio-browser.info',
+  'https://fr1.api.radio-browser.info',
+]
+
+const REQUEST_TIMEOUT_MS = 10_000
 
 function sanitizeStation(s: Record<string, unknown>): Radio | null {
   const name = typeof s.name === 'string' ? s.name.trim() : ''
@@ -47,10 +58,33 @@ async function proxyFetch(path: string, params: Record<string, unknown>): Promis
 
   const url = `/api/stations?_path=${encodeURIComponent(path)}&${qs}`
 
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`API error: ${res.status}`)
+  const res = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) })
+  if (!res.ok) return directMirrorFetch(path, qs)
   const data: Record<string, unknown>[] = await res.json()
   return data.map(sanitizeStation).filter((s): s is Radio => s !== null)
+}
+
+async function directMirrorFetch(path: string, qs: string): Promise<Radio[]> {
+  let lastError: Error | null = null
+
+  for (const mirror of DIRECT_MIRRORS) {
+    try {
+      const res = await fetch(`${mirror}${path}?${qs}`, {
+        headers: { Accept: 'application/json' },
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      })
+      if (!res.ok) {
+        lastError = new Error(`Mirror ${mirror} returned ${res.status}`)
+        continue
+      }
+      const data: Record<string, unknown>[] = await res.json()
+      return data.map(sanitizeStation).filter((s): s is Radio => s !== null)
+    } catch (e) {
+      lastError = e instanceof Error ? e : new Error(String(e))
+    }
+  }
+
+  throw lastError ?? new Error('Radio Browser API unavailable')
 }
 
 export async function fetchStations(filters: Partial<StationFilter> = {}): Promise<Radio[]> {

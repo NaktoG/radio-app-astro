@@ -92,6 +92,7 @@
     "NOW_PLAYING": "Reproduciendo ahora",
     "SELECT_STATION": "Selecciona una estación para empezar",
     "LOADING": "Cargando estaciones...",
+    "LOAD_ERROR": "No se pudieron cargar estaciones ahora. Probá con otro país o intentá nuevamente en unos segundos.",
     "ERROR": "No se pudo reproducir esta estación",
     "ERROR_RETRY": "Siguiente →",
     "COUNTRY": "País",

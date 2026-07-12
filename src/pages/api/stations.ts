@@ -1,13 +1,26 @@
 import type { APIRoute } from 'astro'
 
 const MIRRORS = [
+  'https://all.api.radio-browser.info',
   'https://de1.api.radio-browser.info',
   'https://de2.api.radio-browser.info',
   'https://at1.api.radio-browser.info',
+  'https://nl1.api.radio-browser.info',
+  'https://fr1.api.radio-browser.info',
 ]
 
 const CACHE_TTL = 60_000
+const FETCH_TIMEOUT_MS = 12_000
+const MAX_LIMIT = 150
 const cache = new Map<string, { data: unknown; expiry: number }>()
+const ALLOWED_PATHS = new Set(['/json/stations/search', '/json/stations/byuuid'])
+
+function clampLimit(limit: string | null): string | null {
+  if (!limit) return null
+  const n = Number(limit)
+  if (!Number.isFinite(n) || n <= 0) return null
+  return String(Math.min(Math.floor(n), MAX_LIMIT))
+}
 
 export const GET: APIRoute = async ({ url }) => {
   try {
@@ -16,6 +29,24 @@ export const GET: APIRoute = async ({ url }) => {
 
     const path = params.get('_path') || '/json/stations/search'
     params.delete('_path')
+
+    if (!ALLOWED_PATHS.has(path)) {
+      return new Response(
+        JSON.stringify({
+          error: { code: 'INVALID_PATH', message: 'Invalid API path' },
+        }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+          },
+        },
+      )
+    }
+
+    const normalizedLimit = clampLimit(params.get('limit'))
+    if (normalizedLimit) params.set('limit', normalizedLimit)
 
     const cacheKey = `${path}?${params.toString()}`
     const cached = cache.get(cacheKey)
@@ -34,8 +65,11 @@ export const GET: APIRoute = async ({ url }) => {
       try {
         const apiUrl = `${mirror}${path}?${params.toString()}`
         const response = await fetch(apiUrl, {
-          headers: { 'User-Agent': 'RadioApp/1.0' },
-          signal: AbortSignal.timeout(8000),
+          headers: {
+            Accept: 'application/json',
+            'User-Agent': 'RadioApp/1.0 (+https://github.com/NaktoG/radio-app-astro)',
+          },
+          signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         })
 
         if (!response.ok) {
@@ -57,6 +91,12 @@ export const GET: APIRoute = async ({ url }) => {
         lastError = e instanceof Error ? e : new Error(String(e))
       }
     }
+
+    console.error('[api/stations] all mirrors failed', {
+      path,
+      params: params.toString(),
+      lastError: lastError?.message ?? 'unknown',
+    })
 
     return new Response(
       JSON.stringify({

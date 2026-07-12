@@ -16,6 +16,7 @@ export default function RadioPlayer() {
   const [stations, setStations] = useState<Radio[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const [showFavorites, setShowFavorites] = useState(false)
   const errorCountRef = useRef(0)
   const { favorites } = useFavoritesStore()
@@ -29,6 +30,7 @@ export default function RadioPlayer() {
 
   const loadStations = useCallback(async (filters: StationFilter) => {
     setLoading(true)
+    setLoadError(false)
     errorCountRef.current = 0
     setShowFavorites(false)
     try {
@@ -38,6 +40,7 @@ export default function RadioPlayer() {
       setCurrentIndex(0)
     } catch {
       setStations([])
+      setLoadError(true)
     } finally {
       setLoading(false)
     }
@@ -47,7 +50,7 @@ export default function RadioPlayer() {
     if (displayedStations.length === 0) return
     errorCountRef.current++
     if (errorCountRef.current >= 5) {
-      loadStations({ countrycode: 'AR', limit: 300, order: 'votes', reverse: true })
+      loadStations({ countrycode: 'AR', limit: 150, order: 'votes', reverse: true })
       errorCountRef.current = 0
       return
     }
@@ -88,12 +91,19 @@ export default function RadioPlayer() {
             class="self-start sm:self-auto"
           />
         </div>
-        <StationList
-          stations={displayedStations}
-          currentIndex={currentIndex}
-          onSelect={handleSelect}
-          loading={loading}
-        />
+        {!loadError && (
+          <StationList
+            stations={displayedStations}
+            currentIndex={currentIndex}
+            onSelect={handleSelect}
+            loading={loading}
+          />
+        )}
+        {loadError && !loading && (
+          <p class="rounded-xl border border-[var(--color-danger-soft)] bg-[var(--color-danger-soft)] px-4 py-3 text-sm text-[var(--color-text-secondary)]">
+            {t('PLAYER.LOAD_ERROR')}
+          </p>
+        )}
         {showFavorites && displayedStations.length === 0 && (
           <p class="text-center text-[var(--color-text-muted)] text-sm py-4">
             {t('PLAYER.NO_FAV')}
