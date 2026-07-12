@@ -38,10 +38,10 @@ const skipLinkText = lang === 'en' ? 'Skip to content' : 'Saltar al contenido'
       {skipLinkText}
     </a>
     <Nav client:load lang={lang} />
-    <main id="main" class="flex-1 pt-16 content-layer">
+    <main id="main" class="flex-1 pt-16 content-layer w-full max-w-full overflow-x-hidden">
       <slot />
     </main>
-    <footer class="content-layer border-t border-[var(--color-border)] bg-[color-mix(in_oklab,var(--color-bg-base)_92%,transparent)] backdrop-blur-md">
+    <footer class="content-layer w-full max-w-full overflow-x-hidden border-t border-[var(--color-border)] bg-[color-mix(in_oklab,var(--color-bg-base)_92%,transparent)] backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-4 py-3 sm:py-6 mobile-menu-safe flex flex-col md:flex-row items-center justify-between gap-1.5 sm:gap-3 md:gap-4">
         <p class="text-[0.62rem] sm:text-sm text-[var(--color-text-muted)] text-center md:text-left leading-relaxed break-words">{dict.HOME.FOOTER.COPYRIGHT}</p>
         <div class="w-full md:w-auto flex flex-wrap items-center justify-center md:justify-end gap-x-3 gap-y-1 text-[0.62rem] sm:text-sm">

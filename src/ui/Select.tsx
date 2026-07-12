@@ -16,7 +16,7 @@ export default function Select({ label, options, value, onChange, id, class: cla
   const selectId = id || `select-${label.toLowerCase().replace(/\s+/g, '-')}`
 
   return (
-    <div class={`w-full ${className || ''}`}>
+    <div class={`w-full min-w-0 ${className || ''}`}>
       <label for={selectId} class="block text-sm font-medium mb-1.5 text-[var(--color-text-secondary)]">
         {label}
       </label>

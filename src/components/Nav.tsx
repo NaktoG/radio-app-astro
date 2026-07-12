@@ -34,16 +34,16 @@ export default function Nav({ lang: initialLang }: Props) {
 
   return (
     <nav
-      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
+      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] w-full max-w-full overflow-x-hidden backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
       aria-label={t('NAV.APP_NAME')}
     >
-      <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between min-w-0">
         <a
           href="/"
-          class="flex items-center gap-2 text-xl font-bold hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-lg px-1"
+          class="flex min-w-0 items-center gap-2 text-xl font-bold hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-lg px-1"
         >
           <RadioTower size={24} class="text-[var(--color-accent-hover)] drop-shadow-[0_0_10px_color-mix(in_oklab,var(--color-accent)_50%,transparent)]" aria-hidden="true" />
-          <span>{t('NAV.APP_NAME')}</span>
+          <span class="truncate">{t('NAV.APP_NAME')}</span>
         </a>
 
         <div class="hidden md:flex items-center gap-2">

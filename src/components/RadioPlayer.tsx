@@ -78,9 +78,9 @@ export default function RadioPlayer() {
   }
 
   return (
-    <div class="grid items-start gap-3 sm:gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
-      <div class="order-1 space-y-3 sm:space-y-4">
-        <div class="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-3">
+    <div class="grid w-full max-w-full min-w-0 items-start gap-3 overflow-x-hidden sm:gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+      <div class="order-1 min-w-0 space-y-3 sm:space-y-4">
+        <div class="flex min-w-0 flex-col sm:flex-row sm:items-end gap-2 sm:gap-3">
           <Filter onChange={loadStations} />
           <IconButton
             icon={HeartPulse}
@@ -110,7 +110,7 @@ export default function RadioPlayer() {
           </p>
         )}
       </div>
-      <div class="order-2 lg:sticky lg:top-24">
+      <div class="order-2 min-w-0 lg:sticky lg:top-24">
         <AudioPlayer
           onNext={goNext}
           controls={audio}

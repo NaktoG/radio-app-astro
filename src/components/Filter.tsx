@@ -44,7 +44,7 @@ export default function Filter({ onChange }: Props) {
   }
 
   return (
-    <div class="grid w-full grid-cols-1 min-[390px]:grid-cols-[minmax(0,1fr)_7rem] sm:flex sm:flex-wrap gap-2 items-end">
+    <div class="grid w-full max-w-full min-w-0 grid-cols-1 min-[390px]:grid-cols-[minmax(0,1fr)_7rem] sm:flex sm:flex-wrap gap-2 items-end">
       <Select
         label={t('PLAYER.COUNTRY')}
         options={COUNTRY_FILTER_OPTIONS}
