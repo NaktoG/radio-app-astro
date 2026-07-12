@@ -114,6 +114,7 @@ export default function Nav({ lang: initialLang }: Props) {
             label={lang.value === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             onClick={handleLangChange}
             size="sm"
+            class="glass border border-[var(--color-border)]"
           />
           <IconButton
             icon={menuOpen ? X : Menu}
@@ -121,60 +122,68 @@ export default function Nav({ lang: initialLang }: Props) {
             onClick={() => setMenuOpen(!menuOpen)}
             pressed={menuOpen}
             size="sm"
+            class="glass border border-[var(--color-border)]"
           />
         </div>
       </div>
 
       {menuOpen && (
-        <div
-          class="md:hidden fixed inset-0 top-16 z-[var(--z-modal)] bg-[var(--color-bg-surface)] animate-slide-down overflow-y-auto"
-          role="menu"
-        >
-          <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
-            <a href="/" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
-              <HomeIcon size={18} aria-hidden="true" />
-              {t('NAV.HOME')}
-            </a>
-            <a href="/player" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
-              <Music size={18} aria-hidden="true" />
-              {t('NAV.PLAYER')}
-            </a>
-            <a href="/search" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
-              <Search size={18} aria-hidden="true" />
-              {t('NAV.SEARCH')}
-            </a>
-            {isAuthenticated.value && (
-              <a href="/favorites" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
-                <Heart size={18} aria-hidden="true" />
-                {t('NAV.FAVORITES')}
+        <>
+          <button
+            class="md:hidden fixed inset-0 top-16 z-[var(--z-modal)] bg-black/55 backdrop-blur-sm"
+            aria-label="Cerrar menú"
+            onClick={() => setMenuOpen(false)}
+          />
+          <div
+            class="md:hidden fixed left-3 right-3 top-[calc(4rem+env(safe-area-inset-top,0px)+0.5rem)] bottom-3 z-[var(--z-toast)] rounded-2xl glass-strong border border-[var(--color-border-strong)] animate-slide-down overflow-y-auto"
+            role="menu"
+          >
+            <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
+              <a href="/" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                <HomeIcon size={18} aria-hidden="true" />
+                {t('NAV.HOME')}
               </a>
-            )}
-            {isAuthenticated.value ? (
-              <button
-                onClick={() => { handleLogout(); setMenuOpen(false) }}
-                class="btn-ghost justify-start text-[var(--color-danger)]"
-                role="menuitem"
-              >
-                <LogOut size={18} aria-hidden="true" />
-                {t('NAV.LOGOUT')}
-              </button>
-            ) : (
-              <>
-                <a href="/auth/login" class="btn-ghost justify-start" onClick={() => setMenuOpen(false)} role="menuitem">
-                  {t('NAV.LOGIN')}
+              <a href="/player" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                <Music size={18} aria-hidden="true" />
+                {t('NAV.PLAYER')}
+              </a>
+              <a href="/search" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                <Search size={18} aria-hidden="true" />
+                {t('NAV.SEARCH')}
+              </a>
+              {isAuthenticated.value && (
+                <a href="/favorites" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                  <Heart size={18} aria-hidden="true" />
+                  {t('NAV.FAVORITES')}
                 </a>
-                <a
-                  href="/auth/register"
-                  class="btn-primary w-full"
-                  onClick={() => setMenuOpen(false)}
+              )}
+              {isAuthenticated.value ? (
+                <button
+                  onClick={() => { handleLogout(); setMenuOpen(false) }}
+                  class="btn-ghost justify-start text-[var(--color-danger)]"
                   role="menuitem"
                 >
-                  {t('NAV.REGISTER')}
-                </a>
-              </>
-            )}
+                  <LogOut size={18} aria-hidden="true" />
+                  {t('NAV.LOGOUT')}
+                </button>
+              ) : (
+                <>
+                  <a href="/auth/login" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
+                    {t('NAV.LOGIN')}
+                  </a>
+                  <a
+                    href="/auth/register"
+                    class="btn-primary w-full"
+                    onClick={() => setMenuOpen(false)}
+                    role="menuitem"
+                  >
+                    {t('NAV.REGISTER')}
+                  </a>
+                </>
+              )}
+            </div>
           </div>
-        </div>
+        </>
       )}
     </nav>
   )
