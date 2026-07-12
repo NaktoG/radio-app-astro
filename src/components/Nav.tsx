@@ -33,8 +33,9 @@ export default function Nav({ lang: initialLang }: Props) {
   }
 
   return (
+    <>
     <nav
-      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] w-full max-w-full overflow-x-hidden backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
+      class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] w-full max-w-full backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
       aria-label={t('NAV.APP_NAME')}
     >
       <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between min-w-0">
@@ -123,6 +124,8 @@ export default function Nav({ lang: initialLang }: Props) {
         </div>
       </div>
 
+    </nav>
+
       {menuOpen && (
         <>
           <button
@@ -190,6 +193,6 @@ export default function Nav({ lang: initialLang }: Props) {
           </div>
         </>
       )}
-    </nav>
+    </>
   )
 }
