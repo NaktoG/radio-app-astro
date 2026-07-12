@@ -78,8 +78,8 @@ export default function RadioPlayer() {
   }
 
   return (
-    <div class="grid items-start gap-4 sm:gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
-      <div class="order-2 lg:order-1 space-y-4">
+    <div class="grid items-start gap-3 sm:gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+      <div class="order-1 space-y-3 sm:space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-3">
           <Filter onChange={loadStations} />
           <IconButton
@@ -110,7 +110,7 @@ export default function RadioPlayer() {
           </p>
         )}
       </div>
-      <div class="order-1 lg:order-2 lg:sticky lg:top-24">
+      <div class="order-2 lg:sticky lg:top-24">
         <AudioPlayer
           onNext={goNext}
           controls={audio}
