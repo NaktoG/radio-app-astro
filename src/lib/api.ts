@@ -59,7 +59,9 @@ async function proxyFetch(path: string, params: Record<string, unknown>): Promis
   const url = `/api/stations?_path=${encodeURIComponent(path)}&${qs}`
 
   const res = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) })
-  if (!res.ok) return directMirrorFetch(path, qs)
+  if (!res.ok || res.headers.get('X-Radio-App-Fallback') === 'direct') {
+    return directMirrorFetch(path, qs)
+  }
   const data: Record<string, unknown>[] = await res.json()
   return data.map(sanitizeStation).filter((s): s is Radio => s !== null)
 }

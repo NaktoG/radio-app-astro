@@ -98,18 +98,15 @@ export const GET: APIRoute = async ({ url }) => {
       lastError: lastError?.message ?? 'unknown',
     })
 
-    return new Response(
-      JSON.stringify({
-        error: { code: 'EXTERNAL_DEPENDENCY_ERROR', message: 'Radio Browser API unavailable' },
-      }),
-      {
-        status: 503,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
+    return new Response(JSON.stringify([]), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Cache-Control': 'no-store',
+        'X-Radio-App-Fallback': 'direct',
       },
-    )
+    })
   } catch {
     return new Response(
       JSON.stringify({
