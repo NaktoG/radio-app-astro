@@ -240,6 +240,28 @@ body::before {
   }
 }
 
+@utility icon-orb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-2xl);
+  color: var(--color-accent-hover);
+  background:
+    radial-gradient(circle at 30% 20%, color-mix(in oklab, var(--color-pink) 45%, transparent), transparent 45%),
+    linear-gradient(145deg, color-mix(in oklab, var(--color-accent) 22%, transparent), color-mix(in oklab, var(--color-bg-elevated) 90%, transparent));
+  border: 1px solid color-mix(in oklab, var(--color-accent) 35%, transparent);
+  box-shadow: 0 14px 38px rgb(0 0 0 / 0.32), 0 0 28px color-mix(in oklab, var(--color-accent) 22%, transparent);
+}
+
+@utility icon-orb-sm {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-xl);
+}
+
 @utility input-field {
   width: 100%;
   padding: 0.75rem 1rem;

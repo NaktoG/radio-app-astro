@@ -1,4 +1,4 @@
-import { Heart, Radio as RadioIcon } from 'lucide-preact'
+import { HeartPulse, RadioTower } from 'lucide-preact'
 import type { Radio } from '../lib/types'
 import { Image, Spinner, EmptyState, IconButton } from '../ui'
 import { useI18n } from '../i18n/client'
@@ -31,7 +31,7 @@ export default function StationList({
   if (stations.length === 0) {
     return (
       <EmptyState
-        icon={RadioIcon}
+        icon={RadioTower}
         title={t('PLAYER.NO_STATIONS_TITLE')}
         description={t('PLAYER.NO_STATIONS_DESC')}
       />
@@ -83,7 +83,7 @@ export default function StationList({
               </span>
             </button>
             <IconButton
-              icon={Heart}
+              icon={HeartPulse}
               label={fav ? `Quitar ${station.name} de favoritos` : `Agregar ${station.name} a favoritos`}
               onClick={() => toggleFavorite(station.stationuuid)}
               pressed={fav}

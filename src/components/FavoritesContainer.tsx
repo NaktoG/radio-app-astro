@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks'
-import { Heart, Music } from 'lucide-preact'
+import { HeartPulse } from 'lucide-preact'
 import { fetchStationsByUuids } from '../lib/api'
 import { useAudio } from '../lib/useAudio'
 import { useFavoritesStore } from '../stores/favorites'
@@ -76,7 +76,7 @@ export default function FavoritesContainer() {
   if (stations.length === 0) {
     return (
       <EmptyState
-        icon={Heart}
+        icon={HeartPulse}
         title={t('FAVORITES.EMPTY_TITLE')}
         description={t('FAVORITES.EMPTY_DESC')}
       />

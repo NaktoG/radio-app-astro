@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks'
-import { Radio, Menu, X, Globe, LogOut, Home as HomeIcon, Search, Music, Heart } from 'lucide-preact'
+import { RadioTower, Menu, X, Languages, LogOut, House, SearchCheck, Headphones, HeartPulse } from 'lucide-preact'
 import { useAuth, logout as doLogout, initAuth } from '../lib/auth'
 import { useI18n, setLang } from '../i18n/client'
 import { IconButton } from '../ui'
@@ -42,7 +42,7 @@ export default function Nav({ lang: initialLang }: Props) {
           href="/"
           class="flex items-center gap-2 text-xl font-bold hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-lg px-1"
         >
-          <Radio size={24} class="text-[var(--color-accent)]" aria-hidden="true" />
+          <RadioTower size={24} class="text-[var(--color-accent-hover)] drop-shadow-[0_0_10px_color-mix(in_oklab,var(--color-accent)_50%,transparent)]" aria-hidden="true" />
           <span>{t('NAV.APP_NAME')}</span>
         </a>
 
@@ -51,20 +51,20 @@ export default function Nav({ lang: initialLang }: Props) {
             href="/"
             class="btn-ghost text-sm"
           >
-            <HomeIcon size={16} aria-hidden="true" />
+            <House size={16} aria-hidden="true" />
             {t('NAV.HOME')}
           </a>
           <a href="/player" class="btn-ghost text-sm">
-            <Music size={16} aria-hidden="true" />
+            <Headphones size={16} aria-hidden="true" />
             {t('NAV.PLAYER')}
           </a>
           <a href="/search" class="btn-ghost text-sm">
-            <Search size={16} aria-hidden="true" />
+            <SearchCheck size={16} aria-hidden="true" />
             {t('NAV.SEARCH')}
           </a>
           {isAuthenticated.value && (
             <a href="/favorites" class="btn-ghost text-sm">
-              <Heart size={16} aria-hidden="true" />
+              <HeartPulse size={16} aria-hidden="true" />
               {t('NAV.FAVORITES')}
             </a>
           )}
@@ -101,7 +101,7 @@ export default function Nav({ lang: initialLang }: Props) {
           )}
 
           <IconButton
-            icon={Globe}
+            icon={Languages}
             label={lang.value === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             onClick={handleLangChange}
             size="sm"
@@ -110,7 +110,7 @@ export default function Nav({ lang: initialLang }: Props) {
 
         <div class="md:hidden flex items-center gap-2">
           <IconButton
-            icon={Globe}
+            icon={Languages}
             label={lang.value === 'es' ? 'Switch to English' : 'Cambiar a Español'}
             onClick={handleLangChange}
             size="sm"
@@ -140,20 +140,20 @@ export default function Nav({ lang: initialLang }: Props) {
           >
             <div class="flex flex-col p-4 gap-2 mobile-menu-safe">
               <a href="/" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
-                <HomeIcon size={18} aria-hidden="true" />
+                <House size={18} aria-hidden="true" />
                 {t('NAV.HOME')}
               </a>
               <a href="/player" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
-                <Music size={18} aria-hidden="true" />
+                <Headphones size={18} aria-hidden="true" />
                 {t('NAV.PLAYER')}
               </a>
               <a href="/search" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
-                <Search size={18} aria-hidden="true" />
+                <SearchCheck size={18} aria-hidden="true" />
                 {t('NAV.SEARCH')}
               </a>
               {isAuthenticated.value && (
                 <a href="/favorites" class="btn-ghost justify-start text-[var(--color-text-primary)]" onClick={() => setMenuOpen(false)} role="menuitem">
-                  <Heart size={18} aria-hidden="true" />
+                  <HeartPulse size={18} aria-hidden="true" />
                   {t('NAV.FAVORITES')}
                 </a>
               )}

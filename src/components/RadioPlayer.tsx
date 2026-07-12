@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'preact/hooks'
-import { Heart } from 'lucide-preact'
+import { HeartPulse } from 'lucide-preact'
 import { fetchStations } from '../lib/api'
 import { useAudio } from '../lib/useAudio'
 import { useFavoritesStore } from '../stores/favorites'
@@ -83,7 +83,7 @@ export default function RadioPlayer() {
         <div class="flex items-center gap-2">
           <Filter onChange={loadStations} />
           <IconButton
-            icon={Heart}
+            icon={HeartPulse}
             label={showFavorites ? t('PLAYER.SHOW_ALL') : t('PLAYER.SHOW_FAV')}
             onClick={toggleFavFilter}
             pressed={showFavorites}

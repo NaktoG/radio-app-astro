@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from 'preact/hooks'
-import { Search as SearchIcon, X } from 'lucide-preact'
+import { SearchCheck, X } from 'lucide-preact'
 import { searchStations } from '../lib/api'
 import { Input, Select, Button } from '../ui'
 import { COUNTRY_OPTIONS } from '../lib/countries'
@@ -67,7 +67,7 @@ export default function SearchForm({ onResults }: Props) {
               placeholder={t('SEARCH.SEARCH_PLACEHOLDER')}
               class="!pl-10"
             />
-            <SearchIcon
+            <SearchCheck
               size={18}
               class="absolute left-3 bottom-3.5 text-[var(--color-text-muted)] pointer-events-none"
               aria-hidden="true"
@@ -96,7 +96,7 @@ export default function SearchForm({ onResults }: Props) {
       </div>
       <div class="flex gap-3">
         <Button type="submit" loading={loading}>
-          {!loading && <SearchIcon size={18} aria-hidden="true" />}
+          {!loading && <SearchCheck size={18} aria-hidden="true" />}
           {loading ? t('SEARCH.BTN_SEARCHING') : t('SEARCH.BTN_SEARCH')}
         </Button>
         <Button type="button" variant="secondary" onClick={handleClear}>

@@ -1,5 +1,5 @@
 import { useState } from 'preact/hooks'
-import { Search as SearchIcon, Music } from 'lucide-preact'
+import { SearchCheck, Headphones } from 'lucide-preact'
 import SearchForm from './SearchForm'
 import AudioPlayer from './AudioPlayer'
 import StationList from './StationList'
@@ -48,7 +48,7 @@ export default function SearchContainer() {
 
       {results.length === 0 && query && (
         <EmptyState
-          icon={SearchIcon}
+          icon={SearchCheck}
           title={t('SEARCH.NO_RESULTS')}
           description={t('SEARCH.NO_RESULTS_DESC')}
         />
@@ -56,7 +56,7 @@ export default function SearchContainer() {
 
       {results.length === 0 && !query && (
         <EmptyState
-          icon={Music}
+          icon={Headphones}
           title={t('SEARCH.EMPTY_TITLE')}
           description={t('SEARCH.EMPTY_DESC')}
         />

@@ -1,4 +1,4 @@
-import { Play, Pause, SkipForward, VolumeX, Volume1, Volume2, Radio as RadioIcon } from 'lucide-preact'
+import { CirclePlay, CirclePause, StepForward, VolumeX, Volume1, Volume2, AudioWaveform } from 'lucide-preact'
 import { useI18n } from '../i18n/client'
 import {
   usePlayerStore,
@@ -42,8 +42,8 @@ export default function AudioPlayer({ onNext, controls }: Props) {
   if (!station) {
     return (
       <div class="card flex flex-col items-center justify-center py-16 text-center animate-scale-in">
-        <div class="w-20 h-20 rounded-full bg-[var(--color-accent-soft)] flex items-center justify-center mb-5">
-          <RadioIcon size={36} class="text-[var(--color-accent)]" aria-hidden="true" />
+        <div class="icon-orb mx-auto mb-5 !w-20 !h-20 !rounded-full">
+          <AudioWaveform size={36} strokeWidth={1.9} aria-hidden="true" />
         </div>
         <p class="text-[var(--color-text-muted)] text-lg">{t('PLAYER.SELECT_STATION')}</p>
       </div>
@@ -139,9 +139,9 @@ export default function AudioPlayer({ onNext, controls }: Props) {
           {isLoading.value ? (
             <Spinner size="sm" />
           ) : isPlaying.value ? (
-            <Pause size={28} fill="currentColor" />
+            <CirclePause size={32} strokeWidth={2.2} />
           ) : (
-            <Play size={28} fill="currentColor" class="ml-1" />
+            <CirclePlay size={32} strokeWidth={2.2} />
           )}
         </button>
 
@@ -151,7 +151,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
             class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full glass text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[color-mix(in_oklab,white_10%,transparent)] transition-all active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
             aria-label={t('PLAYER.NEXT')}
           >
-            <SkipForward size={22} />
+            <StepForward size={22} />
           </button>
         )}
       </div>
