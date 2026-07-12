@@ -23,7 +23,7 @@ export default function WaveBackground() {
           />
         </svg>
       </div>
-      <div class={`wave-layer ${isPlaying.value ? '' : 'slow'}`}>
+      <div class={`wave-layer ${isPlaying.value ? '' : 'paused'}`}>
         <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <path
             d="M0 500 C 200 650, 400 450, 600 600 C 800 750, 1000 400, 1200 550 C 1320 650, 1400 450, 1440 550 L 1440 900 L 0 900 Z"
@@ -40,9 +40,9 @@ export default function WaveBackground() {
             <stop offset="100%" stop-color="var(--color-accent)" />
           </linearGradient>
           <linearGradient id="wave-grad-2" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="oklch(68% 0.22 350)" />
-            <stop offset="50%" stop-color="oklch(68% 0.24 300)" />
-            <stop offset="100%" stop-color="oklch(65% 0.2 280)" />
+            <stop offset="0%" stop-color="#7dcfff" />
+            <stop offset="50%" stop-color="#7aa2f7" />
+            <stop offset="100%" stop-color="#89b4fa" />
           </linearGradient>
           <linearGradient id="wave-grad-3" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stop-color="var(--color-pink)" />

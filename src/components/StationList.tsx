@@ -40,7 +40,7 @@ export default function StationList({
 
   return (
 <ul
-  class="space-y-2 max-h-[40dvh] md:max-h-[60dvh] overflow-y-auto pr-2 scrollable-touch"
+  class="space-y-2 max-h-[34dvh] sm:max-h-[40dvh] md:max-h-[60dvh] overflow-y-auto pr-1 sm:pr-2 scrollable-touch"
   role="listbox"
   aria-label={t('PLAYER.STATIONS_LIST')}
 >
@@ -50,7 +50,7 @@ export default function StationList({
         return (
           <li
             key={station.stationuuid || i}
-            class={`animate-stagger rounded-lg transition-all duration-200 flex items-center gap-3 p-3 ${
+            class={`animate-stagger rounded-lg transition-all duration-200 flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 ${
               isSelected
                 ? 'bg-[var(--color-accent-soft)] border border-[var(--color-accent)]'
                 : 'glass hover:border-[var(--color-border-strong)]'
@@ -70,7 +70,7 @@ export default function StationList({
                 class="w-10 h-10 rounded-lg object-cover bg-[var(--color-bg-elevated)] flex-shrink-0"
               />
               <div class="min-w-0 flex-1">
-                <p class="font-medium truncate text-[var(--color-text-primary)]">{station.name}</p>
+                <p class="font-medium text-sm sm:text-base truncate text-[var(--color-text-primary)]">{station.name}</p>
                 <p class="text-xs text-[var(--color-text-muted)] truncate">
                   {station.country} · {station.tags} · {station.codec} {station.bitrate}kbps
                 </p>

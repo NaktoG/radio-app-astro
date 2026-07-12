@@ -75,8 +75,8 @@ export default function RadioPlayer() {
   }
 
   return (
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="space-y-4">
+    <div class="grid items-start gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+      <div class="order-2 lg:order-1 space-y-4">
         <div class="flex items-center gap-2">
           <Filter onChange={loadStations} />
           <IconButton
@@ -85,6 +85,7 @@ export default function RadioPlayer() {
             onClick={toggleFavFilter}
             pressed={showFavorites}
             size="md"
+            class="self-start sm:self-auto"
           />
         </div>
         <StationList
@@ -99,7 +100,7 @@ export default function RadioPlayer() {
           </p>
         )}
       </div>
-      <div>
+      <div class="order-1 lg:order-2 lg:sticky lg:top-24">
         <AudioPlayer
           onNext={goNext}
           controls={audio}

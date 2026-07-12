@@ -54,13 +54,23 @@ export default function AudioPlayer({ onNext, controls }: Props) {
   const containerClass = isPlaying.value && !hasError.value ? 'card-glow' : 'card'
 
   return (
-    <div class={`${containerClass} animate-scale-in`}>
+    <div class={`${containerClass} animate-scale-in relative overflow-hidden`}>
+      <div
+        class="pointer-events-none absolute -top-20 -right-16 h-56 w-56 rounded-full opacity-40 blur-3xl"
+        style="background: radial-gradient(circle, color-mix(in oklab, var(--color-accent) 65%, transparent) 0%, transparent 70%)"
+        aria-hidden="true"
+      />
+      <div
+        class="pointer-events-none absolute -bottom-24 -left-16 h-56 w-56 rounded-full opacity-30 blur-3xl"
+        style="background: radial-gradient(circle, color-mix(in oklab, var(--color-pink) 60%, transparent) 0%, transparent 72%)"
+        aria-hidden="true"
+      />
       <div class="flex flex-col items-center text-center mb-6">
         <div class="relative mb-5">
           <Image
             src={station.favicon ? `/api/image-proxy?url=${encodeURIComponent(station.favicon)}` : undefined}
             alt={`Logo de ${station.name}`}
-            class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-[var(--color-bg-elevated)] shadow-lg"
+            class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-[var(--color-bg-elevated)] shadow-[0_12px_34px_rgb(0_0_0_/_0.45)]"
           />
           {isPlaying.value && !hasError.value && (
             <div class="absolute -inset-2 rounded-3xl border border-[var(--color-accent-soft)] opacity-50 animate-spin-slow pointer-events-none" />
@@ -79,7 +89,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
           )}
         </div>
 
-        <h2 class="text-xl sm:text-2xl font-bold truncate max-w-full text-[var(--color-text-primary)]">
+        <h2 class="text-fluid-xl font-bold truncate max-w-full text-[var(--color-text-primary)]">
           {station.name}
         </h2>
         <p class="text-sm text-[var(--color-text-muted)] truncate max-w-full mt-1">
@@ -87,7 +97,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
         </p>
       </div>
 
-      <div class="flex items-end justify-center gap-1.5 h-16 mb-6" aria-hidden="true">
+      <div class="flex items-end justify-center gap-1.5 h-14 sm:h-16 mb-6" aria-hidden="true">
         {Array.from({ length: WAVE_COUNT }, (_, i) => (
           <span
             key={i}
@@ -110,7 +120,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
         ))}
       </div>
 
-      <div class="flex items-center justify-center gap-4 mb-5">
+      <div class="flex items-center justify-center gap-3 sm:gap-4 mb-5">
         <button
           onClick={controls.togglePlay}
           disabled={isLoading.value}
@@ -146,7 +156,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
         )}
       </div>
 
-      <div class="flex items-center gap-3 px-2">
+      <div class="flex items-center gap-2.5 sm:gap-3 px-1 sm:px-2">
         <IconButton
           icon={VolumeIcon}
           label={muted.value ? 'Activar sonido' : 'Silenciar'}

@@ -55,6 +55,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', '.astro/', 'e2e/'],
+    ignores: ['dist/', 'node_modules/', '.astro/', '.netlify/', 'e2e/'],
   },
 ]
