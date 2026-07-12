@@ -24,7 +24,14 @@ const skipLinkText = lang === 'en' ? 'Skip to content' : 'Saltar al contenido'
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={lang === 'en' ? 'Listen to radio from around the world - Thousands of live stations' : 'Escucha radio de todo el mundo - Miles de estaciones en vivo'} />
     <meta name="theme-color" content="#1a1b26" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content={dict.NAV.APP_NAME} />
+    <meta name="application-name" content={dict.NAV.APP_NAME} />
+    <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa-icon.svg" />
     <link rel="preconnect" href="https://de1.api.radio-browser.info" crossorigin />
     <link rel="dns-prefetch" href="https://de1.api.radio-browser.info" />
     <title>{pageTitle}</title>
@@ -51,5 +58,12 @@ const skipLinkText = lang === 'en' ? 'Skip to content' : 'Saltar al contenido'
         </div>
       </div>
     </footer>
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {})
+        })
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,44 @@
+{
+  "name": "Radio App",
+  "short_name": "Radio App",
+  "description": "Escucha estaciones de radio en vivo de todo el mundo.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1b26",
+  "theme_color": "#1a1b26",
+  "categories": ["music", "entertainment", "news"],
+  "lang": "es",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Reproductor",
+      "short_name": "Player",
+      "description": "Abrir el reproductor de radio",
+      "url": "/player",
+      "icons": [{ "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Buscar radios",
+      "short_name": "Buscar",
+      "description": "Buscar estaciones de radio",
+      "url": "/search",
+      "icons": [{ "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}

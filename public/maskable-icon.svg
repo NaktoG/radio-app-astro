@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Radio App">
+  <rect width="512" height="512" fill="#1a1b26"/>
+  <circle cx="256" cy="256" r="176" fill="#24283b"/>
+  <circle cx="256" cy="256" r="62" fill="none" stroke="#7aa2f7" stroke-width="26"/>
+  <circle cx="256" cy="256" r="16" fill="#c0caf5"/>
+  <path d="M184 330c-46-52-46-96 0-148M328 182c46 52 46 96 0 148" fill="none" stroke="#89b4fa" stroke-width="25" stroke-linecap="round"/>
+  <path d="M132 376c-80-89-80-151 0-240M380 136c80 89 80 151 0 240" fill="none" stroke="#7dcfff" stroke-width="24" stroke-linecap="round"/>
+  <path d="M256 324v72M216 396h80" fill="none" stroke="#c0caf5" stroke-width="24" stroke-linecap="round"/>
+</svg>
