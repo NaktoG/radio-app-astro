@@ -78,9 +78,9 @@ export default function RadioPlayer() {
   }
 
   return (
-    <div class="grid items-start gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
+    <div class="grid items-start gap-4 sm:gap-5 lg:gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,420px)]">
       <div class="order-2 lg:order-1 space-y-4">
-        <div class="flex items-center gap-2">
+        <div class="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-3">
           <Filter onChange={loadStations} />
           <IconButton
             icon={HeartPulse}
@@ -88,7 +88,7 @@ export default function RadioPlayer() {
             onClick={toggleFavFilter}
             pressed={showFavorites}
             size="md"
-            class="self-start sm:self-auto"
+            class="self-end sm:self-auto shrink-0"
           />
         </div>
         {!loadError && (

@@ -398,9 +398,27 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 .text-fluid-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
 .text-fluid-base { font-size: clamp(1rem, 3vw, 1.125rem); }
 .text-fluid-lg { font-size: clamp(1.125rem, 4vw, 1.25rem); }
-.text-fluid-xl { font-size: clamp(1.5rem, 5vw, 2rem); }
-.text-fluid-2xl { font-size: clamp(2rem, 6vw, 3rem); }
-.text-fluid-3xl { font-size: clamp(2.5rem, 8vw, 4.5rem); }
+.text-fluid-xl { font-size: clamp(1.35rem, 5vw, 2rem); }
+.text-fluid-2xl { font-size: clamp(1.8rem, 6vw, 3rem); }
+.text-fluid-3xl { font-size: clamp(2.25rem, 10vw, 4.5rem); }
+
+@media (width < 40rem) {
+  .card,
+  .card-glow {
+    border-radius: var(--radius-lg);
+  }
+
+  .icon-orb {
+    width: 3rem;
+    height: 3rem;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 10px 24px rgb(0 0 0 / 0.28), 0 0 18px color-mix(in oklab, var(--color-accent) 16%, transparent);
+  }
+
+  .wave-bg {
+    opacity: 0.32;
+  }
+}
 
 /* Smooth scrollbar for Firefox */
 * {

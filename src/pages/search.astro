@@ -9,8 +9,8 @@ const dict = lang === 'en' ? en : es
 ---
 
 <BaseLayout title={dict.SEARCH.TITLE}>
-  <section class="max-w-4xl mx-auto px-4 py-24">
-    <h1 class="text-fluid-2xl font-bold mb-6 sm:mb-8 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">
+  <section class="max-w-4xl mx-auto px-3 sm:px-4 py-12 sm:py-24">
+    <h1 class="text-fluid-xl sm:text-fluid-2xl font-bold mb-4 sm:mb-8 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">
       {dict.SEARCH.TITLE}
     </h1>
     <SearchContainer client:load />
