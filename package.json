@@ -16,8 +16,8 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
-    "@astrojs/netlify": "^8.1.1",
     "@astrojs/preact": "^4.0.0",
+    "@astrojs/vercel": "^11.0.3",
     "@fontsource/space-grotesk": "^5.1.0",
     "@preact/signals": "^2.0.0",
     "@tailwindcss/vite": "^4.0.0",

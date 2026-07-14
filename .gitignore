@@ -4,7 +4,7 @@
 # Build output
 /dist
 /.astro
-/.netlify
+/.vercel
 
 # Environment
 .env
@@ -32,3 +32,4 @@ yarn-error.log*
 
 # Docker
 docker-compose.override.yml
+.vercel
