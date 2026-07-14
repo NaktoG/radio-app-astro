@@ -11,7 +11,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/PLACEHOLDER/deploy-status)](https://app.netlify.com/sites/radio-app/deploys)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://radio-app-astro.vercel.app)
 
 </div>
 
@@ -43,7 +43,7 @@ Las estaciones se obtienen de la API pública de [Radio Browser](https://www.rad
 
 ## Demo
 
-> 🔗 **[Demo en vivo](https://radio-app.example.com)** *(próximamente)*
+**Producción (Vercel):** [radio-app-astro.vercel.app](https://radio-app-astro.vercel.app)
 
 ## Stack tecnológico
 
@@ -126,7 +126,7 @@ El service worker cachea navegación y assets estáticos. No cachea `/api/`, pro
 
 ### Instalación en móvil
 
-- iPhone/Safari: abrir la URL de Netlify → Compartir → **Agregar a pantalla de inicio**.
+- iPhone/Safari: abrir la URL de Vercel → Compartir → **Agregar a pantalla de inicio**.
 - Android/Chrome: abrir la URL → menú del navegador → **Instalar app**.
 
 ## Autenticación local
@@ -285,31 +285,30 @@ docker run -p 4321:4321 radio-app:prod
 - **build**: `npm ci` + `astro build` optimizado
 - **prod**: Usuario non-root, healthcheck habilitado, solo archivos de producción
 
-## Deploy en Netlify
+## Deploy en Vercel
 
-### Requisitos
+### Configuración
 
-- Repositorio en GitHub
-- Cuenta en [Netlify](https://www.netlify.com/)
+| Campo | Valor |
+|---|---|
+| Framework | Astro |
+| Root Directory | `./` |
+| Install Command | `npm ci` |
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Node.js | 22 |
 
 ### Pasos
 
-1. Ir a [app.netlify.com](https://app.netlify.com/) → **Add new site** → **Import an existing project**
+1. Ir a [vercel.com](https://vercel.com/) → **Add New** → **Project**
 2. Conectar con GitHub y seleccionar `NaktoG/radio-app-astro`
-3. En **Build settings**, Netlify detecta automáticamente:
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-4. En **Advanced** → **Environment variables**, agregar:
-   - `NODE_VERSION = 22`
-5. Click en **Deploy**
+3. Vercel detecta automáticamente Astro y configura el build
+4. Click en **Deploy**
 
 ### Verificar deploy
 
-- Visitar `https://<nombre-app>.netlify.app`
-- El build tarda ~2 minutos en primera ejecución
+- Visitar `https://radio-app-astro.vercel.app`
 - Los endpoints API y el proxy de imágenes funcionan out-of-the-box
-
-> ⚠️ **Nota**: Si migraste desde `@astrojs/node`, asegúrate de que tu `astro.config.mjs` use `@astrojs/netlify`. Este proyecto ya está configurado correctamente.
 
 ## Contribución
 
