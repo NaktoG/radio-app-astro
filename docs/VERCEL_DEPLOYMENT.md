@@ -25,6 +25,8 @@
 | Gestor de paquetes | npm |
 | Adapter | `@astrojs/vercel` |
 
+`vercel.json` define headers de seguridad básicos y redirección de `/favicon.ico` a `/favicon.svg`.
+
 ## URL de Producción
 
 ```txt
