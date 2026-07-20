@@ -11,7 +11,6 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/PLACEHOLDER/deploy-status)](https://app.netlify.com/sites/radio-app/deploys)
 
 </div>
 
@@ -126,19 +125,23 @@ El service worker cachea navegación y assets estáticos. No cachea `/api/`, pro
 
 ### Instalación en móvil
 
-- iPhone/Safari: abrir la URL de Netlify → Compartir → **Agregar a pantalla de inicio**.
+- iPhone/Safari: abrir la URL publicada → Compartir → **Agregar a pantalla de inicio**.
 - Android/Chrome: abrir la URL → menú del navegador → **Instalar app**.
 
 ## Autenticación local
 
-La autenticación actual es client-side y demostrativa. El usuario registrado queda guardado en `localStorage` del navegador, junto con el hash de contraseña. Cerrar sesión elimina solo el token de sesión, no la cuenta local, por lo que el usuario puede volver a iniciar sesión sin registrarse nuevamente.
+La autenticación productiva usa endpoints server-side de Astro, cookies `HttpOnly` y Supabase PostgreSQL en el plan gratuito.
 
-Limitaciones conocidas:
+### Configuración Supabase
 
-- No es autenticación productiva segura.
-- Los datos existen solo en el navegador/dispositivo donde se registró el usuario.
-- Si el usuario limpia datos del sitio, usa otro navegador o cambia de dispositivo, deberá registrarse nuevamente.
-- Para producción real, mover autenticación a backend con base de datos y sesiones server-side.
+1. Crear un proyecto gratis en Supabase.
+2. Abrir **SQL Editor** y ejecutar `docs/supabase-setup.sql`.
+3. En **Project Settings → API**, copiar:
+   - `Project URL` → `SUPABASE_URL`
+   - `service_role secret` → `SUPABASE_SERVICE_ROLE_KEY`
+4. Agregar esas variables en `.env.local` para desarrollo y en Vercel como Environment Variables.
+
+> `SUPABASE_SERVICE_ROLE_KEY` es secreta. No debe exponerse en el cliente ni subirse al repositorio.
 
 ## Estructura del proyecto
 
@@ -285,31 +288,38 @@ docker run -p 4321:4321 radio-app:prod
 - **build**: `npm ci` + `astro build` optimizado
 - **prod**: Usuario non-root, healthcheck habilitado, solo archivos de producción
 
-## Deploy en Netlify
+## Deploy en Vercel
 
-### Requisitos
+Este proyecto está configurado para Vercel con `@astrojs/vercel`, `output: 'server'` y Node 22.
 
-- Repositorio en GitHub
-- Cuenta en [Netlify](https://www.netlify.com/)
+### Variables obligatorias
 
-### Pasos
+En **Vercel → Project Settings → Environment Variables**, agregar para Production, Preview y Development:
 
-1. Ir a [app.netlify.com](https://app.netlify.com/) → **Add new site** → **Import an existing project**
-2. Conectar con GitHub y seleccionar `NaktoG/radio-app-astro`
-3. En **Build settings**, Netlify detecta automáticamente:
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-4. En **Advanced** → **Environment variables**, agregar:
-   - `NODE_VERSION = 22`
-5. Click en **Deploy**
+| Variable | Valor |
+|---|---|
+| `SUPABASE_URL` | Project URL de Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | `service_role secret` de Supabase |
+
+### Build settings
+
+| Campo | Valor |
+|---|---|
+| Framework Preset | Astro |
+| Build Command | `npm run build` |
+| Output Directory | dejar vacío / automático |
+| Install Command | `npm install` |
+| Node.js Version | `22.x` |
+
+Antes del deploy, ejecutar en Supabase el SQL de `docs/supabase-setup.sql`.
+
+> La key `SUPABASE_SERVICE_ROLE_KEY` solo se usa server-side en endpoints y middleware. No existe código cliente que la exponga.
 
 ### Verificar deploy
 
-- Visitar `https://<nombre-app>.netlify.app`
+- Visitar la URL publicada por Vercel.
 - El build tarda ~2 minutos en primera ejecución
 - Los endpoints API y el proxy de imágenes funcionan out-of-the-box
-
-> ⚠️ **Nota**: Si migraste desde `@astrojs/node`, asegúrate de que tu `astro.config.mjs` use `@astrojs/netlify`. Este proyecto ya está configurado correctamente.
 
 ## Contribución
 

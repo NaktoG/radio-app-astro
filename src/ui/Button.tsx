@@ -3,7 +3,7 @@ import type { JSX } from 'preact'
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
-interface Props extends JSX.HTMLAttributes<HTMLButtonElement> {
+interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant
   size?: Size
   loading?: boolean

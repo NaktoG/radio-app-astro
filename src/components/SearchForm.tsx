@@ -16,7 +16,7 @@ export default function SearchForm({ onResults }: Props) {
   const [country, setCountry] = useState('')
   const [tag, setTag] = useState('')
   const [loading, setLoading] = useState(false)
-  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const doSearch = useCallback(
     async (q: string, c: string, tg: string) => {

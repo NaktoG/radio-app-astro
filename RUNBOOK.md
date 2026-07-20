@@ -4,11 +4,11 @@ Guía operativa mínima para mantener Radio App en desarrollo y producción.
 
 ## Producción
 
-- Hosting: Netlify
+- Hosting: Vercel
 - Rama de deploy: `main`
 - Build command: `npm run build`
 - Publish directory: `dist`
-- Node: `22` configurado en `netlify.toml`
+- Node: `22.x` configurado en `package.json`
 
 ## Deploy
 
@@ -20,7 +20,7 @@ npx -y node@22 node_modules/astro/bin/astro.mjs build
 ```
 
 3. Commit y push a `main`.
-4. Netlify dispara el deploy automáticamente.
+4. Vercel dispara el deploy automáticamente.
 
 ## Health Checks Manuales
 
@@ -42,7 +42,7 @@ Acciones:
 1. Verificar consola para `/api/stations`.
 2. Probar otro país/límite.
 3. Confirmar que Radio Browser esté disponible.
-4. Revisar logs de Netlify Functions si falla el proxy.
+4. Revisar logs de Vercel Functions si falla el proxy.
 
 ### El menú móvil no aparece
 
@@ -63,17 +63,17 @@ Acciones:
 2. En Safari, eliminar la app de pantalla de inicio y reinstalar.
 3. En Chrome DevTools, Application → Service Workers → unregister.
 
-## Autenticación Local
+## Autenticación
 
-La auth es client-side/demostrativa. Cerrar sesión solo elimina el token; la cuenta local queda guardada en el navegador. Si se borran datos del sitio o se usa otro dispositivo, la cuenta local no existirá.
+La auth usa endpoints server-side, cookies `HttpOnly` y Supabase PostgreSQL. Verificar que `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` estén configuradas en Vercel.
 
 ## Rollback
 
-Desde Netlify:
+Desde Vercel:
 
-1. Ir a Deploys.
+1. Ir a Deployments.
 2. Seleccionar un deploy estable anterior.
-3. Usar **Publish deploy**.
+3. Usar **Promote to Production**.
 
 Desde Git:
 

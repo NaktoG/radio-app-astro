@@ -29,8 +29,8 @@ export default function Nav({ lang: initialLang }: Props) {
     window.location.reload()
   }
 
-  function handleLogout() {
-    doLogout()
+  async function handleLogout() {
+    await doLogout()
     window.location.href = '/'
   }
 

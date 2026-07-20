@@ -39,7 +39,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
     }
   }
 
-  if (!station) {
+  if (!station.value) {
     return (
       <div class="card flex items-center gap-3 py-4 sm:flex-col sm:justify-center sm:py-16 sm:text-center animate-scale-in">
         <div class="icon-orb shrink-0 !w-12 !h-12 !rounded-xl sm:mx-auto sm:mb-5 sm:!w-20 sm:!h-20 sm:!rounded-full">
@@ -52,6 +52,7 @@ export default function AudioPlayer({ onNext, controls }: Props) {
 
   const VolumeIcon = muted.value || volume.value === 0 ? VolumeX : volume.value < 0.4 ? Volume1 : Volume2
   const containerClass = isPlaying.value && !hasError.value ? 'card-glow' : 'card'
+  const currentStation = station.value
 
   return (
     <div class={`${containerClass} animate-scale-in relative overflow-hidden`}>
@@ -68,8 +69,8 @@ export default function AudioPlayer({ onNext, controls }: Props) {
       <div class="flex items-center gap-3 text-left sm:flex-col sm:text-center mb-4 sm:mb-6">
         <div class="relative shrink-0 sm:mb-5">
           <Image
-            src={station.favicon ? `/api/image-proxy?url=${encodeURIComponent(station.favicon)}` : undefined}
-            alt={`Logo de ${station.name}`}
+            src={currentStation.favicon ? `/api/image-proxy?url=${encodeURIComponent(currentStation.favicon)}` : undefined}
+            alt={`Logo de ${currentStation.name}`}
             class="w-14 h-14 sm:w-40 sm:h-40 rounded-xl sm:rounded-2xl object-cover bg-[var(--color-bg-elevated)] shadow-[0_12px_34px_rgb(0_0_0_/_0.45)]"
           />
           {isPlaying.value && !hasError.value && (
@@ -91,10 +92,10 @@ export default function AudioPlayer({ onNext, controls }: Props) {
           </div>
 
           <h2 class="text-base sm:text-fluid-xl font-bold truncate max-w-full text-[var(--color-text-primary)]">
-            {station.name}
+            {currentStation.name}
           </h2>
           <p class="text-xs sm:text-sm text-[var(--color-text-muted)] truncate max-w-full mt-0.5 sm:mt-1">
-            {station.tags} · {station.codec} {station.bitrate}kbps
+            {currentStation.tags} · {currentStation.codec} {currentStation.bitrate}kbps
           </p>
         </div>
       </div>

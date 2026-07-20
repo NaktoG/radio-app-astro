@@ -5,6 +5,7 @@ import astro from 'eslint-plugin-astro'
 
 export default [
   js.configs.recommended,
+  ...astro.configs.recommended,
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -35,6 +36,11 @@ export default [
         Event: 'readonly',
         FormData: 'readonly',
         navigator: 'readonly',
+        Response: 'readonly',
+        URLSearchParams: 'readonly',
+        HTMLAudioElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        Audio: 'readonly',
       },
     },
     plugins: {
@@ -45,16 +51,29 @@ export default [
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
       'no-empty': ['error', { allowEmptyCatch: true }],
+      'no-undef': 'off',
     },
   },
   {
-    files: ['**/*.astro'],
-    plugins: { astro },
-    rules: {
-      ...astro.configs.recommended.rules,
+    files: ['*.config.{js,mjs,ts}', 'playwright.config.ts'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+      },
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', '.astro/', '.netlify/', 'e2e/'],
+    files: ['public/sw.js'],
+    languageOptions: {
+      globals: {
+        self: 'readonly',
+        caches: 'readonly',
+        fetch: 'readonly',
+        URL: 'readonly',
+      },
+    },
+  },
+  {
+    ignores: ['dist/', 'node_modules/', '.astro/', '.vercel/', 'e2e/'],
   },
 ]
