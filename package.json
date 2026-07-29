@@ -16,7 +16,8 @@
     "test:e2e": "playwright test",
     "lint": "eslint . --ext .ts,.tsx,.astro",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "format:check:ci": "prettier --check .github/workflows/ci.yml package.json .prettierrc"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.0",
