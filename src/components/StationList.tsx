@@ -1,8 +1,9 @@
 import { HeartPulse, RadioTower } from 'lucide-preact'
+import { useEffect } from 'preact/hooks'
 import type { Radio } from '../lib/types'
 import { Image, Spinner, EmptyState, IconButton } from '../ui'
 import { useI18n } from '../i18n/client'
-import { useFavoritesStore, toggleFavorite } from '../stores/favorites'
+import { useFavoritesStore, syncFavorites, toggleFavorite } from '../stores/favorites'
 
 interface Props {
   stations: Radio[]
@@ -19,6 +20,10 @@ export default function StationList({
 }: Props) {
   const { t } = useI18n()
   const { favorites } = useFavoritesStore()
+
+  useEffect(() => {
+    syncFavorites()
+  }, [])
 
   if (loading) {
     return (

@@ -1,6 +1,6 @@
 import type { JSX } from 'preact'
 
-interface Props extends JSX.HTMLAttributes<HTMLInputElement> {
+interface Props extends JSX.InputHTMLAttributes<HTMLInputElement> {
   label: string
   error?: string
   hint?: string

@@ -6,27 +6,27 @@ export default function WaveBackground() {
   return (
     <div class="wave-bg" aria-hidden="true">
       <div class={`wave-layer ${isPlaying.value ? '' : 'paused'}`}>
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <path
-            d="M0 600 C 240 500, 480 700, 720 550 C 960 400, 1200 650, 1440 500 L 1440 900 L 0 900 Z"
+            d="M0 66 C 17 56, 33 78, 50 61 C 67 44, 83 72, 100 56 L 100 100 L 0 100 Z"
             fill="url(#wave-grad-1)"
             opacity="0.15"
           />
         </svg>
       </div>
       <div class={`wave-layer ${isPlaying.value ? '' : 'paused'}`}>
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <path
-            d="M0 650 C 280 450, 560 750, 840 550 C 1120 350, 1320 700, 1440 500 L 1440 900 L 0 900 Z"
+            d="M0 72 C 19 50, 39 83, 58 61 C 78 39, 92 78, 100 56 L 100 100 L 0 100 Z"
             fill="url(#wave-grad-2)"
             opacity="0.12"
           />
         </svg>
       </div>
       <div class={`wave-layer ${isPlaying.value ? '' : 'paused'}`}>
-        <svg viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
           <path
-            d="M0 500 C 200 650, 400 450, 600 600 C 800 750, 1000 400, 1200 550 C 1320 650, 1400 450, 1440 550 L 1440 900 L 0 900 Z"
+            d="M0 56 C 14 72, 28 50, 42 67 C 56 83, 69 44, 83 61 C 92 72, 97 50, 100 61 L 100 100 L 0 100 Z"
             fill="url(#wave-grad-3)"
             opacity="0.08"
           />

@@ -27,8 +27,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Agent/task-local artifacts
+.atl/
+
 # Testing
 /coverage
+/test-results
+/playwright-report
 
 # Docker
 docker-compose.override.yml

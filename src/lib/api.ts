@@ -95,7 +95,7 @@ export async function fetchStations(filters: Partial<StationFilter> = {}): Promi
 }
 
 export async function searchStations(query: string, country?: string, tag?: string): Promise<Radio[]> {
-  const params: StationFilter = { limit: 50, order: 'votes', reverse: true }
+  const params: Record<string, unknown> = { limit: 50, order: 'votes', reverse: true }
   if (query) params.name = query
   if (country) params.countrycode = country
   if (tag) params.tag = tag

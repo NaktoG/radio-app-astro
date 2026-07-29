@@ -6,11 +6,11 @@ Radio App — Streaming de radio mundial
 
 ## Framework
 
-Astro 7 con Preact 10 como UI framework, Tailwind CSS v4, TypeScript.
+Astro 7 con Preact 10 como UI framework, Tailwind CSS 4, TypeScript, middleware SSR y endpoints API de Astro.
 
 ## Versión de Node.js
 
-El proyecto declara Node.js `22` en `.node-version` y `netlify.toml` (eliminado).
+El proyecto declara Node.js `22.x` en `package.json`. Vercel debe construir con Node 22 para ser compatible con Astro 7.
 
 ## Gestor de paquetes
 
@@ -28,31 +28,33 @@ npm ci
 npm run build
 ```
 
-El script ejecuta `astro build`.
-
 ## Carpeta de salida
 
-```txt
-dist/
-```
+Vercel detecta la salida generada por el adaptador `@astrojs/vercel`. No se debe configurar un output estático manual como `dist` para este proyecto SSR.
 
 ## Variables de entorno
 
-No se detectaron variables de entorno requeridas para build o runtime.
+Se requieren `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` para auth y favoritos persistentes.
 
 ## Servicios externos
 
-- Radio Browser API (pública, sin clave): `all.api.radio-browser.info`
-- Streaming de audio directo desde URLs de estaciones (HTTPS)
+- Radio Browser API para búsqueda/listado de estaciones.
+- Favicon/logo remoto de estaciones mediante image proxy.
+- Streams de audio externos reproducidos directamente por el navegador.
+- Supabase PostgreSQL para usuarios, sesiones y favoritos.
 
 ## APIs
 
-- `/api/stations.ts` — proxy server-side a Radio Browser API con caché en memoria
-- `/api/image-proxy.ts` — proxy de imágenes de estaciones con protección SSRF
+| Endpoint local     | Proveedor externo     | Función                              | Riesgo                              | Mitigación actual                                                 |
+| ------------------ | --------------------- | ------------------------------------ | ----------------------------------- | ----------------------------------------------------------------- |
+| `/api/stations`    | Radio Browser mirrors | Proxy controlado de búsqueda/listado | disponibilidad, timeout, rate limit | allowlist de paths, timeout, failover, límite `MAX_LIMIT`         |
+| `/api/image-proxy` | Favicons remotos      | Proxy de imágenes                    | SSRF, tamaño, content-type          | bloqueo hosts internos, límite 5MB, validación `image/*`, timeout |
+| `/api/auth/*`      | Supabase PostgreSQL   | Auth server-side                     | secretos, sesiones                  | cookie `HttpOnly`, service role solo server-side                  |
+| `/api/favorites`   | Supabase PostgreSQL   | Favoritos persistentes               | acceso no autorizado                | sesión validada server-side                                       |
 
 ## Base de datos
 
-No utiliza base de datos. Persistencia en `localStorage`.
+Usa Supabase PostgreSQL en plan gratuito para usuarios, sesiones y favoritos.
 
 ## Adaptadores actuales
 
@@ -69,10 +71,12 @@ No utiliza base de datos. Persistencia en `localStorage`.
 
 ## Riesgos
 
-- Cache en memoria de `/api/stations.ts` es menos efectivo en Vercel (cold starts más frecuentes).
-- Middleware de autenticación funciona pero es demostrativo (no producción).
-- Streaming de audio es directo browser→estación, sin proxy de servidor.
+- Las funciones serverless de Vercel no deben usarse para retransmitir audio; el audio debe seguir reproduciéndose desde las URLs externas.
+- La caché en memoria de `/api/stations` no debe considerarse persistente entre invocaciones serverless.
+- La disponibilidad de auth y favoritos depende del proyecto Supabase y sus límites del plan gratuito.
+- Los streams externos pueden fallar por mixed content, CORS, geobloqueo, MIME incorrecto o estaciones caídas.
+- `npm audit` reporta vulnerabilidades en dependencias actuales; revisar antes de producción pública crítica.
 
-## Decisión: compatible / compatible con cambios / no compatible
+## Decisión
 
-**Compatible con Vercel.** Requiere cambio de adaptador (Netlify → Vercel).
+Compatible con Vercel: requiere mantener SSR y usar el adaptador oficial `@astrojs/vercel`.

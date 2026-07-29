@@ -2,7 +2,7 @@ import { useState, useEffect } from 'preact/hooks'
 import { HeartPulse } from 'lucide-preact'
 import { fetchStationsByUuids } from '../lib/api'
 import { useAudio } from '../lib/useAudio'
-import { useFavoritesStore } from '../stores/favorites'
+import { syncFavorites, useFavoritesStore } from '../stores/favorites'
 import { setStation } from '../stores/player'
 import AudioPlayer from './AudioPlayer'
 import StationList from './StationList'
@@ -18,6 +18,10 @@ export default function FavoritesContainer() {
   const [loading, setLoading] = useState(true)
   const audio = useAudio()
   const uuids = [...favorites.value]
+
+  useEffect(() => {
+    syncFavorites()
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -42,8 +46,6 @@ export default function FavoritesContainer() {
 
     return () => { cancelled = true }
   }, [uuids.join(',')])
-
-  const currentStation = stations[currentIndex] || null
 
   function handleSelect(index: number) {
     setCurrentIndex(index)

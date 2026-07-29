@@ -1,11 +1,11 @@
-@import "tailwindcss";
-@import "@fontsource/space-grotesk/400.css";
-@import "@fontsource/space-grotesk/500.css";
-@import "@fontsource/space-grotesk/600.css";
-@import "@fontsource/space-grotesk/700.css";
+@import 'tailwindcss';
+@import '@fontsource/space-grotesk/400.css';
+@import '@fontsource/space-grotesk/500.css';
+@import '@fontsource/space-grotesk/600.css';
+@import '@fontsource/space-grotesk/700.css';
 
 @theme {
-  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
 
   --color-bg-base: #1a1b26;
   --color-bg-surface: #24283b;
@@ -73,13 +73,7 @@ body {
   width: 100%;
   max-width: 100%;
   min-height: 100dvh;
-  background: linear-gradient(
-    160deg,
-    #16161e 0%,
-    #1a1b26 35%,
-    #24283b 72%,
-    #1f2335 100%
-  );
+  background: linear-gradient(160deg, #16161e 0%, #1a1b26 35%, #24283b 72%, #1f2335 100%);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -125,6 +119,8 @@ body::before {
 }
 
 .wave-layer {
+  position: absolute;
+  inset: 0;
   animation: wave-move-1 20s ease-in-out infinite;
 }
 
@@ -180,11 +176,7 @@ body::before {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-image: linear-gradient(
-    to right,
-    var(--color-accent),
-    var(--color-pink)
-  );
+  background-image: linear-gradient(to right, var(--color-accent), var(--color-pink));
   color: white;
   font-weight: 600;
   border-radius: var(--radius-md);
@@ -192,11 +184,7 @@ body::before {
   min-height: 44px;
 
   &:hover {
-    background-image: linear-gradient(
-      to right,
-      var(--color-accent-hover),
-      var(--color-pink-hover)
-    );
+    background-image: linear-gradient(to right, var(--color-accent-hover), var(--color-pink-hover));
     box-shadow: var(--shadow-glow);
     transform: translateY(-2px);
   }
@@ -265,10 +253,20 @@ body::before {
   border-radius: var(--radius-2xl);
   color: var(--color-accent-hover);
   background:
-    radial-gradient(circle at 30% 20%, color-mix(in oklab, var(--color-pink) 45%, transparent), transparent 45%),
-    linear-gradient(145deg, color-mix(in oklab, var(--color-accent) 22%, transparent), color-mix(in oklab, var(--color-bg-elevated) 90%, transparent));
+    radial-gradient(
+      circle at 30% 20%,
+      color-mix(in oklab, var(--color-pink) 45%, transparent),
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--color-accent) 22%, transparent),
+      color-mix(in oklab, var(--color-bg-elevated) 90%, transparent)
+    );
   border: 1px solid color-mix(in oklab, var(--color-accent) 35%, transparent);
-  box-shadow: 0 14px 38px rgb(0 0 0 / 0.32), 0 0 28px color-mix(in oklab, var(--color-accent) 22%, transparent);
+  box-shadow:
+    0 14px 38px rgb(0 0 0 / 0.32),
+    0 0 28px color-mix(in oklab, var(--color-accent) 22%, transparent);
 }
 
 @utility icon-orb-sm {
@@ -299,7 +297,7 @@ body::before {
     box-shadow: 0 0 0 3px var(--color-accent-soft);
   }
 
-  &[aria-invalid="true"] {
+  &[aria-invalid='true'] {
     border-color: var(--color-danger);
     box-shadow: 0 0 0 3px var(--color-danger-soft);
   }
@@ -362,12 +360,17 @@ body::before {
 }
 
 /* Touch behavior for interactive elements */
-button, a, select, input, textarea, label {
+button,
+a,
+select,
+input,
+textarea,
+label {
   touch-action: manipulation;
 }
 
 /* Range slider custom styling */
-input[type="range"]::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
@@ -379,7 +382,7 @@ input[type="range"]::-webkit-slider-thumb {
   box-shadow: 0 0 12px color-mix(in oklab, var(--color-accent) 40%, transparent);
 }
 
-input[type="range"]::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -389,11 +392,13 @@ input[type="range"]::-moz-range-thumb {
   border: none;
 }
 
-input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 3px var(--color-accent-soft), 0 0 12px color-mix(in oklab, var(--color-accent) 40%, transparent);
+input[type='range']:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 3px var(--color-accent-soft),
+    0 0 12px color-mix(in oklab, var(--color-accent) 40%, transparent);
 }
 
-input[type="range"]:focus-visible::-moz-range-thumb {
+input[type='range']:focus-visible::-moz-range-thumb {
   box-shadow: 0 0 0 3px var(--color-accent-soft);
 }
 
@@ -428,7 +433,9 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   border-radius: var(--radius-2xl);
   background: color-mix(in oklab, var(--color-bg-surface) 96%, black 4%);
   border: 1px solid var(--color-border-strong);
-  box-shadow: 0 24px 80px rgb(0 0 0 / 0.62), 0 0 36px color-mix(in oklab, var(--color-accent) 18%, transparent);
+  box-shadow:
+    0 24px 80px rgb(0 0 0 / 0.62),
+    0 0 36px color-mix(in oklab, var(--color-accent) 18%, transparent);
 }
 
 .mobile-nav-item {
@@ -443,7 +450,9 @@ input[type="range"]:focus-visible::-moz-range-thumb {
   color: var(--color-text-primary);
   font-weight: 600;
   text-align: left;
-  transition: background-color var(--duration-fast) var(--ease-out), color var(--duration-fast) var(--ease-out);
+  transition:
+    background-color var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 
 .mobile-nav-item:hover,
@@ -461,13 +470,27 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 }
 
 /* Responsive fluid text utilities */
-.text-fluid-xs { font-size: clamp(0.75rem, 2vw, 0.875rem); }
-.text-fluid-sm { font-size: clamp(0.875rem, 2.5vw, 1rem); }
-.text-fluid-base { font-size: clamp(1rem, 3vw, 1.125rem); }
-.text-fluid-lg { font-size: clamp(1.125rem, 4vw, 1.25rem); }
-.text-fluid-xl { font-size: clamp(1.35rem, 5vw, 2rem); }
-.text-fluid-2xl { font-size: clamp(1.8rem, 6vw, 3rem); }
-.text-fluid-3xl { font-size: clamp(2.25rem, 10vw, 4.5rem); }
+.text-fluid-xs {
+  font-size: clamp(0.75rem, 2vw, 0.875rem);
+}
+.text-fluid-sm {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+}
+.text-fluid-base {
+  font-size: clamp(1rem, 3vw, 1.125rem);
+}
+.text-fluid-lg {
+  font-size: clamp(1.125rem, 4vw, 1.25rem);
+}
+.text-fluid-xl {
+  font-size: clamp(1.35rem, 5vw, 2rem);
+}
+.text-fluid-2xl {
+  font-size: clamp(1.8rem, 6vw, 3rem);
+}
+.text-fluid-3xl {
+  font-size: clamp(2.25rem, 10vw, 4.5rem);
+}
 
 @media (width < 40rem) {
   body {
@@ -498,9 +521,30 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     width: 3rem;
     height: 3rem;
     border-radius: var(--radius-xl);
-    box-shadow: 0 10px 24px rgb(0 0 0 / 0.28), 0 0 18px color-mix(in oklab, var(--color-accent) 16%, transparent);
+    box-shadow:
+      0 10px 24px rgb(0 0 0 / 0.28),
+      0 0 18px color-mix(in oklab, var(--color-accent) 16%, transparent);
+  }
+}
+
+@media (width < 64rem) {
+  .wave-bg {
+    inset: 0;
   }
 
+  .wave-bg .wave-layer,
+  .wave-bg .wave-layer:nth-child(2),
+  .wave-bg .wave-layer:nth-child(3) {
+    animation: none;
+    transform: none;
+  }
+
+  .wave-bg svg {
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 /* Smooth scrollbar for Firefox */

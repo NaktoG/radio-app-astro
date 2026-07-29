@@ -111,10 +111,7 @@ export default function RadioPlayer() {
         )}
       </div>
       <div class="order-2 min-w-0 lg:sticky lg:top-24">
-        <AudioPlayer
-          onNext={goNext}
-          controls={audio}
-        />
+        <AudioPlayer onNext={goNext} controls={audio} />
       </div>
     </div>
   )

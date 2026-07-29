@@ -1,6 +1,7 @@
 import { signal, computed } from '@preact/signals'
 
 const STORAGE_KEY = 'radio_favorites'
+let synced = false
 
 function loadFavorites(): Set<string> {
   try {
@@ -31,6 +32,7 @@ export function isFavorite(uuid: string): boolean {
 
 export function toggleFavorite(uuid: string) {
   const next = new Set(favorites.value)
+  const shouldAdd = !next.has(uuid)
   if (next.has(uuid)) {
     next.delete(uuid)
   } else {
@@ -38,8 +40,33 @@ export function toggleFavorite(uuid: string) {
   }
   favorites.value = next
   saveFavorites(next)
+
+  syncFavoriteChange(uuid, shouldAdd).catch(() => {})
+}
+
+async function syncFavoriteChange(uuid: string, shouldAdd: boolean) {
+  if (!synced) return
+  await fetch('/api/favorites', {
+    method: shouldAdd ? 'POST' : 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify({ stationUuid: uuid }),
+  })
+}
+
+export async function syncFavorites() {
+  try {
+    const res = await fetch('/api/favorites', { credentials: 'same-origin' })
+    if (!res.ok) return
+    const data: { success: boolean; favorites: string[] } = await res.json()
+    if (!data.success) return
+    favorites.value = new Set(data.favorites)
+    saveFavorites(favorites.value)
+    synced = true
+  } catch {}
 }
 
 export function _resetFavoritesForTesting() {
   favorites.value = new Set()
+  synced = false
 }

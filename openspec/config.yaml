@@ -1,0 +1,104 @@
+schema: spec-driven
+project: radio-app-astro
+persistence: hybrid
+initialized: 2026-07-29
+
+context: |
+  Astro 7 SSR app using Preact, TypeScript strict mode, Tailwind CSS 4, and Vercel adapter.
+  Runtime target is Node 22.x with npm/package-lock.
+  Source layout is Astro routes under src/pages, Preact components under src/components and src/ui, shared logic under src/lib, stores under src/stores, and server-only Supabase code under src/lib/server.
+  Supabase is configured through server-side environment variables; do not print or commit real .env values.
+  A local GitHub Actions CI baseline now exists at .github/workflows/ci.yml; it intentionally uses the scoped npm run format:check:ci gate until repository-wide formatting drift is remediated separately.
+
+strict_tdd: true
+
+testing:
+  strict_tdd: true
+  detected: 2026-07-29
+  default_test_command: npm run test
+  e2e_command: npm run test:e2e
+  build_command: npm run build
+  package_manager: npm
+  layers:
+    unit:
+      available: true
+      tool: Vitest 2 with jsdom
+      command: npm run test
+      include: src/**/*.{test,spec}.{ts,tsx}
+    integration:
+      available: true
+      tool: Vitest with @testing-library/preact available
+      command: npm run test
+    e2e:
+      available: true
+      tool: Playwright
+      command: npm run test:e2e
+      browsers:
+        - chromium
+        - firefox
+        - mobile
+  coverage:
+    configured: true
+    available: partial
+    command: npm run test -- --coverage
+    notes:
+      - Vitest coverage is configured with provider v8 and text/html reporters.
+      - No dedicated package.json coverage script was detected.
+  quality:
+    lint:
+      available: true
+      command: npm run lint
+    typecheck:
+      available: partial
+      command: npm run build
+      notes:
+        - TypeScript strict config is enabled through astro/tsconfigs/strict.
+        - No standalone typecheck script was detected.
+    format:
+      available: true
+      command: npm run format:check
+    ci:
+      available: true
+      command: npm run format:check:ci && npm run lint && npm run test && npm run build
+      notes:
+        - .github/workflows/ci.yml runs the local baseline with Node 22, npm ci, scoped format check, lint, unit tests, and build.
+        - E2E remains out of the required CI baseline until a dedicated reliable E2E workflow is designed.
+
+delivery:
+  strategy: force-chained
+  review_budget_changed_lines: 400
+  rules:
+    - Split implementation work into chained/stacked PR-sized units when changed lines may exceed 400.
+    - Keep tests, docs, and verification with the work unit they validate.
+    - Do not perform remote writes, deployments, migrations, commits, pushes, or PR creation without explicit authorization.
+
+rules:
+  proposal:
+    - State user-visible behavior, non-goals, rollback plan, and affected routes/API boundaries.
+    - Include CI impact when a change requires a new or updated validation command.
+  specs:
+    - Use RFC 2119 keywords and Given/When/Then scenarios.
+    - Capture accessibility, security, privacy, and localization expectations for user-facing behavior.
+  design:
+    - Respect Astro SSR boundaries and keep server-only Supabase code out of client bundles.
+    - Document environment variables without real values.
+    - Include chained PR slicing if the implementation may exceed the review budget.
+  tasks:
+    - Group tasks by reviewable work unit and keep each unit within the 400 changed-line budget where practical.
+    - Include validation commands for every implementation unit.
+  apply:
+    guidelines:
+      - Follow existing TypeScript, Astro, Preact, Tailwind, and Prettier conventions.
+      - Do not touch unrelated application files during SDD initialization phases.
+    tdd: true
+    test_command: npm run test
+  verify:
+    test_command: npm run test
+    e2e_command: npm run test:e2e
+    build_command: npm run build
+    lint_command: npm run lint
+    format_check_command: npm run format:check:ci
+    coverage_threshold: 0
+  archive:
+    - Preserve archive folders as audit trail; do not delete archived changes.
+    - Warn before merging destructive or privacy/security-sensitive deltas.

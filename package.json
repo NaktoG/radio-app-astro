@@ -3,6 +3,9 @@
   "version": "4.0.0",
   "description": "Radio App - Streaming de radio mundial con Astro + Preact",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
     "build": "astro build",
@@ -13,13 +16,15 @@
     "test:e2e": "playwright test",
     "lint": "eslint . --ext .ts,.tsx,.astro",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "format:check:ci": "prettier --check .github/workflows/ci.yml package.json .prettierrc"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.0",
     "@astrojs/vercel": "^11.0.3",
     "@fontsource/space-grotesk": "^5.1.0",
     "@preact/signals": "^2.0.0",
+    "@supabase/supabase-js": "^2.78.0",
     "@tailwindcss/vite": "^4.0.0",
     "astro": "^7.0.7",
     "bcryptjs": "^3.0.2",
