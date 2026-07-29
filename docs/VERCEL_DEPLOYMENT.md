@@ -14,16 +14,16 @@
 
 ## Configuración
 
-| Campo | Valor |
-|---|---|
-| Framework | Astro |
-| Root Directory | `./` |
-| Install Command | `npm ci` |
-| Build Command | `npm run build` |
-| Output Directory | Dejar vacío / autodetectado por Vercel |
-| Node.js | `22.x` |
-| Gestor de paquetes | npm |
-| Adapter | `@astrojs/vercel` |
+| Campo              | Valor                                  |
+| ------------------ | -------------------------------------- |
+| Framework          | Astro                                  |
+| Root Directory     | `./`                                   |
+| Install Command    | `npm ci`                               |
+| Build Command      | `npm run build`                        |
+| Output Directory   | Dejar vacío / autodetectado por Vercel |
+| Node.js            | `22.x`                                 |
+| Gestor de paquetes | npm                                    |
+| Adapter            | `@astrojs/vercel`                      |
 
 `vercel.json` define headers de seguridad básicos y redirección de `/favicon.ico` a `/favicon.svg`.
 
@@ -46,19 +46,23 @@ Se requieren `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` para auth y favoritos 
 
 ## Pruebas realizadas
 
-Comandos ejecutados:
+Comandos ejecutados localmente con Node.js `v22.23.1`:
 
 ```bash
+npm ci
 npm run lint
 npm run test
 npx tsc --noEmit
+npm run build
 ```
 
 Resultado:
 
+- `npm ci` completó correctamente.
 - `npm run lint` completó sin errores y con warnings preexistentes.
 - `npm run test` completó 20 tests unitarios correctamente.
 - `npx tsc --noEmit` completó correctamente.
+- `npm run build` completó correctamente con adaptador `@astrojs/vercel`.
 
 ## Limitaciones
 

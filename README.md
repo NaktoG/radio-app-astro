@@ -11,6 +11,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?logo=vercel&logoColor=white)](https://radio-app-astro.vercel.app)
 
 </div>
 
@@ -24,41 +25,41 @@ Las estaciones se obtienen de la API pública de [Radio Browser](https://www.rad
 
 ## Características
 
-| Funcionalidad | Descripción |
-|---|---|
-| 🎵 **Reproductor en vivo** | Streaming de audio con controles de play/pausa, volumen, mute y salto automático entre estaciones |
-| 🔍 **Búsqueda avanzada** | Filtrar por nombre, país y género/con标签 con resultados en tiempo real |
-| ❤️ **Favoritos** | Guardar estaciones favoritas con persistencia en localStorage |
-| 🔐 **Autenticación** | Login y registro con bcrypt (client-side, demostrativo) |
-| 🌐 **Internacionalización** | Soporte bilingüe español/inglés con detección automática por cookie |
-| 🖼️ **Proxy de imágenes** | Server-side image proxy con protección SSRF y límites de tamaño |
-| 🌙 **Modo oscuro** | Diseño dark-first nativo (sin toggle) |
-| 📲 **PWA instalable** | Manifest, service worker, soporte iOS/Android y fallback offline |
-| 📱 **Responsive** | Mobile-first con menú hamburger y breakpoints adaptables |
-| ♿ **Accesibilidad** | WCAG 2.1 AA: targets 44px, focus visible, reduced motion, ARIA |
-| ⚡ **Performance** | Islands architecture de Astro: JavaScript solo donde se necesita |
-| 🐳 **Docker** | Multi-stage build (dev/build/prod) con Node 22 Alpine |
-| 🧪 **Testing** | 19 tests unitarios (Vitest) + 8 tests E2E (Playwright) |
+| Funcionalidad               | Descripción                                                                                                      |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 🎵 **Reproductor en vivo**  | Streaming de audio con controles de play/pausa, volumen, mute y salto automático entre estaciones                |
+| 🔍 **Búsqueda avanzada**    | Filtrar por nombre, país y género/con标签 con resultados en tiempo real                                          |
+| ❤️ **Favoritos**            | Guardar estaciones favoritas con persistencia server-side en Supabase y respaldo local durante la sincronización |
+| 🔐 **Autenticación**        | Login y registro server-side con cookies `HttpOnly`, bcrypt y Supabase PostgreSQL                                |
+| 🌐 **Internacionalización** | Soporte bilingüe español/inglés con detección automática por cookie                                              |
+| 🖼️ **Proxy de imágenes**    | Server-side image proxy con protección SSRF y límites de tamaño                                                  |
+| 🌙 **Modo oscuro**          | Diseño dark-first nativo (sin toggle)                                                                            |
+| 📲 **PWA instalable**       | Manifest, service worker, soporte iOS/Android y fallback offline                                                 |
+| 📱 **Responsive**           | Mobile-first con menú hamburger y breakpoints adaptables                                                         |
+| ♿ **Accesibilidad**        | WCAG 2.1 AA: targets 44px, focus visible, reduced motion, ARIA                                                   |
+| ⚡ **Performance**          | Islands architecture de Astro: JavaScript solo donde se necesita                                                 |
+| 🐳 **Docker**               | Multi-stage build (dev/build/prod) con Node 22 Alpine                                                            |
+| 🧪 **Testing**              | 19 tests unitarios (Vitest) + 8 tests E2E (Playwright)                                                           |
 
 ## Demo
 
-> 🔗 **[Demo en vivo](https://radio-app.example.com)** *(próximamente)*
+**Producción (Vercel):** [radio-app-astro.vercel.app](https://radio-app-astro.vercel.app)
 
 ## Stack tecnológico
 
-| Capa | Tecnología | Versión |
-|---|---|---|
-| Meta-framework | [Astro](https://astro.build/) | 7.0 (SSR con Node adapter) |
-| UI Framework | [Preact](https://preactjs.com/) | 10.25 (islands con signals) |
-| Estado global | [@preact/signals](https://github.com/preactjs/signals) | 2.0 |
-| CSS | [Tailwind CSS](https://tailwindcss.com/) | 4.0 (CSS-first config) |
-| Iconos | [Lucide Preact](https://lucide.dev/) | 0.460 |
-| Tipografía | [Space Grotesk](https://fonts.google.com/specimen/Space-Grotesk) | @fontsource |
-| Auth | [bcryptjs](https://github.com/nicolo-ribaudo/bcryptjs) | 3.0 |
-| Tests unitarios | [Vitest](https://vitest.dev/) | 2.1 |
-| Tests E2E | [Playwright](https://playwright.dev/) | 1.49 |
-| Linting | [ESLint](https://eslint.org/) | 9.17 |
-| Formateo | [Prettier](https://prettier.io/) | 3.4 |
+| Capa            | Tecnología                                                       | Versión                     |
+| --------------- | ---------------------------------------------------------------- | --------------------------- |
+| Meta-framework  | [Astro](https://astro.build/)                                    | 7.0 (SSR con Node adapter)  |
+| UI Framework    | [Preact](https://preactjs.com/)                                  | 10.25 (islands con signals) |
+| Estado global   | [@preact/signals](https://github.com/preactjs/signals)           | 2.0                         |
+| CSS             | [Tailwind CSS](https://tailwindcss.com/)                         | 4.0 (CSS-first config)      |
+| Iconos          | [Lucide Preact](https://lucide.dev/)                             | 0.460                       |
+| Tipografía      | [Space Grotesk](https://fonts.google.com/specimen/Space-Grotesk) | @fontsource                 |
+| Auth            | [bcryptjs](https://github.com/nicolo-ribaudo/bcryptjs)           | 3.0                         |
+| Tests unitarios | [Vitest](https://vitest.dev/)                                    | 2.1                         |
+| Tests E2E       | [Playwright](https://playwright.dev/)                            | 1.49                        |
+| Linting         | [ESLint](https://eslint.org/)                                    | 9.17                        |
+| Formateo        | [Prettier](https://prettier.io/)                                 | 3.4                         |
 
 ## Instalación
 
@@ -99,18 +100,18 @@ npm run dev
 
 ## Scripts de desarrollo
 
-| Comando | Descripción |
-|---|---|
-| `npm run dev` | Servidor de desarrollo con hot-reload |
-| `npm run build` | Build de producción (SSR) |
-| `npm run preview` | Previsualizar build de producción |
-| `npm test` | Ejecutar tests unitarios (Vitest) |
-| `npm run test:watch` | Tests en modo watch |
-| `npm run test:ui` | Interfaz visual de Vitest |
-| `npm run test:e2e` | Ejecutar tests E2E (Playwright) |
-| `npm run lint` | Linting con ESLint |
-| `npm run format` | Formatear código con Prettier |
-| `npm run format:check` | Verificar formato sin modificar |
+| Comando                | Descripción                           |
+| ---------------------- | ------------------------------------- |
+| `npm run dev`          | Servidor de desarrollo con hot-reload |
+| `npm run build`        | Build de producción (SSR)             |
+| `npm run preview`      | Previsualizar build de producción     |
+| `npm test`             | Ejecutar tests unitarios (Vitest)     |
+| `npm run test:watch`   | Tests en modo watch                   |
+| `npm run test:ui`      | Interfaz visual de Vitest             |
+| `npm run test:e2e`     | Ejecutar tests E2E (Playwright)       |
+| `npm run lint`         | Linting con ESLint                    |
+| `npm run format`       | Formatear código con Prettier         |
+| `npm run format:check` | Verificar formato sin modificar       |
 
 ## PWA
 
@@ -175,14 +176,17 @@ src/
 │   ├── player.ts          # Estado del reproductor
 │   └── favorites.ts       # Gestión de favoritos
 │
-├── lib/                   # Lógica pura y utilidades
+├── lib/                   # Lógica pura, cliente y server helpers
 │   ├── api.ts             # Cliente de Radio Browser API
-│   ├── auth.ts            # Autenticación client-side
+│   ├── auth.ts            # Estado cliente de autenticación
 │   ├── countries.ts       # Lista de países
 │   ├── image.ts           # Helper de proxy de imágenes
 │   ├── storage.ts         # Wrapper de localStorage
 │   ├── types.ts           # Definiciones TypeScript
-│   └── useAudio.ts        # Hook de manejo de audio
+│   ├── useAudio.ts        # Hook de manejo de audio
+│   └── server/            # Código server-only
+│       ├── auth.ts        # Auth, sesiones y cookies HttpOnly
+│       └── supabase.ts    # Cliente Supabase con service role server-side
 │
 ├── i18n/                  # Internacionalización
 │   ├── index.ts           # Helper server-side
@@ -211,9 +215,11 @@ src/
 │   │   └── faq.astro      # Preguntas frecuentes
 │   └── api/
 │       ├── stations.ts    # Proxy a Radio Browser API
-│       └── image-proxy.ts # Proxy de imágenes server-side
+│       ├── favorites.ts   # Favoritos persistentes por sesión autenticada
+│       ├── image-proxy.ts # Proxy de imágenes server-side
+│       └── auth/          # Login, registro, sesión actual y logout
 │
-└── middleware.ts           # Middleware de detección de idioma
+└── middleware.ts           # Middleware de idioma y protección de rutas
 ```
 
 ## Testing
@@ -227,6 +233,7 @@ npm run test:ui             # Interfaz visual
 ```
 
 **Cobertura:**
+
 - `src/lib/__tests__/` — Tests de utilidades (image, countries)
 - `src/stores/__tests__/` — Tests de estado (player, favorites)
 
@@ -239,6 +246,7 @@ npm run test:e2e
 **Navegadores:** Chromium, Firefox, iPhone 15 (mobile)
 
 **Specs:**
+
 - `e2e/auth.spec.ts` — Flujos de autenticación
 - `e2e/player.spec.ts` — Página del reproductor
 - `e2e/search.spec.ts` — Funcionalidad de búsqueda
@@ -256,6 +264,7 @@ El estado global se gestiona con `@preact/signals`, ofreciendo reactividad granu
 ### Proxy server-side
 
 Las peticiones a la API de Radio Browser y las imágenes se proxean a través de endpoints server-side de Astro, proporcionando:
+
 - **Caché** en memoria (60s para estaciones, 24h para imágenes)
 - **Failover** automático entre mirrors de la API
 - **Protección SSRF** contra hostnames internos/LAN
@@ -283,6 +292,7 @@ docker run -p 4321:4321 radio-app:prod
 ```
 
 **Características del Dockerfile multi-stage:**
+
 - **base**: Node 22 Alpine
 - **dev**: Instalación completa + hot-reload
 - **build**: `npm ci` + `astro build` optimizado
@@ -292,28 +302,37 @@ docker run -p 4321:4321 radio-app:prod
 
 Este proyecto está configurado para Vercel con `@astrojs/vercel`, `output: 'server'` y Node 22.
 
+### Configuración
+
+| Campo            | Valor                    |
+| ---------------- | ------------------------ |
+| Framework        | Astro                    |
+| Root Directory   | `./`                     |
+| Install Command  | `npm ci`                 |
+| Build Command    | `npm run build`          |
+| Output Directory | dejar vacío / automático |
+| Node.js          | `22.x`                   |
+| Adapter          | `@astrojs/vercel`        |
+
 ### Variables obligatorias
 
 En **Vercel → Project Settings → Environment Variables**, agregar para Production, Preview y Development:
 
-| Variable | Valor |
-|---|---|
-| `SUPABASE_URL` | Project URL de Supabase |
+| Variable                    | Valor                             |
+| --------------------------- | --------------------------------- |
+| `SUPABASE_URL`              | Project URL de Supabase           |
 | `SUPABASE_SERVICE_ROLE_KEY` | `service_role secret` de Supabase |
-
-### Build settings
-
-| Campo | Valor |
-|---|---|
-| Framework Preset | Astro |
-| Build Command | `npm run build` |
-| Output Directory | dejar vacío / automático |
-| Install Command | `npm install` |
-| Node.js Version | `22.x` |
 
 Antes del deploy, ejecutar en Supabase el SQL de `docs/supabase-setup.sql`.
 
 > La key `SUPABASE_SERVICE_ROLE_KEY` solo se usa server-side en endpoints y middleware. No existe código cliente que la exponga.
+
+### Crear proyecto en Vercel
+
+1. Ir a [vercel.com](https://vercel.com/) → **Add New** → **Project**.
+2. Conectar con GitHub y seleccionar `NaktoG/radio-app-astro`.
+3. Verificar la configuración anterior y agregar las variables obligatorias.
+4. Click en **Deploy**.
 
 ### Verificar deploy
 
