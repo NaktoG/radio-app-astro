@@ -10,7 +10,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const user = await createAnonymousProfileForRequest(cookies, {
       nickname: String(body.nickname ?? ''),
       acceptedAnonymousRisk: body.acceptedAnonymousRisk === true,
-    })
+    }, request)
 
     return Response.json({ success: true, user, message: 'Anonymous profile created.' })
   } catch (error) {

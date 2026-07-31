@@ -2,11 +2,11 @@ import type { APIRoute } from 'astro'
 import { getSessionUser } from '../../lib/server/auth'
 import { createSupabaseServerClient } from '../../lib/server/supabase'
 
-export const GET: APIRoute = async ({ cookies }) => {
-  const user = await getSessionUser(cookies)
+export const GET: APIRoute = async ({ request, cookies }) => {
+  const user = await getSessionUser(cookies, request)
   if (!user) return Response.json({ success: false, favorites: [] }, { status: 401 })
 
-  const { data, error } = await createSupabaseServerClient(cookies)
+  const { data, error } = await createSupabaseServerClient(cookies, request)
     .from('favorite_stations')
     .select('station_uuid')
     .order('created_at', { ascending: false })
@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ cookies }) => {
 }
 
 export const POST: APIRoute = async ({ request, cookies }) => {
-  const user = await getSessionUser(cookies)
+  const user = await getSessionUser(cookies, request)
   if (!user) return Response.json({ success: false, message: 'No autenticado' }, { status: 401 })
 
   const body = await request.json()
@@ -30,7 +30,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return Response.json({ success: false, message: 'stationUuids requerido' }, { status: 400 })
     }
 
-    const { error } = await createSupabaseServerClient(cookies)
+    const { error } = await createSupabaseServerClient(cookies, request)
       .from('favorite_stations')
       .upsert(
         stationUuids.map((stationUuid) => ({ user_id: user.userId, station_uuid: stationUuid })),
@@ -44,7 +44,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const stationUuid = String(body.stationUuid ?? '').trim()
   if (!stationUuid) return Response.json({ success: false, message: 'stationUuid requerido' }, { status: 400 })
 
-  const { error } = await createSupabaseServerClient(cookies)
+  const { error } = await createSupabaseServerClient(cookies, request)
     .from('favorite_stations')
     .upsert({ user_id: user.userId, station_uuid: stationUuid }, { onConflict: 'user_id,station_uuid' })
 
@@ -53,14 +53,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 }
 
 export const DELETE: APIRoute = async ({ request, cookies }) => {
-  const user = await getSessionUser(cookies)
+  const user = await getSessionUser(cookies, request)
   if (!user) return Response.json({ success: false, message: 'No autenticado' }, { status: 401 })
 
   const body = await request.json()
   const stationUuid = String(body.stationUuid ?? '').trim()
   if (!stationUuid) return Response.json({ success: false, message: 'stationUuid requerido' }, { status: 400 })
 
-  const { error } = await createSupabaseServerClient(cookies)
+  const { error } = await createSupabaseServerClient(cookies, request)
     .from('favorite_stations')
     .delete()
     .eq('station_uuid', stationUuid)

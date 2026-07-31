@@ -9,7 +9,7 @@ describe('anonymous auth security readiness contracts', () => {
   it('keeps favorites scoped to the restored auth.uid user and rejects client-supplied user ids', () => {
     const route = read('src/pages/api/favorites.ts')
 
-    expect(route).toContain('getSessionUser(cookies)')
+    expect(route).toContain('getSessionUser(cookies, request)')
     expect(route).toContain('user_id: user.userId')
     expect(route).not.toMatch(/body\.userId|body\.user_id|requestUserId|clientUserId/)
     expect(route).not.toContain('getSupabaseAdmin')

@@ -21,11 +21,23 @@ export function getSupabaseAdmin() {
   })
 }
 
-export function createSupabaseServerClient(cookies: AstroCookies) {
+function parseCookiesFromHeader(request: Request): { name: string; value: string }[] {
+  const cookieHeader = request.headers.get('cookie')
+  if (!cookieHeader) return []
+  return cookieHeader.split(';').map((pair) => {
+    const idx = pair.indexOf('=')
+    if (idx === -1) return { name: pair.trim(), value: '' }
+    return { name: pair.slice(0, idx).trim(), value: pair.slice(idx + 1).trim() }
+  })
+}
+
+export function createSupabaseServerClient(cookies: AstroCookies, request?: Request) {
+  const allCookies = request ? parseCookiesFromHeader(request) : []
+
   return createServerClient(requiredEnv('SUPABASE_URL'), requiredEnv('SUPABASE_ANON_KEY'), {
     cookies: {
       getAll() {
-        return cookies.getAll().map((cookie) => ({ name: cookie.name, value: cookie.value }))
+        return allCookies
       },
       setAll(cookiesToSet: { name: string; value: string; options: CookieOptions }[]) {
         cookiesToSet.forEach(({ name, value, options }) => {

@@ -35,7 +35,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       isDev: import.meta.env.DEV,
       isTest: import.meta.env.MODE === 'test',
       isProd: import.meta.env.PROD,
-    }) ?? (await getSessionUser(context.cookies))
+    }) ?? (await getSessionUser(context.cookies, context.request))
 
   const redirectTo = resolveAuthRedirect(path, user)
   if (redirectTo) {

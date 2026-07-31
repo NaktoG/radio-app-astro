@@ -59,8 +59,8 @@ function toUser(row: ProfileRow): User {
   }
 }
 
-function getRequestClient(cookies: AstroCookies): AuthSupabaseClient {
-  return createSupabaseServerClient(cookies) as unknown as AuthSupabaseClient
+function getRequestClient(cookies: AstroCookies, request?: Request): AuthSupabaseClient {
+  return createSupabaseServerClient(cookies, request) as unknown as AuthSupabaseClient
 }
 
 export function validateNickname(nickname: string): string {
@@ -89,9 +89,9 @@ export async function getSessionProfile(client: AuthSupabaseClient): Promise<Use
   }
 }
 
-export async function getSessionUser(cookies: AstroCookies): Promise<User | null> {
+export async function getSessionUser(cookies: AstroCookies, request?: Request): Promise<User | null> {
   try {
-    return await getSessionProfile(getRequestClient(cookies))
+    return await getSessionProfile(getRequestClient(cookies, request))
   } catch {
     return null
   }
@@ -130,9 +130,10 @@ export async function createAnonymousProfile(
 
 export async function createAnonymousProfileForRequest(
   cookies: AstroCookies,
-  request: ProfileRequest | { nickname: string; acceptedAnonymousRisk: boolean }
+  request: ProfileRequest | { nickname: string; acceptedAnonymousRisk: boolean },
+  httpRequest?: Request
 ): Promise<User> {
-  return createAnonymousProfile(getRequestClient(cookies), request)
+  return createAnonymousProfile(getRequestClient(cookies, httpRequest), request)
 }
 
 export async function signOut(client: AuthSupabaseClient): Promise<void> {
@@ -140,6 +141,6 @@ export async function signOut(client: AuthSupabaseClient): Promise<void> {
   if (error) throw new Error('Could not sign out')
 }
 
-export async function signOutRequest(cookies: AstroCookies): Promise<void> {
-  await signOut(getRequestClient(cookies))
+export async function signOutRequest(cookies: AstroCookies, request?: Request): Promise<void> {
+  await signOut(getRequestClient(cookies, request))
 }
