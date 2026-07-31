@@ -1,143 +1,146 @@
 import type { AstroCookies } from 'astro'
-import bcrypt from 'bcryptjs'
-import { getSupabaseAdmin } from './supabase'
-import type { User } from '../types'
+import { createSupabaseServerClient } from './supabase'
+import type { ProfileRequest, User } from '../types'
 
-export const AUTH_COOKIE = 'radio_app_session'
+type SupabaseError = { message?: string; code?: string }
+type SupabaseUser = { id: string; is_anonymous?: boolean }
+type SupabaseResult<T> = { data: T | null; error: SupabaseError | null }
 
-const SESSION_DURATION_SECONDS = 7 * 24 * 60 * 60
-const USERNAME_REGEX = /^[a-zA-Z0-9_-]{3,20}$/
-
-interface DbUser {
-  id: string
-  username: string
-  role: string
-  created_at: string
+interface ProfileRow {
+  user_id: string
+  nickname: string
+  accepted_anonymous_risk_at: string
 }
 
-function toPublicUser(user: DbUser): User {
+interface ProfileQueryBuilder {
+  select(columns: string): {
+    eq(column: string, value: string): { single(): Promise<SupabaseResult<ProfileRow>> }
+  }
+  insert(values: { user_id: string; nickname: string; accepted_anonymous_risk_at: string }): {
+    select(columns: string): { single(): Promise<SupabaseResult<ProfileRow>> }
+  }
+}
+
+export interface AuthSupabaseClient {
+  auth: {
+    getUser(): Promise<SupabaseResult<{ user: SupabaseUser | null }>>
+    signInAnonymously(): Promise<SupabaseResult<{ user: SupabaseUser | null }>>
+    signOut(): Promise<{ error: SupabaseError | null }>
+  }
+  from(table: 'profiles'): ProfileQueryBuilder
+}
+
+const DEFAULT_PREFERENCES: User['preferences'] = {
+  theme: 'dark',
+  defaultCountry: 'AR',
+  autoPlay: false,
+  volume: 0.7,
+}
+
+export const DUPLICATE_NICKNAME_MESSAGE =
+  'Nickname is already taken. Choose another display nickname.'
+
+function isDuplicateNicknameError(error: SupabaseError | null): boolean {
+  return Boolean(
+    error &&
+    error.code === '23505' &&
+    (error.message?.includes('profiles_nickname_normalized') ||
+      error.message?.includes('nickname_normalized'))
+  )
+}
+
+function toUser(row: ProfileRow): User {
   return {
-    id: user.id,
-    username: user.username,
-    role: user.role,
-    createdAt: new Date(user.created_at),
+    userId: row.user_id,
+    nickname: row.nickname,
+    acceptedAnonymousRiskAt: row.accepted_anonymous_risk_at,
     favorites: [],
-    preferences: { theme: 'dark', defaultCountry: 'AR', autoPlay: false, volume: 0.7 },
+    preferences: DEFAULT_PREFERENCES,
   }
 }
 
-export function validateUsername(username: string): { valid: boolean; message?: string } {
-  if (!username) return { valid: false, message: 'El alias es obligatorio' }
-  if (!USERNAME_REGEX.test(username)) {
-    return { valid: false, message: 'El alias debe tener 3-20 caracteres (letras, números, _ o -)' }
+function getRequestClient(cookies: AstroCookies, request?: Request): AuthSupabaseClient {
+  return createSupabaseServerClient(cookies, request) as unknown as AuthSupabaseClient
+}
+
+export function validateNickname(nickname: string): string {
+  const trimmed = nickname.trim()
+  if (!trimmed) throw new Error('Nickname is required')
+  if (trimmed.length > 40) throw new Error('Nickname must be 40 characters or fewer')
+  return trimmed
+}
+
+export async function getSessionProfile(client: AuthSupabaseClient): Promise<User | null> {
+  try {
+    const { data: userData, error: userError } = await client.auth.getUser()
+    const user = userData?.user
+    if (userError || !user) return null
+
+    const { data: profile, error: profileError } = await client
+      .from('profiles')
+      .select('user_id, nickname, accepted_anonymous_risk_at')
+      .eq('user_id', user.id)
+      .single()
+
+    if (profileError || !profile) return null
+    return toUser(profile)
+  } catch {
+    return null
   }
-  return { valid: true }
 }
 
-async function sha256(value: string): Promise<string> {
-  const bytes = new TextEncoder().encode(value)
-  const hash = await crypto.subtle.digest('SHA-256', bytes)
-  return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, '0')).join('')
+export async function getSessionUser(cookies: AstroCookies, request?: Request): Promise<User | null> {
+  try {
+    return await getSessionProfile(getRequestClient(cookies, request))
+  } catch {
+    return null
+  }
 }
 
-function createToken(): string {
-  const bytes = new Uint8Array(32)
-  crypto.getRandomValues(bytes)
-  return Array.from(bytes).map((b) => b.toString(16).padStart(2, '0')).join('')
-}
-
-export function setSessionCookie(cookies: AstroCookies, token: string) {
-  cookies.set(AUTH_COOKIE, token, {
-    path: '/',
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: import.meta.env.PROD,
-    maxAge: SESSION_DURATION_SECONDS,
-  })
-}
-
-export function clearSessionCookie(cookies: AstroCookies) {
-  cookies.delete(AUTH_COOKIE, { path: '/' })
-}
-
-export async function registerUser(username: string, password: string): Promise<{ user: User; token: string }> {
-  const validation = validateUsername(username)
-  if (!validation.valid) throw new Error(validation.message)
-  if (password.length < 8) throw new Error('La contraseña debe tener al menos 8 caracteres')
-
-  const supabase = getSupabaseAdmin()
-  const alias = username.trim()
-  const passwordHash = await bcrypt.hash(password, 12)
-
-  const { data, error } = await supabase
-    .from('app_users')
-    .insert({ username: alias, password_hash: passwordHash })
-    .select('id, username, role, created_at')
-    .single<DbUser>()
-
-  if (error) {
-    if (error.code === '23505') throw new Error('Este alias ya está en uso')
-    throw new Error('No se pudo crear la cuenta')
+export async function createAnonymousProfile(
+  client: AuthSupabaseClient,
+  request: ProfileRequest | { nickname: string; acceptedAnonymousRisk: boolean }
+): Promise<User> {
+  if (request.acceptedAnonymousRisk !== true) {
+    throw new Error('Anonymous risk acceptance is required')
   }
 
-  const token = await createSession(data.id)
-  return { user: toPublicUser(data), token }
+  const nickname = validateNickname(request.nickname)
+  const { data, error } = await client.auth.signInAnonymously()
+  const user = data?.user
+  if (error || !user) throw new Error('Could not create anonymous session')
+
+  const acceptedAt = new Date().toISOString()
+  const { data: profile, error: profileError } = await client
+    .from('profiles')
+    .insert({
+      user_id: user.id,
+      nickname,
+      accepted_anonymous_risk_at: acceptedAt,
+    })
+    .select('user_id, nickname, accepted_anonymous_risk_at')
+    .single()
+
+  if (profileError || !profile) {
+    if (isDuplicateNicknameError(profileError)) throw new Error(DUPLICATE_NICKNAME_MESSAGE)
+    throw new Error('Could not create profile')
+  }
+  return toUser(profile)
 }
 
-export async function loginUser(username: string, password: string): Promise<{ user: User; token: string }> {
-  const validation = validateUsername(username)
-  if (!validation.valid) throw new Error(validation.message)
-
-  const supabase = getSupabaseAdmin()
-  const alias = username.trim()
-  const { data, error } = await supabase
-    .from('app_users')
-    .select('id, username, role, created_at, password_hash')
-    .eq('username', alias)
-    .single<DbUser & { password_hash: string }>()
-
-  if (error || !data) throw new Error('Credenciales inválidas')
-
-  const valid = await bcrypt.compare(password, data.password_hash)
-  if (!valid) throw new Error('Credenciales inválidas')
-
-  const token = await createSession(data.id)
-  return { user: toPublicUser(data), token }
+export async function createAnonymousProfileForRequest(
+  cookies: AstroCookies,
+  request: ProfileRequest | { nickname: string; acceptedAnonymousRisk: boolean },
+  httpRequest?: Request
+): Promise<User> {
+  return createAnonymousProfile(getRequestClient(cookies, httpRequest), request)
 }
 
-export async function createSession(userId: string): Promise<string> {
-  const token = createToken()
-  const tokenHash = await sha256(token)
-  const expiresAt = new Date(Date.now() + SESSION_DURATION_SECONDS * 1000).toISOString()
-
-  const { error } = await getSupabaseAdmin().from('user_sessions').insert({
-    token_hash: tokenHash,
-    user_id: userId,
-    expires_at: expiresAt,
-  })
-
-  if (error) throw new Error('No se pudo crear la sesión')
-  return token
+export async function signOut(client: AuthSupabaseClient): Promise<void> {
+  const { error } = await client.auth.signOut()
+  if (error) throw new Error('Could not sign out')
 }
 
-export async function getSessionUser(cookies: AstroCookies): Promise<User | null> {
-  const token = cookies.get(AUTH_COOKIE)?.value
-  if (!token) return null
-
-  const tokenHash = await sha256(token)
-  const { data, error } = await getSupabaseAdmin()
-    .from('user_sessions')
-    .select('expires_at, app_users(id, username, role, created_at)')
-    .eq('token_hash', tokenHash)
-    .single<{ expires_at: string; app_users: DbUser }>()
-
-  if (error || !data || new Date(data.expires_at).getTime() <= Date.now()) return null
-  return toPublicUser(data.app_users)
-}
-
-export async function deleteSession(cookies: AstroCookies) {
-  const token = cookies.get(AUTH_COOKIE)?.value
-  if (!token) return
-  const tokenHash = await sha256(token)
-  await getSupabaseAdmin().from('user_sessions').delete().eq('token_hash', tokenHash)
+export async function signOutRequest(cookies: AstroCookies, request?: Request): Promise<void> {
+  await signOut(getRequestClient(cookies, request))
 }

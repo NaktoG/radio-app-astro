@@ -1,28 +1,45 @@
 import { defineMiddleware } from 'astro/middleware'
 import { getLocalDiagnosticUser } from './lib/server/diagnosticAuth'
 import { getSessionUser } from './lib/server/auth'
+import type { User } from './lib/types'
 
-const PROTECTED_ROUTES = ['/player', '/search', '/favorites']
+const PROFILE_GATED_ROUTES = ['/player']
+
+function matchesRoute(path: string, route: string) {
+  return path === route || path.startsWith(`${route}/`)
+}
+
+export function resolveAuthRedirect(path: string, user: User | null): string | null {
+  const requiresProfile = PROFILE_GATED_ROUTES.some((route) => matchesRoute(path, route))
+  if (requiresProfile && !user) return '/auth/profile'
+  return null
+}
+
+function getOptionalClientAddress(context: Parameters<Parameters<typeof defineMiddleware>[0]>[0]) {
+  try {
+    return context.clientAddress
+  } catch {
+    return undefined
+  }
+}
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const lang = context.cookies.get('radio_lang')?.value
   context.locals.lang = lang === 'en' ? 'en' : 'es'
 
   const path = context.url.pathname
-  const isProtected = PROTECTED_ROUTES.some(
-    (route) => path === route || path.startsWith(`${route}/`)
-  )
   const user =
     getLocalDiagnosticUser({
       request: context.request,
-      clientAddress: context.clientAddress,
+      clientAddress: getOptionalClientAddress(context),
       isDev: import.meta.env.DEV,
       isTest: import.meta.env.MODE === 'test',
       isProd: import.meta.env.PROD,
-    }) ?? (await getSessionUser(context.cookies))
+    }) ?? (await getSessionUser(context.cookies, context.request))
 
-  if (isProtected && !user) {
-    return context.redirect('/auth/login')
+  const redirectTo = resolveAuthRedirect(path, user)
+  if (redirectTo) {
+    return context.redirect(redirectTo)
   }
 
   context.locals.user = user

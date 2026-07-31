@@ -34,7 +34,7 @@ Vercel detecta la salida generada por el adaptador `@astrojs/vercel`. No se debe
 
 ## Variables de entorno
 
-Se requieren `SUPABASE_URL` y `SUPABASE_SERVICE_ROLE_KEY` para auth y favoritos persistentes.
+Se requieren `SUPABASE_URL` y `SUPABASE_ANON_KEY` para auth anónimo SSR y favoritos persistentes bajo RLS. `SUPABASE_SERVICE_ROLE_KEY` no es requerido para rutas de usuario de auth/favoritos y nunca debe exponerse al navegador.
 
 ## Servicios externos
 
