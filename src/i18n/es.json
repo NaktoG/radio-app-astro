@@ -12,35 +12,33 @@
   },
   "AUTH": {
     "LOGIN": {
-      "TITLE": "Iniciar Sesión",
-      "SUBTITLE": "Accede a tu cuenta de Radio App",
-      "USERNAME_LABEL": "Nombre de usuario",
-      "USERNAME_PLACEHOLDER": "usuario123",
-      "PASSWORD_LABEL": "Contraseña",
-      "PASSWORD_PLACEHOLDER": "••••••••",
-      "SUBMIT": "Iniciar Sesión",
-      "SUBMIT_LOADING": "Iniciando sesión...",
-      "NO_ACCOUNT": "¿No tienes una cuenta?",
-      "REGISTER_LINK": "Regístrate aquí"
+      "TITLE": "Perfil anónimo",
+      "SUBTITLE": "Creá un perfil con apodo para usar el reproductor. El inicio con contraseña fue eliminado."
     },
     "REGISTER": {
-      "TITLE": "Crear Cuenta",
-      "SUBTITLE": "Únete a Radio App",
-      "USERNAME_LABEL": "Nombre de usuario",
-      "USERNAME_PLACEHOLDER": "usuario123",
-      "PASSWORD_LABEL": "Contraseña",
-      "CONFIRM_PASSWORD_LABEL": "Confirmar Contraseña",
-      "SUBMIT": "Registrarse",
-      "SUBMIT_LOADING": "Registrando...",
-      "HAVE_ACCOUNT": "¿Ya tienes cuenta?",
-      "LOGIN_LINK": "Inicia sesión"
+      "TITLE": "Perfil anónimo",
+      "SUBTITLE": "Los apodos son nombres visibles únicos. No son credenciales."
+    },
+    "PROFILE": {
+      "TITLE": "Configurá tu perfil anónimo",
+      "SUBTITLE": "Elegí un apodo disponible. Es solo un nombre visible y no identifica ni recupera tu cuenta.",
+      "NICKNAME_LABEL": "Apodo",
+      "NICKNAME_PLACEHOLDER": "Ej: Fan de la radio",
+      "SUBMIT": "Continuar",
+      "SUBMIT_LOADING": "Creando perfil...",
+      "NICKNAME_REQUIRED": "Ingresá un apodo antes de continuar.",
+      "NICKNAME_TAKEN": "Ese apodo ya está en uso. Elegí otro apodo visible.",
+      "CREATE_ERROR": "No se pudo crear tu perfil anónimo. Intentá nuevamente.",
+      "RISK_TITLE": "Riesgo de cuenta anónima",
+      "RISK_BODY": "Esta app usa una sesión anónima de Supabase guardada en cookies seguras del servidor. Si borrás las cookies, cambiás de navegador o cerrás sesión, es posible que esta cuenta anónima no pueda recuperarse.",
+      "RISK_RECOVERY": "No trates este perfil como una cuenta permanente. No hay recuperación por email, teléfono, contraseña ni apodo.",
+      "RISK_ACCEPT": "Entiendo, crear perfil",
+      "RISK_CANCEL": "Cancelar"
     },
     "MESSAGES": {
-      "LOGIN_SUCCESS": "Login exitoso",
-      "REGISTER_SUCCESS": "Registro exitoso",
-      "LOGOUT_SUCCESS": "Sesión cerrada correctamente",
-      "INVALID_CREDENTIALS": "Credenciales inválidas",
-      "USERNAME_EXISTS": "El nombre de usuario ya existe en este navegador",
+      "LOGIN_SUCCESS": "Perfil anónimo restaurado",
+      "REGISTER_SUCCESS": "Perfil anónimo creado",
+      "LOGOUT_SUCCESS": "Sesión anónima cerrada. Es posible que esta cuenta no pueda recuperarse.",
       "GENERIC_ERROR": "Error inesperado"
     }
   },

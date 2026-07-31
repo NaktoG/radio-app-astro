@@ -12,35 +12,33 @@
   },
   "AUTH": {
     "LOGIN": {
-      "TITLE": "Sign In",
-      "SUBTITLE": "Access your Radio App account",
-      "USERNAME_LABEL": "Username",
-      "USERNAME_PLACEHOLDER": "user123",
-      "PASSWORD_LABEL": "Password",
-      "PASSWORD_PLACEHOLDER": "••••••••",
-      "SUBMIT": "Sign In",
-      "SUBMIT_LOADING": "Signing in...",
-      "NO_ACCOUNT": "Don't have an account?",
-      "REGISTER_LINK": "Sign up here"
+      "TITLE": "Anonymous profile",
+      "SUBTITLE": "Create a nickname profile to use the player. Password sign-in has been removed."
     },
     "REGISTER": {
-      "TITLE": "Create Account",
-      "SUBTITLE": "Join Radio App",
-      "USERNAME_LABEL": "Username",
-      "USERNAME_PLACEHOLDER": "user123",
-      "PASSWORD_LABEL": "Password",
-      "CONFIRM_PASSWORD_LABEL": "Confirm Password",
-      "SUBMIT": "Sign Up",
-      "SUBMIT_LOADING": "Registering...",
-      "HAVE_ACCOUNT": "Already have an account?",
-      "LOGIN_LINK": "Sign in"
+      "TITLE": "Anonymous profile",
+      "SUBTITLE": "Nicknames are unique display handles only. They are not credentials."
+    },
+    "PROFILE": {
+      "TITLE": "Set up your anonymous profile",
+      "SUBTITLE": "Choose an available nickname. It is only a display handle and does not identify or recover your account.",
+      "NICKNAME_LABEL": "Nickname",
+      "NICKNAME_PLACEHOLDER": "e.g. Radio Fan",
+      "SUBMIT": "Continue",
+      "SUBMIT_LOADING": "Creating profile...",
+      "NICKNAME_REQUIRED": "Enter a nickname before continuing.",
+      "NICKNAME_TAKEN": "That nickname is already taken. Choose another display nickname.",
+      "CREATE_ERROR": "Could not create your anonymous profile. Try again.",
+      "RISK_TITLE": "Anonymous account risk",
+      "RISK_BODY": "This app uses an anonymous Supabase session stored in secure server cookies. If you clear cookies, switch browsers, or sign out, this anonymous account may not be recoverable.",
+      "RISK_RECOVERY": "Do not treat this profile as a permanent account. There is no email, phone, password, or nickname recovery.",
+      "RISK_ACCEPT": "I understand, create profile",
+      "RISK_CANCEL": "Cancel"
     },
     "MESSAGES": {
-      "LOGIN_SUCCESS": "Login successful",
-      "REGISTER_SUCCESS": "Registration successful",
-      "LOGOUT_SUCCESS": "Signed out successfully",
-      "INVALID_CREDENTIALS": "Invalid credentials",
-      "USERNAME_EXISTS": "This username already exists in this browser",
+      "LOGIN_SUCCESS": "Anonymous profile restored",
+      "REGISTER_SUCCESS": "Anonymous profile created",
+      "LOGOUT_SUCCESS": "Anonymous session closed. This account may not be recoverable.",
       "GENERIC_ERROR": "Unexpected error"
     }
   },

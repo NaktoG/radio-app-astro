@@ -1,133 +1,133 @@
 import { useState } from 'preact/hooks'
-import { Eye, EyeOff } from 'lucide-preact'
-import { login, register } from '../lib/auth'
-import { useI18n } from '../i18n/client'
-import { Input, Button, ErrorAlert, IconButton } from '../ui'
-import type { AuthResponse } from '../lib/types'
+import { createAnonymousProfile } from '../lib/auth'
+
+interface ProfileCopy {
+  TITLE: string
+  SUBTITLE: string
+  NICKNAME_LABEL: string
+  NICKNAME_PLACEHOLDER: string
+  SUBMIT: string
+  SUBMIT_LOADING: string
+  NICKNAME_REQUIRED: string
+  NICKNAME_TAKEN: string
+  CREATE_ERROR: string
+  RISK_TITLE: string
+  RISK_BODY: string
+  RISK_RECOVERY: string
+  RISK_ACCEPT: string
+  RISK_CANCEL: string
+}
 
 interface Props {
   mode: 'login' | 'register'
   onSuccess?: () => void
+  copy: ProfileCopy
 }
 
-export default function AuthForm({ mode, onSuccess }: Props) {
-  const { t } = useI18n()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+export default function AuthForm({ mode, onSuccess, copy }: Props) {
+  void mode
+  const [nickname, setNickname] = useState('')
   const [error, setError] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirm, setShowConfirm] = useState(false)
+  const [showRisk, setShowRisk] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  async function handleSubmit(e: Event) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
-
-    try {
-      let res: AuthResponse
-      if (mode === 'login') {
-        res = await login({ username, password })
-      } else {
-        res = await register({ username, password, confirmPassword })
-      }
-
-      if (res.success) {
-        onSuccess?.()
-        window.location.href = '/player'
-      } else {
-        setError(res.message)
-      }
-    } catch {
-      setError(t('AUTH.MESSAGES.GENERIC_ERROR'))
-    } finally {
-      setLoading(false)
+  function requestRiskAcceptance(event: Event) {
+    event.preventDefault()
+    if (!nickname.trim()) {
+      setError(copy.NICKNAME_REQUIRED)
+      return
     }
+    setError('')
+    setShowRisk(true)
   }
 
-  const isLogin = mode === 'login'
-  const prefix = isLogin ? 'AUTH.LOGIN' : 'AUTH.REGISTER'
+  async function acceptRisk() {
+    setLoading(true)
+    setError('')
+    const response = await createAnonymousProfile({
+      nickname: nickname.trim(),
+      acceptedAnonymousRisk: true,
+    })
+    setLoading(false)
+
+    if (!response.success) {
+      setShowRisk(false)
+      setError(response.message || copy.CREATE_ERROR)
+      return
+    }
+
+    if (onSuccess) {
+      onSuccess()
+      return
+    }
+    if (typeof window !== 'undefined') window.location.href = '/player'
+  }
 
   return (
-    <form onSubmit={handleSubmit} class="w-full max-w-md space-y-5">
-      {error && <ErrorAlert message={error} />}
-
-      <Input
-        label={t(`${prefix}.USERNAME_LABEL`)}
-        type="text"
-        value={username}
-        onInput={(e) => setUsername((e.target as HTMLInputElement).value)}
-        placeholder={t(`${prefix}.USERNAME_PLACEHOLDER`)}
-        required
-        minLength={3}
-        maxLength={20}
-        autocomplete="username"
-      />
-
-      <div>
-        <div class="relative">
-          <Input
-            label={t(`${prefix}.PASSWORD_LABEL`)}
-            type={showPassword ? 'text' : 'password'}
-            value={password}
-            onInput={(e) => setPassword((e.target as HTMLInputElement).value)}
-            placeholder={t(`${prefix}.PASSWORD_PLACEHOLDER`)}
-            required
-            minLength={8}
-            autocomplete={isLogin ? 'current-password' : 'new-password'}
-            class="!pr-12"
-          />
-          <div class="absolute right-2 bottom-2">
-            <IconButton
-              icon={showPassword ? EyeOff : Eye}
-              label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-              onClick={() => setShowPassword(!showPassword)}
-              size="sm"
-            />
-          </div>
+    <div class="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-lg">
+      <form onSubmit={requestRiskAcceptance} class="space-y-5" aria-busy={loading}>
+        <div class="text-center">
+          <h2 class="text-xl font-semibold text-[var(--color-text)]">{copy.TITLE}</h2>
+          <p class="mt-3 text-sm text-[var(--color-text-muted)]">{copy.SUBTITLE}</p>
         </div>
-      </div>
 
-      {!isLogin && (
-        <div>
-          <div class="relative">
-            <Input
-              label={t(`${prefix}.CONFIRM_PASSWORD_LABEL`)}
-              type={showConfirm ? 'text' : 'password'}
-              value={confirmPassword}
-              onInput={(e) => setConfirmPassword((e.target as HTMLInputElement).value)}
-              placeholder={t(`${prefix}.PASSWORD_PLACEHOLDER`)}
-              required
-              minLength={8}
-              autocomplete="new-password"
-              class="!pr-12"
-            />
-            <div class="absolute right-2 bottom-2">
-              <IconButton
-                icon={showConfirm ? EyeOff : Eye}
-                label={showConfirm ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                onClick={() => setShowConfirm(!showConfirm)}
-                size="sm"
-              />
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-[var(--color-text)]" for="nickname">
+            {copy.NICKNAME_LABEL}
+          </label>
+          <input
+            id="nickname"
+            name="nickname"
+            type="text"
+            autocomplete="nickname"
+            value={nickname}
+            onInput={(event) => setNickname((event.currentTarget as HTMLInputElement).value)}
+            placeholder={copy.NICKNAME_PLACEHOLDER}
+            class="input-field"
+            aria-describedby={error ? 'profile-error' : undefined}
+          />
+        </div>
+
+        {error && (
+          <p id="profile-error" role="alert" class="text-sm text-[var(--color-danger)]">
+            {error}
+          </p>
+        )}
+
+        <button type="submit" class="btn-primary w-full" disabled={loading}>
+          {loading ? copy.SUBMIT_LOADING : copy.SUBMIT}
+        </button>
+      </form>
+
+      {showRisk && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="anonymous-risk-title"
+          class="fixed inset-0 z-[var(--z-modal)] flex items-center justify-center bg-black/70 px-4"
+        >
+          <div class="w-full max-w-md rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] p-6 shadow-2xl">
+            <h3 id="anonymous-risk-title" class="text-lg font-semibold text-[var(--color-text)]">
+              {copy.RISK_TITLE}
+            </h3>
+            <p class="mt-3 text-sm text-[var(--color-text-muted)]">{copy.RISK_BODY}</p>
+            <p class="mt-3 text-sm font-medium text-[var(--color-warning)]">{copy.RISK_RECOVERY}</p>
+            <div class="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+              <button
+                type="button"
+                class="btn-ghost"
+                onClick={() => setShowRisk(false)}
+                disabled={loading}
+              >
+                {copy.RISK_CANCEL}
+              </button>
+              <button type="button" class="btn-primary" onClick={acceptRisk} disabled={loading}>
+                {loading ? copy.SUBMIT_LOADING : copy.RISK_ACCEPT}
+              </button>
             </div>
           </div>
         </div>
       )}
-
-      <Button type="submit" loading={loading} fullWidth>
-        {loading ? t(`${prefix}.SUBMIT_LOADING`) : t(`${prefix}.SUBMIT`)}
-      </Button>
-
-      <p class="text-sm text-center text-[var(--color-text-muted)]">
-        {isLogin ? t(`${prefix}.NO_ACCOUNT`) : t(`${prefix}.HAVE_ACCOUNT`)}{' '}
-        <a
-          href={isLogin ? '/auth/register' : '/auth/login'}
-          class="text-[var(--color-accent-hover)] hover:text-[var(--color-accent)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded px-1"
-        >
-          {isLogin ? t(`${prefix}.REGISTER_LINK`) : t(`${prefix}.LOGIN_LINK`)}
-        </a>
-      </p>
-    </form>
+    </div>
   )
 }

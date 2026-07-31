@@ -1,12 +1,16 @@
 import { signal } from '@preact/signals'
-import type { User, LoginCredentials, RegisterData, AuthResponse } from './types'
+import type { AuthResponse, ProfileRequest, User } from './types'
 
 const currentUser = signal<User | null>(null)
 const isAuthenticated = signal(false)
 const authLoading = signal(true)
 
-export function getCurrentUser() { return currentUser.value }
-export function getIsAuthenticated() { return isAuthenticated.value }
+export function getCurrentUser() {
+  return currentUser.value
+}
+export function getIsAuthenticated() {
+  return isAuthenticated.value
+}
 
 export function useAuth() {
   return { currentUser, isAuthenticated, authLoading }
@@ -36,8 +40,8 @@ export async function initAuth() {
   }
 }
 
-export async function login(credentials: LoginCredentials): Promise<AuthResponse> {
-  const res = await authRequest('/api/auth/login', credentials)
+export async function createAnonymousProfile(request: ProfileRequest): Promise<AuthResponse> {
+  const res = await authRequest('/api/auth/anonymous', request)
   if (res.success && res.user) {
     currentUser.value = res.user
     isAuthenticated.value = true
@@ -45,18 +49,21 @@ export async function login(credentials: LoginCredentials): Promise<AuthResponse
   return res
 }
 
-export async function register(data: RegisterData): Promise<AuthResponse> {
-  const res = await authRequest('/api/auth/register', data)
-  if (res.success && res.user) {
-    currentUser.value = res.user
-    isAuthenticated.value = true
-  }
-  return res
+export async function login(): Promise<AuthResponse> {
+  return { success: false, message: 'Password login has been replaced by anonymous profiles.' }
 }
 
-export async function logout() {
+export async function register(): Promise<AuthResponse> {
+  return {
+    success: false,
+    message: 'Password registration has been replaced by anonymous profiles.',
+  }
+}
+
+export async function logout(): Promise<AuthResponse | null> {
   try {
-    await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' })
+    const response = await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' })
+    return response.json()
   } finally {
     currentUser.value = null
     isAuthenticated.value = false

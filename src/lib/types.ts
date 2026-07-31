@@ -35,10 +35,9 @@ export interface StationFilter {
 }
 
 export interface User {
-  id: string
-  username: string
-  role: string
-  createdAt: Date
+  userId: string
+  nickname: string
+  acceptedAnonymousRiskAt: string
   favorites: string[]
   preferences: UserPreferences
 }
@@ -50,21 +49,25 @@ export interface UserPreferences {
   volume: number
 }
 
-export interface LoginCredentials {
-  username: string
-  password: string
+export interface Profile {
+  userId: string
+  nickname: string
+  acceptedAnonymousRiskAt: string
 }
 
-export interface RegisterData {
-  username: string
-  password: string
-  confirmPassword: string
+export interface ProfileRequest {
+  nickname: string
+  acceptedAnonymousRisk: true
+}
+
+export interface FavoritesImportRequest {
+  stationUuids: string[]
+  confirmed: true
 }
 
 export interface AuthResponse {
   success: boolean
   user?: User
-  token?: string
   message: string
 }
 
