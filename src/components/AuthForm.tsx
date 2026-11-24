@@ -60,7 +60,11 @@ export default function AuthForm({ mode, onSuccess, copy }: Props) {
       onSuccess()
       return
     }
-    if (typeof window !== 'undefined') window.location.href = '/#main'
+    if (typeof window !== 'undefined') {
+      // A hash-only navigation keeps the guest HTML and modal on screen.
+      window.history.replaceState(null, '', '/#main')
+      window.location.reload()
+    }
   }
 
   return (
