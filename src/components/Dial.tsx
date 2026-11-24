@@ -104,7 +104,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
   })
   const playing = status === 'playing'
   return (
-    <div class="dial-app page-shell" data-view={view}>
+    <div class="dial-app page-shell">
       <audio
         ref={audio}
         onPlaying={() => {
@@ -202,6 +202,22 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
             <button disabled={!featured} onClick={() => featured && play(featured)}>
               {playing ? <Pause /> : <Play />}
               {playing ? tr('Pausar', 'Pause') : tr('Escuchar', 'Listen')}
+            </button>
+            <button
+              aria-label={tr('Siguiente emisora', 'Next station')}
+              title={tr('Siguiente emisora', 'Next station')}
+              disabled={!rows.length}
+              onClick={() =>
+                play(
+                  rows[
+                    (rows.findIndex((r) => r.stationuuid === featured?.stationuuid) + 1) %
+                      rows.length
+                  ],
+                  true
+                )
+              }
+            >
+              <SkipForward />
             </button>
             <button
               disabled={!rows.length}
@@ -330,35 +346,6 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
         </section>
       </main>
       <aside>
-        {station && (
-          <div class="mini">
-            <Disc3 aria-hidden="true" />
-            <b>
-              {station.name}
-              <small>{station.country}</small>
-            </b>
-            <button
-              aria-label={playing ? tr('Pausar', 'Pause') : tr('Escuchar', 'Play')}
-              onClick={() => play(station)}
-            >
-              {playing ? <Pause /> : <Play />}
-            </button>
-            <button
-              aria-label={tr('Siguiente emisora', 'Next station')}
-              disabled={!rows.length}
-              onClick={() =>
-                play(
-                  rows[
-                    (rows.findIndex((r) => r.stationuuid === station.stationuuid) + 1) % rows.length
-                  ],
-                  true
-                )
-              }
-            >
-              <SkipForward />
-            </button>
-          </div>
-        )}
         <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
       </aside>
     </div>

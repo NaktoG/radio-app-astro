@@ -28,12 +28,14 @@ const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
       profile={Boolean(Astro.locals.user)}
     />
     <footer class="app-footer page-shell">
-      <strong>LuVal Studio</strong><nav aria-label={lang === 'en' ? 'Footer' : 'Pie de página'}><a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
-        >{lang === 'en' ? 'Terms' : 'Términos'}</a
-      ><a href="/legal/faq">FAQ</a><button id="language"
-        >{lang === 'en' ? 'Español' : 'English'}</button
-      >
-    </nav></footer>
+      <strong>LuVal Studio</strong><nav aria-label={lang === 'en' ? 'Footer' : 'Pie de página'}>
+        <a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a
+          href="/legal/terms">{lang === 'en' ? 'Terms' : 'Términos'}</a
+        ><a href="/legal/faq">FAQ</a><button id="language"
+          >{lang === 'en' ? 'Español' : 'English'}</button
+        >
+      </nav>
+    </footer>
     <script>
       document.querySelector('#language')?.addEventListener('click', () => {
         document.cookie =

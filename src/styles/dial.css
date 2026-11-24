@@ -211,18 +211,6 @@
   background: #233550;
   border-radius: 10px;
 }
-.mini {
-  width: 100%;
-  gap: 12px;
-  padding: 8px 12px;
-  min-height: 44px;
-  border-bottom: 1px solid #344663;
-}
-.mini b {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 .dial-app :focus-visible {
   outline: 3px solid var(--ice);
   outline-offset: 2px;
@@ -418,27 +406,6 @@
 .station-art svg {
   width: 17px;
 }
-.mini {
-  display: flex;
-  align-items: center;
-  color: #effff3;
-  background: #284634;
-  border-radius: 10px;
-}
-.mini b {
-  flex: 1;
-  text-align: left;
-}
-.mini small {
-  display: block;
-  font-size: 0.72rem;
-  color: #c6d9cf;
-}
-.mini button {
-  min-width: 44px;
-  min-height: 44px;
-  justify-content: center;
-}
 .dial-app aside {
   background: #152019;
   border-color: #405748;
@@ -503,7 +470,7 @@
   .dial-app aside nav {
     display: none;
   }
-  .dial-app aside:not(:has(.mini)) {
+  .dial-app aside {
     display: none;
   }
 }
@@ -535,11 +502,6 @@
   }
   .genre-shelf button:hover img {
     transform: none;
-  }
-}
-@media (max-width: 939px) {
-  .dial-app:not([data-view='0']) .console {
-    display: none;
   }
 }
 
@@ -642,9 +604,6 @@
     opacity: 1;
     transform: none;
   }
-}
-.mini svg:first-child {
-  color: #b8ecc2;
 }
 .dial-app[data-view='0'] .console.sounding small {
   display: flex;
