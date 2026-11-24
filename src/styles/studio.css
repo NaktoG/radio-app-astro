@@ -341,3 +341,112 @@
     gap: 0 14px;
   }
 }
+
+.studio-copy h1 {
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: clamp(62px, 7.7vw, 150px);
+  line-height: 0.84;
+  letter-spacing: -0.078em;
+}
+.studio-copy h1 em {
+  font: inherit;
+  color: #d5f5f7;
+}
+.broadcast-sequence {
+  height: 135svh;
+  position: relative;
+  background: #111919;
+  color: white;
+}
+.broadcast-frame {
+  position: sticky;
+  top: 0;
+  height: 91svh;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.broadcast-frame picture,
+.broadcast-frame picture img,
+.broadcast-frame::after {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+.broadcast-frame .scene-booth {
+  z-index: -3;
+  transform: scale(var(--booth-scale, 1));
+}
+.broadcast-frame .scene-glass {
+  z-index: -2;
+  opacity: var(--glass-opacity, 0);
+  transform: scale(var(--glass-scale, 1));
+  transform-origin: 70% 52%;
+}
+.broadcast-frame::after {
+  content: '';
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    #0b1019 0%,
+    transparent 20%,
+    #07101540 47%,
+    #08131480 74%,
+    #101513 100%
+  );
+}
+.broadcast-type {
+  text-align: center;
+  transform: translateY(var(--title-shift, 0));
+  padding-inline: 14px;
+}
+.broadcast-type h2 {
+  font: 850 clamp(80px, 12vw, 220px)/0.79 var(--font-sans);
+  letter-spacing: -0.085em;
+  text-transform: uppercase;
+  text-shadow: 0 3px 36px #09101680;
+}
+.broadcast-type a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  gap: 8px;
+  margin-top: 28px;
+  border: 1px solid #ffffff88;
+  background: #081211b3;
+  color: white;
+  border-radius: 100px;
+  padding: 0 22px;
+}
+@media (max-width: 700px) {
+  .broadcast-sequence {
+    height: 97svh;
+  }
+  .broadcast-frame {
+    height: 76svh;
+  }
+  .studio-copy h1 {
+    font-size: clamp(56px, 13vw, 84px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .broadcast-sequence {
+    height: auto;
+  }
+  .broadcast-frame {
+    position: relative;
+    height: 65svh;
+  }
+  .broadcast-frame .scene-glass {
+    display: none;
+  }
+  .broadcast-frame .scene-booth,
+  .broadcast-type {
+    transform: none;
+  }
+}

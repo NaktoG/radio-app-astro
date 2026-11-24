@@ -74,7 +74,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
@@ -90,7 +90,7 @@ body {
   padding-top: env(safe-area-inset-top, 0px);
   padding-bottom: env(safe-area-inset-bottom, 0px);
   position: relative;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 *,
@@ -504,7 +504,7 @@ input[type='range']:focus-visible::-moz-range-thumb {
 @media (width < 40rem) {
   body {
     position: relative;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .wave-bg {

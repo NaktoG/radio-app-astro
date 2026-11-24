@@ -64,6 +64,32 @@ const copy = {
   </footer>
   <div class="scale-transition" aria-hidden="true"><i></i></div>
 </section>
+<section class="broadcast-sequence" aria-labelledby="broadcast-title">
+  <div class="broadcast-frame">
+    <picture class="scene-booth" aria-hidden="true"
+      ><source media="(max-width:700px)" srcset="/booth-mobile.webp" /><img
+        src="/booth.webp"
+        width="1600"
+        height="900"
+        alt=""
+        loading="lazy"
+      /></picture
+    >
+    <picture class="scene-glass" aria-hidden="true"
+      ><source media="(max-width:700px)" srcset="/studio-mobile.webp" /><img
+        src="/studio.webp"
+        width="1440"
+        height="810"
+        alt=""
+        loading="lazy"
+      /></picture
+    >
+    <div class="broadcast-type">
+      <h2 id="broadcast-title">{t('Radio', 'Radio')}<br />{t('en vivo.', 'live.')}</h2>
+      <a href="#main">{t('Elegí tu emisora', 'Choose your station')} ↓</a>
+    </div>
+  </div>
+</section>
 <dialog id="install-help">
   <h2>{t('Instalar Radio App', 'Install Radio App')}</h2><p>
     {
@@ -80,13 +106,41 @@ const copy = {
     userChoice: Promise<{ outcome: string }>
   }
   let pending: InstallRequest | null = null
-  const studio = document.querySelector('.studio')!
-  new IntersectionObserver(
-    ([entry]) => {
-      document.body.classList.toggle('viewing-studio', entry.isIntersecting)
-    },
-    { threshold: 0.3 }
-  ).observe(studio)
+  const scene = document.querySelector<HTMLElement>('.broadcast-sequence')!
+  const dial = document.querySelector<HTMLElement>('.dial-app')!
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)')
+  let scheduled = false
+  function drawScene() {
+    scheduled = false
+    const box = scene.getBoundingClientRect()
+    document.body.classList.toggle(
+      'viewing-studio',
+      dial.getBoundingClientRect().top > innerHeight * 0.65
+    )
+    if (reduced.matches || box.bottom < 0 || box.top > innerHeight) return
+    const progress = Math.min(
+      1,
+      Math.max(
+        0,
+        (innerHeight * 0.65 - box.top) /
+          (innerHeight * 0.65 + scene.offsetHeight - scene.firstElementChild!.clientHeight)
+      )
+    )
+    scene.style.setProperty('--glass-scale', String(1.08 + progress * 1.25))
+    scene.style.setProperty('--glass-opacity', String(Math.max(0, 1 - progress * 1.55)))
+    scene.style.setProperty('--booth-scale', String(1.13 - progress * 0.13))
+    scene.style.setProperty('--title-shift', String((1 - progress) * 30) + 'px')
+  }
+  function queueScene() {
+    if (!scheduled) {
+      scheduled = true
+      requestAnimationFrame(drawScene)
+    }
+  }
+  addEventListener('scroll', queueScene, { passive: true })
+  addEventListener('resize', queueScene)
+  reduced.addEventListener('change', queueScene)
+  drawScene()
   const install = document.querySelector<HTMLButtonElement>('#install-radio')!
   const help = document.querySelector<HTMLDialogElement>('#install-help')!
   install.hidden =
