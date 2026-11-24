@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import StudioWelcome from '../components/StudioWelcome.astro'
 import Dial from '../components/Dial'
 const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
 ---
@@ -11,19 +12,27 @@ const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
       name="viewport"
       content="width=device-width, initial-scale=1, viewport-fit=cover"
     /><meta name="theme-color" content="#0c111d" />
-    <title>Radio App · Dial</title><link rel="manifest" href="/manifest.webmanifest" /><link
+    <link rel="apple-touch-icon" href="/radio-180.png" /><meta
+      name="apple-mobile-web-app-capable"
+      content="yes"
+    /><title>Radio App · Dial</title><link rel="manifest" href="/manifest.webmanifest" /><link
       rel="icon"
       href="/favicon.svg"
     />
   </head><body
     ><a class="sr-only focus:not-sr-only" href="#main"
       >{lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}</a
-    ><Dial client:load english={lang === 'en'} profile={Boolean(Astro.locals.user)} />
+    ><StudioWelcome /><Dial
+      client:load
+      english={lang === 'en'}
+      profile={Boolean(Astro.locals.user)}
+    />
     <footer class="flex flex-wrap justify-center gap-4 pb-36">
       <a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
         >{lang === 'en' ? 'Terms' : 'Términos'}</a
       ><a href="/legal/faq">FAQ</a><button id="language"
-        >{lang === 'en' ? 'Español' : 'English'}</button>
+        >{lang === 'en' ? 'Español' : 'English'}</button
+      >
     </footer>
     <script>
       document.querySelector('#language')?.addEventListener('click', () => {
@@ -34,5 +43,6 @@ const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
         location.reload()
       })
       if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {})
-    </script></body>
+    </script></body
+  >
 </html>

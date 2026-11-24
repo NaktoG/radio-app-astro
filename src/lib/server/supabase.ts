@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
-import { createServerClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr'
+import { createServerClient, parseCookieHeader } from '@supabase/ssr'
 import type { AstroCookies } from 'astro'
 
 function requiredEnv(
   name: 'SUPABASE_URL' | 'SUPABASE_SERVICE_ROLE_KEY' | 'SUPABASE_ANON_KEY'
 ): string {
-  const value = import.meta.env[name]
+  const value = process.env[name] ?? import.meta.env[name]
   if (!value) {
     throw new Error(`Missing required environment variable: ${name}`)
   }
@@ -32,10 +32,6 @@ export function createSupabaseServerClient(cookies: AstroCookies, request?: Requ
           cookies.set(name, value, { ...options, path: options.path ?? '/' })
         })
       },
-    },
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
     },
   })
 }

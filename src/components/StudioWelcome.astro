@@ -1,0 +1,112 @@
+---
+import AuthForm from './AuthForm'
+import es from '../i18n/es.json'
+import en from '../i18n/en.json'
+import '../styles/studio.css'
+const english = Astro.locals.lang === 'en'
+const user = Astro.locals.user
+const t = (a: string, b: string) => (english ? b : a)
+const copy = {
+  ...(english ? en : es).AUTH.PROFILE,
+  TITLE: t('Elegí tu apodo', 'Choose your nickname'),
+  SUBTITLE: t(
+    'Guardá tus emisoras favoritas con un apodo.',
+    'Save your favorite stations with a nickname.'
+  ),
+  SUBMIT: t('Crear mi perfil', 'Create my profile'),
+  RISK_TITLE: t('Tu perfil en este dispositivo', 'Your profile on this device'),
+  RISK_BODY: t(
+    'Tu navegador recuerda tu perfil. Si borrás sus datos o cambiás de dispositivo, el apodo por sí solo no recupera tus favoritas.',
+    'This browser remembers your profile. Clearing its data or switching devices means your nickname alone cannot recover your favorites.'
+  ),
+  RISK_RECOVERY: '',
+  RISK_ACCEPT: t('Entendido, crear perfil', 'Got it, create profile'),
+}
+---
+
+<section class="studio" aria-labelledby="studio-title">
+  <picture class="studio-art" aria-hidden="true"
+    ><source media="(max-width: 700px)" srcset="/studio-mobile.webp" /><img
+      src="/studio.webp"
+      alt=""
+      fetchpriority="high"
+      width="1440"
+      height="810"
+    /></picture
+  >
+  <header class="studio-header">
+    <a href="/" class="wordmark"><span aria-hidden="true">◉</span> Radio App</a><button
+      id="install-radio">{t('Instalar app', 'Install app')} ↓</button>
+  </header>
+  <div class="studio-copy">
+    <h1 id="studio-title">
+      {t('El mundo', 'The world')}<br /><em>{t('en el dial.', 'on the dial.')}</em>
+    </h1>
+    {
+      user ? (
+        <a class="listen" href="#main">
+          {t('Volver al dial', 'Return to the dial')} →
+        </a>
+      ) : (
+        <>
+          <AuthForm mode="register" copy={copy} client:load />
+          <a class="guest" href="#main">
+            {t('Escuchar como invitado', 'Listen as a guest')} <span aria-hidden="true">→</span>
+          </a>
+        </>
+      )
+    }
+  </div>
+  <div class="scale-transition" aria-hidden="true"><i></i></div>
+</section>
+<dialog id="install-help">
+  <h2>{t('Instalar Radio App', 'Install Radio App')}</h2><p>
+    {
+      t(
+        'En iPhone, abrí la página en Safari, tocá Compartir y elegí «Añadir a pantalla de inicio». En Brave, buscá la opción de instalación en el menú del navegador.',
+        'On iPhone, open this page in Safari, tap Share and choose Add to Home Screen. In Brave, look for the install option in the browser menu.'
+      )
+    }
+  </p><form method="dialog"><button>{t('Entendido', 'Got it')}</button></form>
+</dialog>
+<script>
+  interface InstallRequest extends Event {
+    prompt(): Promise<void>
+    userChoice: Promise<{ outcome: string }>
+  }
+  let pending: InstallRequest | null = null
+  const studio = document.querySelector('.studio')!
+  new IntersectionObserver(
+    ([entry]) => {
+      document.body.classList.toggle('viewing-studio', entry.isIntersecting)
+    },
+    { threshold: 0.3 }
+  ).observe(studio)
+  const install = document.querySelector<HTMLButtonElement>('#install-radio')!
+  const help = document.querySelector<HTMLDialogElement>('#install-help')!
+  install.hidden =
+    matchMedia('(display-mode: standalone)').matches ||
+    Boolean((navigator as Navigator & { standalone?: boolean }).standalone)
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault()
+    pending = e as InstallRequest
+  })
+  window.addEventListener('appinstalled', () => {
+    pending = null
+    install.hidden = true
+  })
+  install.onclick = async () => {
+    if (!pending) {
+      help.showModal()
+      return
+    }
+    const event = pending
+    pending = null
+    try {
+      await event.prompt()
+      await event.userChoice
+    } catch {
+      help.showModal()
+    }
+  }
+</script>

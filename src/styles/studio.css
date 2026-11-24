@@ -1,0 +1,225 @@
+.studio {
+  position: relative;
+  isolation: isolate;
+  color: #f1f2f1;
+  background: #0b1019;
+  overflow: clip;
+  padding: 0 max(6vw, calc((100vw - 1260px) / 2)) 44px;
+}
+.studio-art,
+.studio-art:after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.studio-art img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+}
+.studio-art:after {
+  content: '';
+  z-index: 0;
+  background:
+    linear-gradient(90deg, #090e18f2, transparent 77%),
+    linear-gradient(0deg, #0c111d, transparent 21%);
+}
+.studio-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+}
+.wordmark {
+  font-weight: 750;
+  font-size: 1.15rem;
+  letter-spacing: -0.04em;
+}
+.wordmark span {
+  color: #89d9ed;
+}
+.studio-header button,
+.guest,
+.listen,
+#install-help button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+.studio-header button {
+  border: 1px solid #969eaa66;
+  border-radius: 24px;
+  padding: 0 18px;
+  background: #0a101bc9;
+}
+.studio-header button[hidden] {
+  display: none;
+}
+.studio-copy {
+  max-width: 430px;
+  padding: clamp(16px, 5vh, 70px) 0 24px;
+}
+.studio-copy h1 {
+  font-size: clamp(58px, 7.8vw, 128px);
+  line-height: 0.9;
+  letter-spacing: -0.075em;
+  margin: 0 0 28px;
+  font-weight: 650;
+}
+.studio-copy h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: #c8e9ef;
+}
+.studio-copy > div {
+  background: #111924ed;
+  border-color: #737f8c66;
+  border-radius: 18px;
+}
+.studio-copy form > div:first-child {
+  text-align: left;
+}
+.studio-copy form > div:first-child p {
+  margin-top: 3px;
+}
+.studio-copy .btn-primary,
+.listen {
+  background: #b8e8f1;
+  color: #11202d;
+}
+.studio-copy [role='dialog'] > div {
+  background: #182233;
+}
+.guest,
+.listen {
+  gap: 10px;
+  margin: 8px 0 0;
+  padding: 0 10px;
+}
+.guest {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.scale-transition {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 21px;
+  background: repeating-linear-gradient(90deg, #8cabb77a 0 1px, transparent 1px 12px);
+}
+.scale-transition i {
+  position: absolute;
+  left: 65%;
+  width: 3px;
+  height: 100%;
+  background: #ffa15a;
+  box-shadow: 0 0 12px #ffa15a;
+  animation: needle-enter 1.4s ease-out both;
+}
+@keyframes needle-enter {
+  from {
+    transform: translateX(-12vw);
+  }
+}
+#install-help {
+  margin: auto;
+  padding: 24px;
+  max-width: min(90vw, 420px);
+  color: #f1f4ff;
+  background: #172336;
+  border: 1px solid #5d7590;
+  border-radius: 18px;
+}
+#install-help h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+#install-help p {
+  margin: 12px 0;
+}
+#install-help button,
+.listen {
+  border-radius: 12px;
+  padding: 0 18px;
+  background: #b8e8f1;
+  color: #101c28;
+}
+#install-help::backdrop {
+  background: #060a13bb;
+}
+@supports (animation-timeline: view()) {
+  .studio-art img {
+    animation: studio-push linear both;
+    animation-timeline: view();
+    animation-range: exit 0% exit 100%;
+  }
+  @keyframes studio-push {
+    to {
+      transform: scale(1.09);
+      opacity: 0.58;
+    }
+  }
+}
+@media (max-width: 700px) {
+  .studio {
+    padding: 0 18px 20px;
+  }
+  .studio-art {
+    bottom: auto;
+    height: 300px;
+  }
+  .studio-art img {
+    object-position: center 50%;
+  }
+  .studio-art:after {
+    background:
+      linear-gradient(0deg, #0b1019 0, transparent 58%),
+      linear-gradient(90deg, #090e1899, transparent 80%);
+  }
+  .studio-copy {
+    padding: 52px 0 12px;
+    max-width: 100%;
+  }
+  .studio-copy h1 {
+    font-size: clamp(55px, 13vw, 84px);
+    margin-bottom: 22px;
+    text-shadow: 0 2px 22px #0008;
+  }
+  .studio-copy > div {
+    padding: 16px;
+  }
+  .studio-copy form {
+    display: grid;
+    gap: 10px;
+  }
+  .studio-copy form > * {
+    margin: 0;
+  }
+  .studio-copy h2 {
+    font-size: 1.1rem;
+  }
+  .scale-transition {
+    height: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-art img,
+  .scale-transition i {
+    animation: none !important;
+  }
+}
+
+.viewing-studio .dial-app aside {
+  visibility: hidden;
+}
+.dial-app header {
+  display: none !important;
+}
+.dial-app main {
+  padding-top: 24px;
+}

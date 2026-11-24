@@ -6,12 +6,28 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#1a1b26",
-  "theme_color": "#1a1b26",
-  "categories": ["music", "entertainment", "news"],
+  "background_color": "#0c111d",
+  "theme_color": "#0c111d",
+  "categories": [
+    "music",
+    "entertainment",
+    "news"
+  ],
   "lang": "es",
   "dir": "ltr",
   "icons": [
+    {
+      "src": "/radio-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/radio-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
     {
       "src": "/pwa-icon.svg",
       "sizes": "any",
@@ -30,15 +46,28 @@
       "name": "Reproductor",
       "short_name": "Player",
       "description": "Abrir el reproductor de radio",
-      "url": "/player",
-      "icons": [{ "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "url": "/#main",
+      "icons": [
+        {
+          "src": "/pwa-icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
     },
     {
       "name": "Buscar radios",
       "short_name": "Buscar",
       "description": "Buscar estaciones de radio",
       "url": "/search",
-      "icons": [{ "src": "/pwa-icon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [
+        {
+          "src": "/pwa-icon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
     }
-  ]
+  ],
+  "id": "/"
 }

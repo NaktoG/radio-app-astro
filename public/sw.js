@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'radio-app-dial-v2'
+const CACHE_VERSION = 'radio-app-studio-v3'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`
 
@@ -42,7 +42,7 @@ async function networkFirst(request) {
   try {
     return await fetch(request)
   } catch {
-    return await caches.match('/offline.html') || Response.error()
+    return await caches.match('/offline.html') || self.Response.error()
   }
 }
 

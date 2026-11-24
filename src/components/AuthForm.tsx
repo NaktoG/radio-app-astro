@@ -47,7 +47,7 @@ export default function AuthForm({ mode, onSuccess, copy }: Props) {
     const response = await createAnonymousProfile({
       nickname: nickname.trim(),
       acceptedAnonymousRisk: true,
-    })
+    }).catch(() => ({ success:false, message:copy.CREATE_ERROR }))
     setLoading(false)
 
     if (!response.success) {
@@ -60,7 +60,7 @@ export default function AuthForm({ mode, onSuccess, copy }: Props) {
       onSuccess()
       return
     }
-    if (typeof window !== 'undefined') window.location.href = '/'
+    if (typeof window !== 'undefined') window.location.href = '/#main'
   }
 
   return (
@@ -80,6 +80,7 @@ export default function AuthForm({ mode, onSuccess, copy }: Props) {
             name="nickname"
             type="text"
             autocomplete="nickname"
+            maxLength={40}
             value={nickname}
             onInput={(event) => setNickname((event.currentTarget as HTMLInputElement).value)}
             placeholder={copy.NICKNAME_PLACEHOLDER}
