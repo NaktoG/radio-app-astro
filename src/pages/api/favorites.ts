@@ -9,6 +9,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
   const { data, error } = await createSupabaseServerClient(cookies, request)
     .from('favorite_stations')
     .select('station_uuid')
+    .eq('user_id', user.userId)
     .order('created_at', { ascending: false })
 
   if (error) return Response.json({ success: false, favorites: [] }, { status: 500 })
@@ -63,6 +64,7 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
   const { error } = await createSupabaseServerClient(cookies, request)
     .from('favorite_stations')
     .delete()
+    .eq('user_id', user.userId)
     .eq('station_uuid', stationUuid)
 
   if (error) return Response.json({ success: false, message: 'No se pudo eliminar el favorito' }, { status: 500 })

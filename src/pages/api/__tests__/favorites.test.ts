@@ -38,7 +38,8 @@ function supabaseClient() {
     order: vi.fn(async () => ({ data: [{ station_uuid: 'station-a' }], error: null })),
     upsert: vi.fn(async () => ({ error: null })),
     delete: vi.fn(() => query),
-    eq: vi.fn(async () => ({ error: null })),
+    eq: vi.fn(() => query),
+    error: null,
   }
 
   return { from: vi.fn(() => query), query }
@@ -51,7 +52,10 @@ describe('favorites API route', () => {
   })
 
   it('uses the per-request Supabase SSR client for favorites reads instead of the admin client', async () => {
+    const client = supabaseClient()
+    vi.mocked(createSupabaseServerClient).mockReturnValueOnce(client as never)
     const response = await GET(apiContext())
+    expect(client.query.eq).toHaveBeenCalledWith("user_id", "00000000-0000-4000-8000-000000000001")
     const payload = await response.json()
 
     expect(response.status).toBe(200)

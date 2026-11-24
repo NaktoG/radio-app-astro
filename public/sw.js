@@ -1,11 +1,8 @@
-const CACHE_VERSION = 'radio-app-v1'
+const CACHE_VERSION = 'radio-app-dial-v2'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`
 
 const PRECACHE_URLS = [
-  '/',
-  '/player',
-  '/search',
   '/offline.html',
   '/favicon.svg',
   '/pwa-icon.svg',
@@ -32,6 +29,8 @@ self.addEventListener('activate', (event) => {
 function shouldBypass(request) {
   const url = new URL(request.url)
   return (
+    url.origin !== self.location.origin ||
+    request.destination === 'audio' ||
     request.method !== 'GET' ||
     url.pathname.startsWith('/api/') ||
     url.pathname.includes('image-proxy') ||
@@ -40,13 +39,10 @@ function shouldBypass(request) {
 }
 
 async function networkFirst(request) {
-  const cache = await caches.open(RUNTIME_CACHE)
   try {
-    const response = await fetch(request)
-    if (response.ok) cache.put(request, response.clone())
-    return response
+    return await fetch(request)
   } catch {
-    return (await cache.match(request)) || (await caches.match('/offline.html'))
+    return await caches.match('/offline.html') || Response.error()
   }
 }
 

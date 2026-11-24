@@ -1,54 +1,38 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import es from '../i18n/es.json'
-import en from '../i18n/en.json'
-
-export const prerender = false
-
-const lang = Astro.locals.lang as string
-const dict = lang === 'en' ? en : es
-const h = dict.HOME
+import '../styles/global.css'
+import Dial from '../components/Dial'
+const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
 ---
 
-<BaseLayout title={dict.NAV.APP_NAME}>
-  <section class="min-h-[72svh] sm:min-h-[85dvh] flex flex-col items-center justify-center text-center px-4 py-10 sm:py-0">
-    <div class="animate-fade-in max-w-4xl">
-      <h1 class="text-fluid-3xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-[var(--color-accent-hover)] via-[var(--color-pink-hover)] to-[var(--color-accent)] bg-clip-text text-transparent leading-tight">
-        {h.HERO.TITLE}
-      </h1>
-      <p class="text-fluid-base sm:text-fluid-lg text-[var(--color-text-secondary)] mb-8 sm:mb-12 max-w-2xl mx-auto font-light">
-        {h.HERO.SUBTITLE}
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/player" class="btn-primary text-fluid-base">{h.HERO.BTN_EXPLORE}</a>
-        <a href="/search" class="btn-secondary text-fluid-base">{h.HERO.BTN_SEARCH}</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="max-w-6xl mx-auto px-4 pb-16 sm:pb-24">
-    <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
-      <div class="card text-center animate-slide-up" style="animation-delay: 0ms">
-        <div class="icon-orb mb-4 mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1a10 10 0 1 1 14.2 0"/><path d="M8.5 15.5a5 5 0 1 1 7 0"/><path d="M12 12h.01"/><path d="M12 17v4"/><path d="M8 21h8"/></svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.GLOBAL.TITLE}</h3>
-        <p class="text-[var(--color-text-muted)]">{h.FEATURES.GLOBAL.DESC}</p>
-      </div>
-      <div class="card text-center animate-slide-up" style="animation-delay: 100ms">
-        <div class="icon-orb mb-4 mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.2-4.2"/><circle cx="11" cy="11" r="7"/><path d="m8.8 11 1.4 1.4 3.2-3.4"/><path d="M16 5.8 18 4"/></svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.SEARCH.TITLE}</h3>
-        <p class="text-[var(--color-text-muted)]">{h.FEATURES.SEARCH.DESC}</p>
-      </div>
-      <div class="card text-center animate-slide-up" style="animation-delay: 200ms">
-        <div class="icon-orb mb-4 mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14c2.4-4 4.8-4 7.2 0s4.8 4 7.2 0S21 10 21 10"/><path d="M3 18c2.4-4 4.8-4 7.2 0s4.8 4 7.2 0S21 14 21 14"/><path d="M8 6h8"/><path d="M10 3h4"/><path d="M12 6v4"/></svg>
-        </div>
-        <h3 class="text-xl font-semibold mb-2 text-[var(--color-text-primary)]">{h.FEATURES.PLAYER.TITLE}</h3>
-        <p class="text-[var(--color-text-muted)]">{h.FEATURES.PLAYER.DESC}</p>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    /><meta name="theme-color" content="#0c111d" />
+    <title>Radio App · Dial</title><link rel="manifest" href="/manifest.webmanifest" /><link
+      rel="icon"
+      href="/favicon.svg"
+    />
+  </head><body
+    ><a class="sr-only focus:not-sr-only" href="#main"
+      >{lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}</a
+    ><Dial client:load english={lang === 'en'} profile={Boolean(Astro.locals.user)} />
+    <footer class="flex flex-wrap justify-center gap-4 pb-36">
+      <a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
+        >{lang === 'en' ? 'Terms' : 'Términos'}</a
+      ><a href="/legal/faq">FAQ</a><button id="language"
+        >{lang === 'en' ? 'Español' : 'English'}</button>
+    </footer>
+    <script>
+      document.querySelector('#language')?.addEventListener('click', () => {
+        document.cookie =
+          'radio_lang=' +
+          (document.documentElement.lang === 'en' ? 'es' : 'en') +
+          ';path=/;max-age=31536000;SameSite=Lax'
+        location.reload()
+      })
+      if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {})
+    </script></body>
+</html>

@@ -60,7 +60,7 @@ export default function AuthForm({ mode, onSuccess, copy }: Props) {
       onSuccess()
       return
     }
-    if (typeof window !== 'undefined') window.location.href = '/player'
+    if (typeof window !== 'undefined') window.location.href = '/'
   }
 
   return (
