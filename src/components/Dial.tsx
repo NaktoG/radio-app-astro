@@ -1,5 +1,16 @@
 import { useEffect, useRef, useState } from 'preact/hooks'
-import { Play, Pause, Shuffle, Compass, Search, Heart, RadioTower } from 'lucide-preact'
+import {
+  Play,
+  Pause,
+  Shuffle,
+  Compass,
+  Search,
+  Heart,
+  SkipForward,
+  Disc3,
+  Library,
+  RadioTower,
+} from 'lucide-preact'
 import { fetchStations, searchStations, fetchStationsByUuids } from '../lib/api'
 import type { Radio } from '../lib/types'
 import { syncFavorites, toggleFavorite, useFavoritesStore } from '../stores/favorites'
@@ -18,6 +29,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
   const [retry, refresh] = useState(0)
   const [station, select] = useState<Radio | null>(null)
   const [status, setStatus] = useState<'idle' | 'waiting' | 'playing' | 'paused' | 'error'>('idle')
+  const [recent, setRecent] = useState<Radio[]>([])
   const audio = useRef<HTMLAudioElement>(null)
   const { favorites, favoritesStatus } = useFavoritesStore()
   const ids = view === 2 ? [...favorites.value].join(',') : ''
@@ -52,10 +64,10 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
       clearTimeout(timer)
     }
   }, [view, country, genre, query, ids, retry])
-  function play(r: Radio) {
+  function play(r: Radio, restart = false) {
     const a = audio.current
     if (!a) return
-    if (station?.stationuuid === r.stationuuid && !a.paused) {
+    if (!restart && station?.stationuuid === r.stationuuid && !a.paused) {
       a.pause()
       return
     }
@@ -67,14 +79,41 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
     })
   }
   const featured = station || rows[0]
-  const labels = [tr('Explorar', 'Explore'), tr('Buscar', 'Search'), tr('Favoritas', 'Favorites')]
-  const icons = [Compass, Search, Heart]
+  const labels = [
+    tr('Explorar', 'Explore'),
+    tr('Buscar', 'Search'),
+    tr('Tu biblioteca', 'Your library'),
+  ]
+  const icons = [Compass, Search, Library]
+  function navigate(next: number) {
+    setView(next)
+    document.querySelector('#main')?.scrollIntoView({ block: 'start' })
+  }
+  const navigation = labels.map((label, i) => {
+    const Icon = icons[i]
+    return (
+      <button
+        key={label}
+        aria-current={view === i ? 'page' : undefined}
+        onClick={() => navigate(i)}
+      >
+        <Icon size={20} />
+        {label}
+      </button>
+    )
+  })
   const playing = status === 'playing'
   return (
-    <div class="dial-app">
+    <div class="dial-app" data-view={view}>
       <audio
         ref={audio}
-        onPlaying={() => setStatus('playing')}
+        onPlaying={() => {
+          setStatus('playing')
+          if (station)
+            setRecent((prev) =>
+              [station, ...prev.filter((r) => r.stationuuid !== station.stationuuid)].slice(0, 6)
+            )
+        }}
         onWaiting={() => setStatus('waiting')}
         onPause={() => setStatus('paused')}
         onError={() => setStatus('error')}
@@ -88,7 +127,57 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
         </a>
       </header>
       <main id="main">
+        <div class="side-library">
+          <a href="#studio-title">
+            <RadioTower size={22} /> Radio App
+          </a>
+          <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
+        </div>
+        <section class="discovery">
+          <h2>{labels[view]}</h2>
+          {view === 0 && (
+            <>
+              <div class="genre-shelf">
+                {['rock', 'jazz', 'electronic'].map((g, i) => (
+                  <button
+                    key={g}
+                    aria-pressed={genre === g}
+                    onClick={() => setGenre(genre === g ? '' : g)}
+                  >
+                    <img
+                      src={'/cover-' + g + '.webp'}
+                      alt=""
+                      loading="lazy"
+                      width="480"
+                      height="320"
+                    />
+                    <b>{['Rock', 'Jazz', tr('Electrónica', 'Electronic')][i]}</b>
+                  </button>
+                ))}
+              </div>
+              {recent.length > 0 && (
+                <section class="recent">
+                  <h3>{tr('Volver a escuchar', 'Recently played')}</h3>
+                  <div>
+                    {recent.map((r) => (
+                      <button key={r.stationuuid} onClick={() => play(r, true)}>
+                        <Disc3 />
+                        {r.name}
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              )}
+            </>
+          )}
+        </section>
         <section class={'console ' + (playing ? 'sounding' : '')}>
+          <div class="record-sleeve" aria-hidden="true">
+            <div class="vinyl">
+              <i />
+            </div>
+            <div class="tonearm" />
+          </div>
           <div class="dial-scale" aria-hidden="true">
             <i key={featured?.stationuuid} />
           </div>
@@ -138,7 +227,13 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
           </div>
         </section>
         <section class="directory">
-          <h2>{labels[view]}</h2>
+          <h3>
+            {view === 2
+              ? tr('Emisoras guardadas', 'Saved stations')
+              : view === 1
+                ? tr('Encontrar emisoras', 'Find stations')
+                : tr('Emisoras en directo', 'Live stations')}
+          </h3>
           {view !== 2 && (
             <label>
               {tr('País', 'Country')}{' '}
@@ -171,7 +266,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
             />
           )}
           {view === 2 && !profile ? (
-            <a href="/auth/profile">
+            <a href="#nickname">
               {tr('Crear perfil para guardar favoritas', 'Create a profile to save favorites')}
             </a>
           ) : busy ? (
@@ -183,10 +278,21 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
           ) : !rows.length ? (
             <p>{tr('Sin emisoras en esta selección', 'No stations in this selection')}</p>
           ) : (
-            rows.map((r) => (
-              <div class="radio-row" key={r.stationuuid}>
+            rows.map((r, index) => (
+              <div
+                style={{ '--enter': Math.min(index, 5) }}
+                class={'radio-row ' + (station?.stationuuid === r.stationuuid ? 'selected' : '')}
+                key={r.stationuuid}
+              >
                 <button onClick={() => play(r)}>
-                  <span>
+                  <span
+                    class="station-art"
+                    style={{
+                      '--tone':
+                        (Array.from(r.name).reduce((sum, ch) => sum + ch.charCodeAt(0), 0) * 17) %
+                        360,
+                    }}
+                  >
                     {station?.stationuuid === r.stationuuid && playing ? <Pause /> : <Play />}
                   </span>
                   <b>
@@ -206,7 +312,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
                   </button>
                 ) : (
                   <a
-                    href="/auth/profile"
+                    href="#nickname"
                     aria-label={tr('Guardar con un perfil', 'Save with a profile')}
                   >
                     <Heart />
@@ -225,29 +331,35 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
       </main>
       <aside>
         {station && (
-          <button class="mini" onClick={() => play(station)}>
-            {playing ? <Pause /> : <Play />}
-            <b>{station.name}</b>
-          </button>
+          <div class="mini">
+            <Disc3 aria-hidden="true" />
+            <b>
+              {station.name}
+              <small>{station.country}</small>
+            </b>
+            <button
+              aria-label={playing ? tr('Pausar', 'Pause') : tr('Escuchar', 'Play')}
+              onClick={() => play(station)}
+            >
+              {playing ? <Pause /> : <Play />}
+            </button>
+            <button
+              aria-label={tr('Siguiente emisora', 'Next station')}
+              disabled={!rows.length}
+              onClick={() =>
+                play(
+                  rows[
+                    (rows.findIndex((r) => r.stationuuid === station.stationuuid) + 1) % rows.length
+                  ],
+                  true
+                )
+              }
+            >
+              <SkipForward />
+            </button>
+          </div>
         )}
-        <nav>
-          {labels.map((label, i) => {
-            const Icon = icons[i]
-            return (
-              <button
-                key={label}
-                aria-current={view === i ? 'page' : undefined}
-                onClick={() => {
-                  setView(i)
-                  document.querySelector('.directory')?.scrollIntoView({ block: 'start' })
-                }}
-              >
-                <Icon />
-                {label}
-              </button>
-            )
-          })}
-        </nav>
+        <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
       </aside>
     </div>
   )

@@ -36,7 +36,8 @@ const copy = {
   >
   <header class="studio-header">
     <a href="/" class="wordmark"><span aria-hidden="true">◉</span> Radio App</a><button
-      id="install-radio">{t('Instalar app', 'Install app')} ↓</button>
+      id="install-radio">{t('Instalar app', 'Install app')} ↓</button
+    >
   </header>
   <div class="studio-copy">
     <h1 id="studio-title">
@@ -57,6 +58,10 @@ const copy = {
       )
     }
   </div>
+  <footer class="creator-credit">
+    <span>{t('Una creación de', 'Created by')} <strong>LuVal Studio</strong></span>
+    <a href="#main">{t('Explorar emisoras', 'Explore stations')} ↓</a>
+  </footer>
   <div class="scale-transition" aria-hidden="true"><i></i></div>
 </section>
 <dialog id="install-help">

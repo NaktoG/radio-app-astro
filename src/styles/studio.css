@@ -223,3 +223,79 @@
 .dial-app main {
   padding-top: 24px;
 }
+
+.creator-credit {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 18px;
+  padding: 14px 0;
+  border-top: 1px solid #ffffff36;
+  font-size: 0.85rem;
+  color: #c4cbd5;
+}
+.creator-credit strong {
+  font-size: 1rem;
+  color: #f5f4f0;
+  letter-spacing: -0.03em;
+}
+.creator-credit a {
+  padding: 10px 0;
+  color: #adf6cd;
+}
+
+/* A light passes over the glass while the highlights on the scale drift. */
+.studio-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    108deg,
+    transparent 30%,
+    rgba(163, 223, 238, 0.09) 47%,
+    transparent 58%
+  );
+  background-size: 280% 100%;
+  animation: glass-reflection 9s ease-in-out infinite;
+}
+.scale-transition i {
+  animation: studio-needle 9s cubic-bezier(0.45, 0, 0.25, 1) infinite alternate;
+}
+@keyframes studio-needle {
+  0%,
+  12% {
+    transform: translateX(-18vw);
+  }
+  50%,
+  62% {
+    transform: translateX(3vw);
+  }
+  100% {
+    transform: translateX(-4vw);
+  }
+}
+@keyframes glass-reflection {
+  0%,
+  15% {
+    background-position: 100% 0;
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  75%,
+  100% {
+    background-position: 0 0;
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-art::before,
+  .scale-transition i {
+    animation: none !important;
+  }
+}

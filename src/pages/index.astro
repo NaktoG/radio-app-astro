@@ -28,7 +28,7 @@ const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
       profile={Boolean(Astro.locals.user)}
     />
     <footer class="flex flex-wrap justify-center gap-4 pb-36">
-      <a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
+      <strong>LuVal Studio</strong><a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
         >{lang === 'en' ? 'Terms' : 'Términos'}</a
       ><a href="/legal/faq">FAQ</a><button id="language"
         >{lang === 'en' ? 'Español' : 'English'}</button

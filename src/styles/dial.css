@@ -268,3 +268,424 @@
     animation: none !important;
   }
 }
+
+.dial-app {
+  --ice: #a1f3be;
+  background: radial-gradient(ellipse 70% 420px at 40% 0, #213b33, transparent), #101513;
+}
+.dial-app main {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+.side-library {
+  display: none;
+}
+.discovery {
+  min-width: 0;
+}
+.discovery h2 {
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.065em;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+.genre-shelf {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+.genre-shelf button {
+  aspect-ratio: 1.5;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 13px;
+  background: #282b28;
+  box-shadow: inset 0 0 0 1px #ffffff20;
+}
+.genre-shelf img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  transition: transform 0.4s;
+}
+.genre-shelf button:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 12%, #050908be);
+  z-index: -1;
+}
+.genre-shelf b {
+  position: absolute;
+  bottom: 9%;
+  left: 8%;
+  font-size: clamp(0.9rem, 2.3vw, 2rem);
+  letter-spacing: -0.045em;
+}
+.genre-shelf button:hover img {
+  transform: scale(1.05);
+}
+.genre-shelf button[aria-pressed='true'] {
+  outline: 3px solid var(--ice);
+  outline-offset: 1px;
+}
+.recent {
+  margin-top: 18px;
+}
+.recent h3,
+.directory h3 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
+  margin: 0 0 10px;
+}
+.recent > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.recent button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  min-height: 44px;
+  background: #26302b;
+  border-radius: 8px;
+}
+.recent svg {
+  width: 18px;
+  color: var(--ice);
+}
+.console {
+  position: relative;
+  top: auto;
+  background: radial-gradient(at 100% 0, #325043, transparent 70%), #19261f;
+  border-color: #556d5e;
+  border-radius: 18px;
+}
+.transport button:first-child {
+  background: #a1f3be;
+  color: #112b1d;
+  border-radius: 30px;
+}
+.console small {
+  color: #a1f3be;
+}
+.dial-bars i {
+  background: linear-gradient(#b8f6bf, #5cc5a7);
+}
+.directory {
+  border-radius: 16px;
+  background: #151c19;
+  padding: 16px;
+}
+.directory label {
+  display: inline-block;
+  margin-right: 14px;
+}
+.directory select,
+.directory input {
+  background: #222c27;
+  border-color: #43554a;
+}
+.radio-row {
+  border-color: #2b3931;
+}
+.radio-row.selected {
+  background: #23382b;
+  border-radius: 8px;
+}
+.radio-row.selected b {
+  color: #acf1bc;
+}
+.station-art {
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  color: white !important;
+  background:
+    repeating-radial-gradient(ellipse at 110% 100%, transparent 0 8px, #ffffff20 9px 11px),
+    linear-gradient(145deg, hsl(var(--tone) 50% 45%), hsl(var(--tone) 42% 19%));
+}
+.station-art svg {
+  width: 17px;
+}
+.mini {
+  display: flex;
+  align-items: center;
+  color: #effff3;
+  background: #284634;
+  border-radius: 10px;
+}
+.mini b {
+  flex: 1;
+  text-align: left;
+}
+.mini small {
+  display: block;
+  font-size: 0.72rem;
+  color: #c6d9cf;
+}
+.mini button {
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+.dial-app aside {
+  background: #152019;
+  border-color: #405748;
+}
+.dial-app nav button[aria-current] {
+  color: #a1f3be;
+  background: #293b30;
+}
+@media (min-width: 940px) {
+  .dial-app main {
+    grid-template-columns: 160px minmax(0, 1fr) minmax(230px, 0.52fr);
+    grid-template-rows: auto 1fr;
+    align-items: start;
+  }
+  .side-library {
+    display: block;
+    grid-column: 1;
+    grid-row: 1/3;
+    position: sticky;
+    top: 20px;
+  }
+  .side-library > a,
+  .side-library nav button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    min-height: 44px;
+    font-weight: 650;
+  }
+  .side-library nav {
+    display: grid;
+    gap: 4px;
+    margin-top: 15px;
+  }
+  .side-library nav button {
+    justify-content: flex-start;
+    flex-direction: row;
+    font-size: 0.92rem;
+    width: 100%;
+  }
+  .discovery,
+  .directory {
+    grid-column: 2;
+  }
+  .discovery {
+    grid-row: 1;
+  }
+  .directory {
+    grid-row: 2;
+  }
+  .console {
+    grid-column: 3;
+    grid-row: 1/3;
+    position: sticky;
+    top: 20px;
+    padding: 20px;
+  }
+  .console h1 {
+    font-size: 2.1rem;
+  }
+  .dial-app aside nav {
+    display: none;
+  }
+  .dial-app aside:not(:has(.mini)) {
+    display: none;
+  }
+}
+@media (max-width: 939px) {
+  .console h1 {
+    font-size: clamp(1.6rem, 5vw, 2.6rem);
+  }
+  .console {
+    padding: 16px;
+  }
+  .console .dial-scale {
+    height: 14px;
+    margin-bottom: 10px;
+  }
+  .console .dial-bars {
+    height: 22px;
+    margin-top: 12px;
+  }
+  .directory {
+    padding: 14px;
+  }
+  .directory select {
+    max-width: 100%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .genre-shelf img {
+    transition: none;
+  }
+  .genre-shelf button:hover img {
+    transform: none;
+  }
+}
+@media (max-width: 939px) {
+  .dial-app:not([data-view='0']) .console {
+    display: none;
+  }
+}
+
+.record-sleeve {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  height: clamp(116px, 13vw, 190px);
+  border-radius: 12px;
+  background: linear-gradient(120deg, #172522, #426251 58%, #1c322b);
+  box-shadow: inset 0 0 36px #05100e99;
+  margin-bottom: 16px;
+}
+.vinyl {
+  position: absolute;
+  left: 14%;
+  top: -33%;
+  height: 170%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle, transparent 0 3px, #ffffff15 3.5px 4px),
+    conic-gradient(
+      from 30deg,
+      #080c0c,
+      #43514e 14%,
+      #080b0c 29%,
+      #0e1516 51%,
+      #374240 66%,
+      #070909 83%,
+      #080c0c
+    );
+  box-shadow: 4px 8px 18px #0009;
+  animation: spin-record 7s linear infinite;
+  animation-play-state: paused;
+}
+.vinyl i {
+  position: absolute;
+  inset: 33%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #1c2621 0 5%, transparent 6%),
+    conic-gradient(#c2f4cb 0 46%, #7cb997 46% 50%, #d8eb99 50% 82%, #c2f4cb 82%);
+}
+.tonearm {
+  position: absolute;
+  top: -7%;
+  right: 18%;
+  height: 75%;
+  width: 5px;
+  background: linear-gradient(90deg, #667870, #f2f3e8, #6b756f);
+  transform-origin: top;
+  transform: rotate(0deg);
+  transition: transform 0.65s ease;
+}
+.tonearm:after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: -4px;
+  background: #e4cf89;
+  border-radius: 2px;
+  width: 12px;
+  height: 22px;
+  box-shadow: 1px 2px 5px #0009;
+}
+.sounding .tonearm {
+  transform: rotate(18deg);
+}
+.sounding .vinyl {
+  animation-play-state: running;
+}
+@keyframes spin-record {
+  to {
+    transform: rotate(1turn);
+  }
+}
+.genre-shelf button {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.genre-shelf button:active {
+  transform: scale(0.96);
+}
+.genre-shelf button:focus-visible img,
+.genre-shelf button:active img {
+  transform: scale(1.06);
+}
+.radio-row {
+  animation: row-arrive 0.35s ease-out backwards;
+  animation-delay: calc(var(--enter, 0) * 38ms);
+}
+@keyframes row-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.mini svg:first-child {
+  color: #b8ecc2;
+}
+.dial-app[data-view='0'] .console.sounding small {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sounding small:before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  background: #b4ffbf;
+  box-shadow: 0 0 9px #8bffa2;
+  animation: signal-glow 1.8s ease-in-out infinite alternate;
+}
+@keyframes signal-glow {
+  to {
+    opacity: 0.45;
+  }
+}
+@media (max-width: 939px) {
+  .record-sleeve {
+    float: right;
+    width: clamp(78px, 24%, 140px);
+    height: 90px;
+    margin: 0 0 6px 12px;
+  }
+  .record-sleeve + .dial-scale {
+    margin-right: 32%;
+  }
+  .transport {
+    clear: both;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tonearm,
+  .genre-shelf button {
+    transition: none !important;
+  }
+  .genre-shelf button:active {
+    transform: none;
+  }
+}
