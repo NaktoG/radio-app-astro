@@ -104,7 +104,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
   })
   const playing = status === 'playing'
   return (
-    <div class="dial-app" data-view={view}>
+    <div class="dial-app page-shell" data-view={view}>
       <audio
         ref={audio}
         onPlaying={() => {

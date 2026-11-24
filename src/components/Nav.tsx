@@ -54,7 +54,7 @@ export default function Nav({ lang: initialLang }: Props) {
         class="fixed top-0 left-0 right-0 z-[var(--z-fixed)] w-full max-w-full backdrop-blur-xl bg-[var(--color-bg-glass)] border-b border-[var(--color-border)] nav-safe-top"
         aria-label={t('NAV.APP_NAME')}
       >
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between min-w-0">
+        <div class="page-shell h-16 flex items-center justify-between min-w-0">
           <a
             href="/"
             class="flex min-w-0 items-center gap-2 text-xl font-bold hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)] rounded-lg px-1"

@@ -6,7 +6,7 @@
   background: #0c111d;
   color: var(--ink);
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  padding: 0 max(16px, calc((100vw - 1140px) / 2)) 9rem;
+  padding-block: 0 clamp(24px, 3vw, 48px);
 }
 .dial-app header,
 .dial-app header strong,
@@ -191,12 +191,11 @@
   position: fixed;
   z-index: 50;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(100%, 550px);
+  inset-inline: 0;
+  width: auto;
   background: #152035;
   border: 1px solid #455673;
-  border-radius: 16px 16px 0 0;
+  border-radius: 0;
   padding: 4px 8px max(6px, env(safe-area-inset-bottom));
 }
 .dial-app nav button {
@@ -450,7 +449,7 @@
 }
 @media (min-width: 940px) {
   .dial-app main {
-    grid-template-columns: 160px minmax(0, 1fr) minmax(230px, 0.52fr);
+    grid-template-columns: clamp(150px, 13%, 236px) minmax(0, 1fr) minmax(240px, 27%);
     grid-template-rows: auto 1fr;
     align-items: start;
   }
