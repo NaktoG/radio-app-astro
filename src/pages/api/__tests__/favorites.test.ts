@@ -1,3 +1,4 @@
+import type { APIContext } from 'astro'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { getSessionUser } from '../../../lib/server/auth'
 import { createSupabaseServerClient, getSupabaseAdmin } from '../../../lib/server/supabase'
@@ -29,7 +30,7 @@ function apiContext(body: unknown = {}) {
       body: JSON.stringify(body),
     }),
     cookies: cookies(),
-  }
+  } as unknown as APIContext
 }
 
 function supabaseClient() {

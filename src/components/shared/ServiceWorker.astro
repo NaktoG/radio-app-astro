@@ -1,0 +1,11 @@
+---
+const enabled = process.env.VERCEL_ENV === 'production'
+---
+
+<meta name="radio-offline-enabled" content={String(enabled)} />
+<script>
+  import { initializeServiceWorker } from '../../lib/serviceWorker'
+  void initializeServiceWorker(
+    document.querySelector('meta[name="radio-offline-enabled"]')?.getAttribute('content') === 'true'
+  )
+</script>

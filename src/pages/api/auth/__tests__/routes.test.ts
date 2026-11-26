@@ -1,3 +1,4 @@
+import type { APIContext } from 'astro'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createAnonymousProfileForRequest, getSessionUser } from '../../../../lib/server/auth'
 import { POST as createAnonymous } from '../anonymous'
@@ -32,7 +33,7 @@ function apiContext(body: unknown = {}) {
       body: JSON.stringify(body),
     }),
     cookies: { getAll: vi.fn(() => []), set: vi.fn(), delete: vi.fn() },
-  }
+  } as unknown as APIContext
 }
 
 describe('anonymous auth API routes', () => {

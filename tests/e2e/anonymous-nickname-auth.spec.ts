@@ -181,7 +181,7 @@ test.describe('anonymous nickname auth readiness', () => {
 
     const warning = page.waitForEvent('dialog')
     await clickSignOut(page)
-    await expect((await warning).message()).toMatch(/may not be recoverable|no pueda recuperarse/i)
+    expect((await warning).message()).toMatch(/may not be recoverable|no pueda recuperarse/i)
     await (await warning).accept()
     await expect(page).toHaveURL(/\/$/)
     await context.close()

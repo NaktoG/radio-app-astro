@@ -28,10 +28,9 @@ describe('local diagnostic auth guard', () => {
     })
 
     expect(user).toEqual({
-      id: 'local-diagnostic-user',
-      username: 'diagnostic_user',
-      role: 'diagnostic',
-      createdAt: new Date('2026-07-29T00:00:00.000Z'),
+      userId: 'local-diagnostic-user',
+      nickname: 'diagnostic_user',
+      acceptedAnonymousRiskAt: '2026-07-29T00:00:00.000Z',
       favorites: [],
       preferences: { theme: 'dark', defaultCountry: 'AR', autoPlay: false, volume: 0.7 },
     })
@@ -79,7 +78,7 @@ describe('local diagnostic auth guard', () => {
       isProd: false,
     })
 
-    expect(user?.id).toBe('local-diagnostic-user')
+    expect(user?.userId).toBe('local-diagnostic-user')
   })
 
   it('returns a diagnostic user for 127.0.0.1 requests with the explicit header in test mode', () => {
@@ -91,7 +90,7 @@ describe('local diagnostic auth guard', () => {
       isProd: false,
     })
 
-    expect(user?.id).toBe('local-diagnostic-user')
+    expect(user?.userId).toBe('local-diagnostic-user')
   })
 
   it.each([

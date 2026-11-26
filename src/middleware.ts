@@ -28,6 +28,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.lang = lang === 'en' ? 'en' : 'es'
 
   const path = context.url.pathname
+  // Public directory/image responses must not depend on Supabase availability
+  // or refresh a user cookie before entering a shared CDN cache.
+  if (path === '/api/stations' || path === '/api/image-proxy' || path === '/_image') {
+    context.locals.user = null
+    return next()
+  }
   const user =
     getLocalDiagnosticUser({
       request: context.request,

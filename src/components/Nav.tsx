@@ -9,7 +9,7 @@ import {
   SearchCheck,
   Headphones,
   HeartPulse,
-  Github,
+  Code2,
 } from 'lucide-preact'
 import { useAuth, logout as doLogout, initAuth } from '../lib/auth'
 import { useI18n, setLang } from '../i18n/client'
@@ -93,7 +93,7 @@ export default function Nav({ lang: initialLang }: Props) {
               rel="noreferrer"
               aria-label="Ver repositorio en GitHub"
             >
-              <Github size={16} aria-hidden="true" />
+              <Code2 size={16} aria-hidden="true" />
               GitHub
             </a>
 
@@ -218,7 +218,7 @@ export default function Nav({ lang: initialLang }: Props) {
                 rel="noreferrer"
                 role="menuitem"
               >
-                <Github size={18} aria-hidden="true" />
+                <Code2 size={18} aria-hidden="true" />
                 GitHub
               </a>
               {isAuthenticated.value ? (

@@ -5,19 +5,30 @@ interface Option {
   label: string
 }
 
-interface Props extends Omit<JSX.HTMLAttributes<HTMLSelectElement>, 'onChange'> {
+interface Props extends Omit<JSX.IntrinsicElements['select'], 'onChange'> {
   label: string
   options: Option[]
   value: string
   onChange?: (value: string) => void
 }
 
-export default function Select({ label, options, value, onChange, id, class: className, ...rest }: Props) {
+export default function Select({
+  label,
+  options,
+  value,
+  onChange,
+  id,
+  class: className,
+  ...rest
+}: Props) {
   const selectId = id || `select-${label.toLowerCase().replace(/\s+/g, '-')}`
 
   return (
     <div class={`w-full min-w-0 ${className || ''}`}>
-      <label for={selectId} class="block text-sm font-medium mb-1.5 text-[var(--color-text-secondary)]">
+      <label
+        for={selectId}
+        class="block text-sm font-medium mb-1.5 text-[var(--color-text-secondary)]"
+      >
         {label}
       </label>
       <select
@@ -28,7 +39,11 @@ export default function Select({ label, options, value, onChange, id, class: cla
         {...rest}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} class="bg-[var(--color-bg-base)] text-[var(--color-text-primary)]">
+          <option
+            key={opt.value}
+            value={opt.value}
+            class="bg-[var(--color-bg-base)] text-[var(--color-text-primary)]"
+          >
             {opt.label}
           </option>
         ))}

@@ -1,3 +1,4 @@
+import type { Radio } from '../../lib/types'
 import { describe, it, expect, beforeEach } from 'vitest'
 import { setStation, setVolume, toggleMute, usePlayerStore, _resetPlayerForTesting } from '../player'
 
@@ -19,7 +20,7 @@ describe('player store', () => {
       name: 'Test Radio',
       url: 'http://example.com/stream',
       url_resolved: 'http://example.com/stream',
-    } as any
+    } as Radio
     setStation(station)
     const { currentStation, hasStation } = usePlayerStore()
     expect(currentStation.value?.stationuuid).toBe('test-1')

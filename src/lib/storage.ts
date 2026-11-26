@@ -1,5 +1,5 @@
 export const StorageUtil = {
-  setItem(key: string, value: any): void {
+  setItem(key: string, value: unknown): void {
     try {
       const encoded = btoa(encodeURIComponent(JSON.stringify(value)))
       localStorage.setItem(key, encoded)

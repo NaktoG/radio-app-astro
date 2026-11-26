@@ -3,7 +3,9 @@ import type { JSX } from 'preact'
 type Variant = 'primary' | 'secondary' | 'ghost' | 'danger'
 type Size = 'sm' | 'md' | 'lg'
 
-interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+type NativeProps = JSX.IntrinsicElements['button']
+
+interface Props extends NativeProps {
   variant?: Variant
   size?: Size
   loading?: boolean

@@ -1,124 +1,61 @@
 import type { APIRoute } from 'astro'
+import { stationDirectory } from '../../lib/server/stationDirectory'
 
-const MIRRORS = [
-  'https://all.api.radio-browser.info',
-  'https://de1.api.radio-browser.info',
-  'https://de2.api.radio-browser.info',
-  'https://at1.api.radio-browser.info',
-  'https://nl1.api.radio-browser.info',
-  'https://fr1.api.radio-browser.info',
-]
-
-const CACHE_TTL = 60_000
-const FETCH_TIMEOUT_MS = 12_000
-const MAX_LIMIT = 150
-const cache = new Map<string, { data: unknown; expiry: number }>()
 const ALLOWED_PATHS = new Set(['/json/stations/search', '/json/stations/byuuid'])
-
-function clampLimit(limit: string | null): string | null {
-  if (!limit) return null
-  const n = Number(limit)
-  if (!Number.isFinite(n) || n <= 0) return null
-  return String(Math.min(Math.floor(n), MAX_LIMIT))
-}
+const ALLOWED_PARAMS = new Set([
+  'countrycode',
+  'tag',
+  'name',
+  'limit',
+  'offset',
+  'order',
+  'reverse',
+  'uuids',
+])
 
 export const GET: APIRoute = async ({ url }) => {
+  const path = url.searchParams.get('_path') || '/json/stations/search'
+  if (!ALLOWED_PATHS.has(path))
+    return Response.json({ error: { code: 'INVALID_PATH' } }, { status: 400 })
+  const params = new URLSearchParams()
+  for (const [key, value] of url.searchParams) {
+    if (!ALLOWED_PARAMS.has(key)) continue
+    if (value.length > (key === 'uuids' ? 6000 : 200))
+      return Response.json({ error: { code: 'INVALID_FILTER' } }, { status: 400 })
+    params.set(key, value)
+  }
+  if (path.endsWith('/search')) {
+    const limit = Number(params.get('limit') || 36)
+    const offset = Number(params.get('offset') || 0)
+    if (!Number.isInteger(limit) || limit < 1 || !Number.isInteger(offset) || offset < 0)
+      return Response.json({ error: { code: 'INVALID_FILTER' } }, { status: 400 })
+    params.set('limit', String(Math.min(limit, 150)))
+    params.set('offset', String(Math.min(offset, 10000)))
+    params.set('hidebroken', 'true')
+  } else if (!params.get('uuids')) return Response.json([])
   try {
-    const params = new URLSearchParams(url.searchParams)
-    params.delete('_')
-
-    const path = params.get('_path') || '/json/stations/search'
-    params.delete('_path')
-
-    if (!ALLOWED_PATHS.has(path)) {
-      return new Response(
-        JSON.stringify({
-          error: { code: 'INVALID_PATH', message: 'Invalid API path' },
-        }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        },
-      )
-    }
-
-    const normalizedLimit = clampLimit(params.get('limit'))
-    if (normalizedLimit) params.set('limit', normalizedLimit)
-
-    const cacheKey = `${path}?${params.toString()}`
-    const cached = cache.get(cacheKey)
-    if (cached && Date.now() < cached.expiry) {
-      return new Response(JSON.stringify(cached.data), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'public, max-age=60',
-        },
-      })
-    }
-
-    let lastError: Error | null = null
-    for (const mirror of MIRRORS) {
-      try {
-        const apiUrl = `${mirror}${path}?${params.toString()}`
-        const response = await fetch(apiUrl, {
-          headers: {
-            Accept: 'application/json',
-            'User-Agent': 'RadioApp/1.0 (+https://github.com/NaktoG/radio-app-astro)',
-          },
-          signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-        })
-
-        if (!response.ok) {
-          lastError = new Error(`API ${mirror} returned ${response.status}`)
-          continue
-        }
-
-        const data = await response.json()
-        cache.set(cacheKey, { data, expiry: Date.now() + CACHE_TTL })
-
-        return new Response(JSON.stringify(data), {
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=60',
-          },
-        })
-      } catch (e) {
-        lastError = e instanceof Error ? e : new Error(String(e))
-      }
-    }
-
-    console.error('[api/stations] all mirrors failed', {
-      path,
-      params: params.toString(),
-      lastError: lastError?.message ?? 'unknown',
-    })
-
-    return new Response(JSON.stringify([]), {
-      status: 200,
+    const { stations, source } = await stationDirectory.get(path, params)
+    return Response.json(stations, {
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'no-store',
-        'X-Radio-App-Fallback': 'direct',
+        'Cache-Control':
+          source === 'stale'
+            ? 'no-store'
+            : 'public, max-age=60, s-maxage=300, stale-while-revalidate=600, stale-if-error=3600',
+        'X-Radio-Directory': source,
       },
     })
   } catch {
-    return new Response(
-      JSON.stringify({
-        error: { code: 'INTERNAL_ERROR', message: 'Internal server error' },
-      }),
+    return Response.json(
       {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+        error: {
+          code: 'DIRECTORY_UNAVAILABLE',
+          message: 'El directorio no responde. Reintentá en unos segundos.',
         },
       },
+      {
+        status: 503,
+        headers: { 'Cache-Control': 'no-store', 'Retry-After': '20' },
+      }
     )
   }
 }

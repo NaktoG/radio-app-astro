@@ -1,4 +1,6 @@
 ---
+import BrandFooter from '../components/shared/BrandFooter.astro'
+import ServiceWorker from '../components/shared/ServiceWorker.astro'
 import '../styles/global.css'
 import '../styles/radio-brand.css'
 import '../styles/animations.css'
@@ -15,7 +17,6 @@ const dict = lang === 'en' ? en : es
 const { title } = Astro.props
 const pageTitle = title ? `${title} | ${dict.NAV.APP_NAME}` : dict.NAV.APP_NAME
 const skipLinkText = lang === 'en' ? 'Skip to content' : 'Saltar al contenido'
-const githubUrl = 'https://github.com/NaktoG/radio-app-astro'
 ---
 
 <!doctype html>
@@ -35,7 +36,7 @@ const githubUrl = 'https://github.com/NaktoG/radio-app-astro'
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content={dict.NAV.APP_NAME} />
     <meta name="application-name" content={dict.NAV.APP_NAME} />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/pwa-icon.svg" />
     <link rel="preconnect" href="https://de1.api.radio-browser.info" crossorigin />
@@ -53,68 +54,8 @@ const githubUrl = 'https://github.com/NaktoG/radio-app-astro'
     <main id="main" class="flex-1 pt-16 content-layer w-full max-w-full overflow-x-hidden">
       <slot />
     </main>
-    <footer
-      class="content-layer w-full max-w-full overflow-x-hidden border-t border-[var(--color-border)] bg-[color-mix(in_oklab,var(--color-bg-base)_92%,transparent)] backdrop-blur-md"
-    >
-      <div
-        class="page-shell py-3 sm:py-6 mobile-menu-safe flex flex-col md:flex-row items-center justify-between gap-1.5 sm:gap-3 md:gap-4"
-      >
-        <p
-          class="text-[0.62rem] sm:text-sm text-[var(--color-text-muted)] text-center md:text-left leading-relaxed break-words"
-        >
-          <strong>LuVal Studio</strong> · {dict.HOME.FOOTER.COPYRIGHT}
-        </p>
-        <div
-          class="w-full md:w-auto flex flex-wrap items-center justify-center md:justify-end gap-x-3 gap-y-1 text-[0.62rem] sm:text-sm"
-        >
-          <a
-            href="/legal/terms"
-            class="inline-flex items-center min-h-8 sm:min-h-10 text-[var(--color-text-muted)] hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] rounded px-1.5 py-0.5"
-            >{dict.HOME.FOOTER.TERMS}</a
-          >
-          <a
-            href="/legal/privacy"
-            class="inline-flex items-center min-h-8 sm:min-h-10 text-[var(--color-text-muted)] hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] rounded px-1.5 py-0.5"
-            >{dict.HOME.FOOTER.PRIVACY}</a
-          >
-          <a
-            href="/legal/faq"
-            class="inline-flex items-center min-h-8 sm:min-h-10 text-[var(--color-text-muted)] hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] rounded px-1.5 py-0.5"
-            >{dict.HOME.FOOTER.FAQ}</a
-          >
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noreferrer"
-            class="inline-flex items-center gap-1.5 min-h-8 sm:min-h-10 text-[var(--color-text-muted)] hover:text-[var(--color-accent-hover)] transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] rounded px-1.5 py-0.5"
-            aria-label="Ver repositorio en GitHub"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-              ><path
-                d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.3-.85 2.15-.76.35-2.73.96-3.95-1.15-.72-1.25-1.2-1.5-1.2-1.5"
-              ></path></svg
-            >
-            GitHub
-          </a>
-        </div>
-      </div>
-    </footer>
-    <script is:inline>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {})
-        })
-      }
-    </script>
+    <BrandFooter english={lang === 'en'} />
+
+    <ServiceWorker />
   </body>
 </html>

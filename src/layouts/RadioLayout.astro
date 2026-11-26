@@ -1,4 +1,6 @@
 ---
+import BrandFooter from '../components/shared/BrandFooter.astro'
+import ServiceWorker from '../components/shared/ServiceWorker.astro'
 import '../styles/global.css'
 import '../styles/radio-brand.css'
 interface Props {
@@ -22,7 +24,7 @@ const english = Astro.locals.lang === 'en'
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/radio-180.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials" />
     <title>{title}</title>
   </head>
   <body>
@@ -30,19 +32,8 @@ const english = Astro.locals.lang === 'en'
       >{english ? 'Skip to content' : 'Saltar al contenido'}</a
     >
     <slot />
-    <footer class="brand-footer">
-      <a href="/">Una creación de <strong>LuVal Studio</strong></a><nav aria-label="Legal">
-        <a href="/legal/privacy">{english ? 'Privacy' : 'Privacidad'}</a><a href="/legal/terms"
-          >{english ? 'Terms' : 'Términos'}</a
-        ><button id="radio-language">{english ? 'Español' : 'English'}</button>
-      </nav>
-    </footer>
-    <script>
-      document.querySelector('#radio-language')?.addEventListener('click', () => {
-        document.cookie = `radio_lang=${document.documentElement.lang === 'en' ? 'es' : 'en'};path=/;max-age=31536000;SameSite=Lax`
-        location.reload()
-      })
-      if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {})
-    </script>
+    <BrandFooter english={english} />
+
+    <ServiceWorker />
   </body>
 </html>

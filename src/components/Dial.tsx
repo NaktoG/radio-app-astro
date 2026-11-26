@@ -1,51 +1,22 @@
-import { useEffect, useRef, useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import {
   Play,
-  Pause,
-  Shuffle,
   Compass,
   Search,
   Heart,
-  SkipForward,
   Disc3,
   Library,
   RadioTower,
   ArrowUpRight,
-  ChevronLeft,
   Headphones,
-  Volume2,
 } from 'lucide-preact'
-import { fetchStations, searchStations, fetchStationsByUuids } from '../lib/api'
+import StationArtwork from './StationArtwork'
+import RadioPlayerPanel from './RadioPlayerPanel'
+import { useStationDirectory } from '../hooks/useStationDirectory'
+import { useRadioPlayback } from '../hooks/useRadioPlayback'
 import type { Radio } from '../lib/types'
 import { syncFavorites, toggleFavorite, useFavoritesStore } from '../stores/favorites'
 import '../styles/dial-yellow.css'
-
-function StationArtwork({ radio }: { radio: Radio }) {
-  const [failed, setFailed] = useState(false)
-  const src = /^https:\/\//i.test(radio.favicon) ? radio.favicon : ''
-  const initials = radio.name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase()
-  return (
-    <span class={'station-logo ' + (!src || failed ? 'station-initials' : '')}>
-      {src && !failed ? (
-        <img
-          src={src}
-          alt=""
-          loading="lazy"
-          referrerPolicy="no-referrer"
-          onError={() => setFailed(true)}
-        />
-      ) : (
-        <b>{initials || 'FM'}</b>
-      )}
-    </span>
-  )
-}
 
 const bands = ['AR', 'ES', 'MX', 'US', 'BR', 'FR', 'GB']
 export default function Dial({
@@ -57,10 +28,11 @@ export default function Dial({
   profile: boolean
   nickname?: string
 }) {
+  const { audio, audioEvents, station, status, recent, volume, setVolume, play } =
+    useRadioPlayback()
   const tr = (es: string, en: string) => (english ? en : es)
   const [view, setView] = useState(0)
   const [playerOpen, setPlayerOpen] = useState(false)
-  const [volume, setVolume] = useState(0.7)
   useEffect(() => {
     const selected = new URLSearchParams(location.search).get('view')
     if (selected === 'favorites') setView(2)
@@ -70,61 +42,12 @@ export default function Dial({
   const [country, setCountry] = useState('AR')
   const [genre, setGenre] = useState('')
   const [query, setQuery] = useState('')
-  const [rows, setRows] = useState<Radio[]>([])
-  const [busy, setBusy] = useState(true)
-  const [failed, setFailed] = useState(false)
-  const [retry, refresh] = useState(0)
-  const [station, select] = useState<Radio | null>(null)
-  const [status, setStatus] = useState<'idle' | 'waiting' | 'playing' | 'paused' | 'error'>('idle')
-  const [recent, setRecent] = useState<Radio[]>([])
-  const audio = useRef<HTMLAudioElement>(null)
   const { favorites, favoritesStatus } = useFavoritesStore()
   const ids = view === 2 ? [...favorites.value].join(',') : ''
+  const { rows, busy, failed, retry } = useStationDirectory(view, country, genre, query, ids)
   useEffect(() => {
     if (profile) void syncFavorites()
   }, [profile])
-  useEffect(() => {
-    let current = true
-    setBusy(true)
-    setFailed(false)
-    setRows([])
-    const timer = setTimeout(
-      async () => {
-        try {
-          const result =
-            view === 2
-              ? await fetchStationsByUuids(ids ? ids.split(',') : [])
-              : view === 1
-                ? await searchStations(query.trim(), country, genre)
-                : await fetchStations({ countrycode: country, tag: genre, limit: 36 })
-          if (current) setRows(result.filter((r) => /^https?:\/\//i.test(r.url_resolved || r.url)))
-        } catch {
-          if (current) setFailed(true)
-        } finally {
-          if (current) setBusy(false)
-        }
-      },
-      view === 1 ? 300 : 0
-    )
-    return () => {
-      current = false
-      clearTimeout(timer)
-    }
-  }, [view, country, genre, query, ids, retry])
-  function play(r: Radio, restart = false) {
-    const a = audio.current
-    if (!a) return
-    if (!restart && station?.stationuuid === r.stationuuid && !a.paused) {
-      a.pause()
-      return
-    }
-    if (station?.stationuuid !== r.stationuuid || a.error) a.src = r.url_resolved || r.url
-    select(r)
-    setStatus('waiting')
-    void a.play().catch((e) => {
-      if (e.name !== 'AbortError') setStatus('error')
-    })
-  }
   const featured = station || rows[0]
   const labels = [
     tr('Explorar', 'Explore'),
@@ -234,22 +157,7 @@ export default function Dial({
   const countryName = new Intl.DisplayNames([english ? 'en' : 'es'], { type: 'region' }).of(country)
   return (
     <div class={'dial-app page-shell ' + (playerOpen ? 'player-open' : '')}>
-      <audio
-        ref={audio}
-        onLoadedMetadata={() => {
-          if (audio.current) audio.current.volume = volume
-        }}
-        onPlaying={() => {
-          setStatus('playing')
-          if (station)
-            setRecent((prev) =>
-              [station, ...prev.filter((r) => r.stationuuid !== station.stationuuid)].slice(0, 6)
-            )
-        }}
-        onWaiting={() => setStatus('waiting')}
-        onPause={() => setStatus('paused')}
-        onError={() => setStatus('error')}
-      />
+      <audio ref={audio} {...audioEvents} />
       <header class="app-header">
         <a class="app-logo" href="/" aria-label={tr('Radio App, portada', 'Radio App, home')}>
           <img src="/favicon.svg" width="32" height="32" alt="" />
@@ -500,7 +408,7 @@ export default function Dial({
                     'We could not connect to the directory.'
                   )}
                 </p>
-                <button class="yellow-button" onClick={() => refresh(retry + 1)}>
+                <button class="yellow-button" onClick={retry}>
                   {tr('Reintentar', 'Retry')}
                 </button>
               </div>
@@ -559,133 +467,19 @@ export default function Dial({
             </section>
           )}
         </div>
-        <section
-          class={'console ' + (playing ? 'sounding' : '')}
-          aria-label={tr('Reproductor', 'Player')}
-        >
-          <div class="player-heading">
-            <button
-              class="icon-button player-back"
-              onClick={() => navigate(view)}
-              aria-label={tr('Volver a las emisoras', 'Back to stations')}
-            >
-              <ChevronLeft size={22} />
-            </button>
-            <span>{tr('TU FRECUENCIA', 'YOUR FREQUENCY')}</span>
-            <Headphones size={20} />
-          </div>
-          <div class="record-sleeve" aria-hidden="true">
-            <div class="vinyl">
-              <i>
-                <img src="/favicon.svg" alt="" />
-              </i>
-            </div>
-            <span class="record-caption">RADIO APP • LIVE RADIO •</span>
-          </div>
-          <div class="player-metadata">
-            <small aria-live="polite">
-              ●{' '}
-              {status === 'error'
-                ? tr('Señal interrumpida', 'Signal interrupted')
-                : status === 'waiting'
-                  ? tr('Conectando…', 'Connecting…')
-                  : playing
-                    ? tr('En el aire', 'On air')
-                    : station
-                      ? tr('En pausa', 'Paused')
-                      : tr('Lista para escuchar', 'Ready to play')}
-            </small>
-            <div>
-              <h2>{featured?.name || tr('Tu próxima emisora', 'Your next station')}</h2>
-              {featured && favorite(featured)}
-            </div>
-            <p>
-              {featured
-                ? [featured.country, featured.tags.split(',')[0]].filter(Boolean).join(' · ')
-                : tr('Elegí una emisora para empezar.', 'Choose a station to get started.')}
-            </p>
-          </div>
-          <div class="signal-line" aria-hidden="true">
-            <span />
-          </div>
-          <div class="signal-label">
-            <span>{tr('RADIO EN DIRECTO', 'LIVE RADIO')}</span>
-            <span>LIVE</span>
-          </div>
-          <div class="transport">
-            <button
-              class="icon-button"
-              disabled={!rows.length}
-              onClick={surprise}
-              aria-label={tr('Sorprendeme', 'Surprise me')}
-              title={tr('Sorprendeme', 'Surprise me')}
-            >
-              <Shuffle size={23} />
-            </button>
-            <button
-              class="main-play"
-              disabled={!featured}
-              onClick={() => featured && play(featured)}
-              aria-label={
-                playing ? tr('Pausar radio', 'Pause radio') : tr('Reproducir radio', 'Play radio')
-              }
-            >
-              {playing ? (
-                <Pause size={30} fill="currentColor" />
-              ) : (
-                <Play size={30} fill="currentColor" />
-              )}
-            </button>
-            <button
-              class="icon-button"
-              aria-label={tr('Siguiente emisora', 'Next station')}
-              disabled={!rows.length}
-              onClick={() =>
-                play(
-                  rows[
-                    (rows.findIndex((r) => r.stationuuid === featured?.stationuuid) + 1) %
-                      rows.length
-                  ],
-                  true
-                )
-              }
-            >
-              <SkipForward size={25} />
-            </button>
-          </div>
-          <label class="volume-control">
-            <Volume2 size={18} />
-            <span class="sr-only">{tr('Volumen', 'Volume')}</span>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={volume}
-              onInput={(e) => {
-                const value = Number(e.currentTarget.value)
-                setVolume(value)
-                if (audio.current) audio.current.volume = value
-              }}
-            />
-            <span>{Math.round(volume * 100)}%</span>
-          </label>
-          {status === 'error' && (
-            <p class="player-error" role="alert">
-              {tr(
-                'La emisora no responde. Probá de nuevo o elegí otra.',
-                'The station is not responding. Try again or choose another.'
-              )}
-            </p>
-          )}
-          <div class="listening-note">
-            <RadioTower size={18} />
-            <span>
-              {tr('Una señal. Miles de historias.', 'One signal. Thousands of stories.')}
-              <small>{tr('Quedate en tu frecuencia.', 'Stay on your frequency.')}</small>
-            </span>
-          </div>
-        </section>
+        <RadioPlayerPanel
+          tr={tr}
+          featured={featured}
+          station={station}
+          rows={rows}
+          status={status}
+          volume={volume}
+          setVolume={setVolume}
+          play={play}
+          surprise={surprise}
+          onBack={() => navigate(view)}
+          favorite={favorite}
+        />
       </main>
       <aside class="mobile-navigation">
         <nav aria-label={tr('Navegación móvil', 'Mobile navigation')}>{navigation}</nav>

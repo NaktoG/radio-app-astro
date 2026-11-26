@@ -49,10 +49,9 @@ export function getLocalDiagnosticUser({
   if (!isLocalDiagnosticRequest(request, clientAddress)) return null
 
   return {
-    id: 'local-diagnostic-user',
-    username: 'diagnostic_user',
-    role: 'diagnostic',
-    createdAt: new Date(DIAGNOSTIC_USER_CREATED_AT),
+    userId: 'local-diagnostic-user',
+    nickname: 'diagnostic_user',
+    acceptedAnonymousRiskAt: DIAGNOSTIC_USER_CREATED_AT,
     favorites: [],
     preferences: { theme: 'dark', defaultCountry: 'AR', autoPlay: false, volume: 0.7 },
   }

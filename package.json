@@ -17,7 +17,9 @@
     "lint": "eslint . --ext .ts,.tsx,.astro",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "format:check:ci": "prettier --check .github/workflows/ci.yml package.json .prettierrc"
+    "format:check:ci": "prettier --check .github/workflows/ci.yml package.json .prettierrc",
+    "check": "astro check && tsc --noEmit",
+    "validate": "npm run check && npm run lint && npm test && npm run build"
   },
   "dependencies": {
     "@astrojs/preact": "^4.0.0",
@@ -33,6 +35,7 @@
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.12",
     "@playwright/test": "^1.49.0",
     "@testing-library/preact": "^3.2.3",
     "@types/node": "^22.10.0",
@@ -44,6 +47,11 @@
     "prettier": "^3.4.0",
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.6.0",
-    "vitest": "^2.1.0"
+    "vitest": "^5.1.2"
+  },
+  "overrides": {
+    "@vercel/routing-utils": {
+      "path-to-regexp": "6.3.0"
+    }
   }
 }

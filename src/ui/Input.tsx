@@ -1,6 +1,8 @@
 import type { JSX } from 'preact'
 
-interface Props extends JSX.InputHTMLAttributes<HTMLInputElement> {
+type NativeProps = JSX.IntrinsicElements['input']
+
+interface Props extends NativeProps {
   label: string
   error?: string
   hint?: string
@@ -13,7 +15,10 @@ export default function Input({ label, error, hint, id, class: className, ...res
 
   return (
     <div class={`w-full ${className || ''}`}>
-      <label for={inputId} class="block text-sm font-medium mb-1.5 text-[var(--color-text-secondary)]">
+      <label
+        for={inputId}
+        class="block text-sm font-medium mb-1.5 text-[var(--color-text-secondary)]"
+      >
         {label}
       </label>
       <input

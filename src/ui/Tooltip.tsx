@@ -1,4 +1,4 @@
-import { useState, useRef, useId } from 'preact/hooks'
+import { useState, useId } from 'preact/hooks'
 
 interface Props {
   content: string

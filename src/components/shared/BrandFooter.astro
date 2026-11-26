@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets'
+import logo from '../../assets/luval-studio.png'
+interface Props {
+  english: boolean
+}
+const { english } = Astro.props
+const year = new Date().getFullYear()
+---
+
+<footer class="brand-footer">
+  <div class="footer-identity">
+    <Image
+      src={logo}
+      alt="Logo de LuVal Studio"
+      width={44}
+      height={44}
+      densities={[1, 2]}
+      format="webp"
+      quality={85}
+      loading="lazy"
+    />
+    <div class="footer-credit">
+      <p><span>{english ? 'Created by' : 'Una creación de'}</span><strong>LuVal Studio</strong></p>
+      <small>© {year} LuVal Studio · Radio App</small>
+    </div>
+  </div>
+  <nav aria-label={english ? 'Legal and language' : 'Información legal e idioma'}>
+    <a href="/legal/privacy">{english ? 'Privacy' : 'Privacidad'}</a>
+    <a href="/legal/terms">{english ? 'Terms' : 'Términos'}</a>
+    <button id="radio-language">{english ? 'Español' : 'English'}</button>
+  </nav>
+</footer>
+<script>
+  document.querySelector('#radio-language')?.addEventListener('click', () => {
+    document.cookie = `radio_lang=${document.documentElement.lang === 'en' ? 'es' : 'en'};path=/;max-age=31536000;SameSite=Lax`
+    location.reload()
+  })
+</script>

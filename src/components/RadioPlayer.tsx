@@ -26,7 +26,6 @@ export default function RadioPlayer() {
     ? stations.filter((s) => favorites.value.has(s.stationuuid))
     : stations
 
-  const currentStation = displayedStations[currentIndex] || null
 
   const loadStations = useCallback(async (filters: StationFilter) => {
     setLoading(true)

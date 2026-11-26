@@ -1,6 +1,6 @@
 import type { JSX } from 'preact'
 
-interface Props extends Omit<JSX.HTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface Props extends Omit<JSX.IntrinsicElements['input'], 'onChange'> {
   label: string
   min?: number
   max?: number
@@ -9,7 +9,16 @@ interface Props extends Omit<JSX.HTMLAttributes<HTMLInputElement>, 'onChange'> {
   onChange?: (value: number) => void
 }
 
-export default function Slider({ label, min = 0, max = 1, step = 0.05, value, onChange, id, ...rest }: Props) {
+export default function Slider({
+  label,
+  min = 0,
+  max = 1,
+  step = 0.05,
+  value,
+  onChange,
+  id,
+  ...rest
+}: Props) {
   const sliderId = id || `slider-${label.toLowerCase().replace(/\s+/g, '-')}`
   const percent = ((value - min) / (max - min)) * 100
 
