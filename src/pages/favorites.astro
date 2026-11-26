@@ -1,18 +1,3 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import FavoritesContainer from '../components/FavoritesContainer'
-import es from '../i18n/es.json'
-import en from '../i18n/en.json'
-
-const lang = Astro.locals.lang as string
-const dict = lang === 'en' ? en : es
+return Astro.redirect('/player?view=favorites')
 ---
-
-<BaseLayout title={dict.FAVORITES.TITLE}>
-  <section class="page-shell py-12 sm:py-24">
-    <h1 class="text-fluid-xl sm:text-fluid-2xl font-bold mb-4 sm:mb-8 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">
-      {dict.FAVORITES.TITLE}
-    </h1>
-    <FavoritesContainer client:load />
-  </section>
-</BaseLayout>

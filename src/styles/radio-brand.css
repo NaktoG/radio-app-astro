@@ -1,0 +1,321 @@
+:root {
+  color-scheme: dark;
+  --color-bg-base: #090909;
+  --color-bg-surface: #151515;
+  --color-bg-elevated: #222;
+  --color-surface: #151515;
+  --color-text: #fff;
+  --color-text-primary: #fff;
+  --color-text-secondary: #ccc;
+  --color-text-muted: #aaa;
+  --color-accent: #ffe600;
+  --color-accent-hover: #fff05b;
+  --color-accent-active: #e0cb00;
+  --color-accent-soft: #ffe60020;
+  --color-pink: #ffe600;
+  --color-pink-hover: #fff05b;
+  --color-border: #ffffff25;
+  --color-border-strong: #ffffff40;
+}
+body {
+  background: #090909;
+  color: #fff;
+}
+.brand-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+.brand-header {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px clamp(22px, 5vw, 90px);
+}
+.outline-link {
+  border: 1px solid #ffffff50;
+  border-radius: 30px;
+  padding: 11px 23px;
+  min-height: 44px;
+  background: #09090955;
+}
+.radio-hero {
+  min-height: 780px;
+  height: 100svh;
+  max-height: 1200px;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  background: #090909;
+}
+.hero-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+  z-index: -3;
+}
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, #090909d9 0%, #09090970 43%, transparent 76%),
+    linear-gradient(0deg, #090909, transparent 23%);
+}
+.hero-copy {
+  margin: auto 0;
+  padding: 40px clamp(22px, 7vw, 110px);
+  max-width: 850px;
+}
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 2.6px;
+  font-weight: 600;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #d8d8d8;
+}
+.eyebrow i {
+  width: 7px;
+  height: 7px;
+  background: #ffe600;
+  border-radius: 50%;
+  box-shadow: 0 0 16px #ffe60088;
+}
+.hero-copy h1 {
+  font-size: clamp(64px, 7.8vw, 132px);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  line-height: 0.97;
+  margin: 28px 0;
+}
+.hero-copy h1 em {
+  font-style: normal;
+  color: #ffe600;
+}
+.hero-copy p {
+  max-width: 390px;
+  font-size: 17px;
+  line-height: 1.65;
+  color: #cecece;
+  margin-bottom: 30px;
+}
+.yellow-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 17px 24px;
+  background: #ffe600;
+  color: #090909;
+  border-radius: 50px;
+  font-weight: 700;
+  min-height: 52px;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.yellow-link:hover {
+  background: #fff16b;
+  transform: translateY(-2px);
+}
+.hero-copy small {
+  display: block;
+  color: #aaa;
+  font-size: 12px;
+  margin-top: 16px;
+}
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  padding: 24px clamp(22px, 5vw, 90px);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #aaa;
+}
+.hero-bottom button {
+  border: 1px solid #ffffff40;
+  padding: 10px 16px;
+  border-radius: 30px;
+  min-height: 44px;
+}
+.hero-bottom [hidden] {
+  display: none;
+}
+.intro-section {
+  max-width: 1440px;
+  margin: auto;
+  padding: 100px clamp(22px, 6vw, 90px) 40px;
+}
+.intro-heading h2 {
+  font-size: clamp(38px, 4.8vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.055em;
+  font-weight: 600;
+  margin: 24px 0;
+}
+.intro-heading h2 em {
+  color: #ffe600;
+  font-style: normal;
+}
+.intro-heading p {
+  max-width: 480px;
+  color: #aaa;
+  line-height: 1.7;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 50px 0 80px;
+}
+.feature-grid article {
+  border: 1px solid #ffffff20;
+  background: linear-gradient(135deg, #1b1b1b, #111);
+  border-radius: 22px;
+  padding: 30px;
+}
+.feature-grid article > span {
+  font-size: 36px;
+  color: #ffe600;
+}
+.feature-grid small {
+  float: right;
+  color: #777;
+}
+.feature-grid h3 {
+  font-size: 23px;
+  margin: 28px 0 14px;
+  letter-spacing: -0.7px;
+}
+.feature-grid p {
+  color: #aaa;
+  line-height: 1.7;
+  font-size: 14px;
+}
+.closing-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-top: 1px solid #ffffff25;
+  padding: 40px 0;
+}
+.closing-cta h2 {
+  font-size: clamp(28px, 4vw, 52px);
+  letter-spacing: -2px;
+}
+.brand-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 5vw;
+  border-top: 1px solid #ffffff20;
+  font-size: 12px;
+  color: #999;
+}
+.brand-footer strong {
+  color: #fff;
+}
+.brand-footer nav {
+  display: flex;
+  gap: 20px;
+}
+.brand-footer a,
+.brand-footer button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+.profile-brand {
+  margin-bottom: 32px;
+}
+.btn-primary {
+  background: #ffe600 !important;
+  color: #090909 !important;
+  box-shadow: none !important;
+}
+.input-field {
+  background: #111 !important;
+  color: #fff !important;
+  border-color: #ffffff40 !important;
+}
+:focus-visible {
+  outline: 2px solid #ffe600;
+  outline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .radio-hero {
+    min-height: 740px;
+    height: 100svh;
+    max-height: 1000px;
+  }
+  .hero-media {
+    object-position: 72% center;
+  }
+  .hero-shade {
+    background:
+      linear-gradient(0deg, #090909 3%, #090909bb 39%, #09090910 85%),
+      linear-gradient(90deg, #09090970, transparent);
+  }
+  .brand-header {
+    padding: 20px;
+  }
+  .hero-copy {
+    margin: auto 0 0;
+    padding: 160px 24px 28px;
+  }
+  .hero-copy h1 {
+    font-size: clamp(56px, 13vw, 84px);
+  }
+  .hero-copy p {
+    font-size: 15px;
+    max-width: 320px;
+  }
+  .hero-bottom {
+    padding: 18px 24px;
+  }
+  .hero-bottom > span {
+    display: none;
+  }
+  .intro-section {
+    padding-top: 65px;
+  }
+  .feature-grid {
+    grid-template-columns: 1fr;
+    margin-bottom: 45px;
+  }
+  .closing-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .brand-footer {
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 95px;
+  }
+  .brand-wordmark {
+    font-size: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yellow-link {
+    transition: none;
+  }
+  .yellow-link:hover {
+    transform: none;
+  }
+}

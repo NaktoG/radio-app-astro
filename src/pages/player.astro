@@ -1,18 +1,14 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'
-import RadioPlayer from '../components/RadioPlayer'
-import es from '../i18n/es.json'
-import en from '../i18n/en.json'
-
-const lang = Astro.locals.lang as string
-const dict = lang === 'en' ? en : es
+import RadioLayout from '../layouts/RadioLayout.astro'
+import Dial from '../components/Dial'
+const english = Astro.locals.lang === 'en'
 ---
 
-<BaseLayout title={dict.NAV.PLAYER}>
-  <section class="page-shell py-6 sm:py-24">
-    <h1 class="text-base sm:text-fluid-2xl font-bold mb-2.5 sm:mb-8 bg-gradient-to-r from-[var(--color-accent-hover)] to-[var(--color-pink-hover)] bg-clip-text text-transparent">
-      {dict.NAV.PLAYER}
-    </h1>
-    <RadioPlayer client:load />
-  </section>
-</BaseLayout>
+<RadioLayout title="Radio App · En vivo">
+  <Dial
+    client:load
+    english={english}
+    profile={Boolean(Astro.locals.user)}
+    nickname={Astro.locals.user?.nickname || ''}
+  />
+</RadioLayout>

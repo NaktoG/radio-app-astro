@@ -1,0 +1,294 @@
+.dial-app {
+  --ink: #fff;
+  --muted: #aaa;
+  --ice: #ffe600;
+  background: #090909;
+  padding-bottom: 145px;
+  max-width: 1680px;
+  margin: auto;
+}
+.dial-app header {
+  border-bottom: 1px solid #ffffff18;
+  margin-bottom: 32px;
+}
+.dial-greeting {
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.dial-greeting span {
+  background: #ffe600;
+  color: #090909;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 20px;
+  padding: 7px 12px;
+  white-space: nowrap;
+}
+.discovery h2 {
+  font-size: clamp(32px, 4vw, 52px);
+}
+.discovery-banner {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 100% 60%, #75690066, transparent 65%), #171717;
+  border: 1px solid #ffffff25;
+  border-radius: 22px;
+  padding: 26px;
+  margin-bottom: 20px;
+  min-height: 215px;
+}
+.discovery-banner small {
+  color: #bbb;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.discovery-banner h3 {
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.08;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  margin: 20px 0 14px;
+  position: relative;
+  z-index: 1;
+}
+.discovery-banner em {
+  font-style: normal;
+  color: #ffe600;
+}
+.discovery-banner p {
+  color: #aaa;
+  font-size: 12px;
+  max-width: 65%;
+}
+.discovery-banner > svg {
+  position: absolute;
+  right: -12px;
+  bottom: -20px;
+  width: 170px;
+  height: 170px;
+  color: #ffe600;
+  opacity: 0.25;
+  stroke-width: 1;
+}
+.genre-shelf button {
+  aspect-ratio: 2.2;
+  border: 1px solid #ffffff30;
+  border-radius: 14px;
+}
+.genre-shelf img {
+  filter: grayscale(1);
+  opacity: 0.65;
+}
+.genre-shelf b {
+  font-size: 18px;
+}
+.console {
+  background: linear-gradient(145deg, #242424, #111);
+  border: 1px solid #ffffff30;
+  border-radius: 24px;
+}
+.console small {
+  color: #ffe600;
+}
+.console h1 {
+  font-size: 28px;
+  line-height: 1.1;
+}
+.console p {
+  font-size: 13px;
+}
+.transport button {
+  background: #222;
+  color: #fff;
+  border-color: #ffffff30;
+}
+.transport button:first-child {
+  background: #ffe600;
+  color: #090909;
+}
+.dial-bars i {
+  background: #ffe600;
+}
+.dial-scale {
+  background: repeating-linear-gradient(90deg, #ffe60066 0 1px, transparent 1px 9px);
+}
+.dial-scale i {
+  background: #ffe600;
+  box-shadow: 0 0 8px #ffe600;
+}
+.directory {
+  background: #111;
+  border: 1px solid #ffffff18;
+}
+.directory select,
+.directory input {
+  background: #202020;
+  border-color: #ffffff30;
+}
+.radio-row {
+  border-color: #ffffff15;
+}
+.radio-row:hover,
+.radio-row.selected {
+  background: #ffe60010;
+}
+.radio-row.selected b,
+.radio-row[aria-pressed],
+.radio-row [aria-pressed='true'] {
+  color: #ffe600;
+}
+.station-art {
+  background: radial-gradient(circle at 80% 0, #6e6500, transparent), #222;
+  color: #ffe600 !important;
+}
+.dial-app nav button[aria-current] {
+  color: #ffe600;
+  background: #ffe60015;
+}
+.recent button {
+  background: #222;
+}
+.record-sleeve {
+  height: 240px;
+  background: radial-gradient(circle at center, #5d550044, transparent 70%), #111;
+  display: grid;
+  place-items: center;
+}
+.vinyl {
+  inset: auto;
+  width: 88%;
+  height: auto;
+  aspect-ratio: 1;
+  background: repeating-radial-gradient(circle, #111 0 9px, #ffe60070 10px 11px, #151515 12px 24px);
+  animation: none;
+}
+.vinyl i {
+  background: #ffe600;
+  inset: 38%;
+}
+.vinyl i:after {
+  content: '◉';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #111;
+  font-size: 32px;
+}
+.tonearm {
+  display: none;
+}
+.sounding small:before {
+  background: #ffe600;
+  box-shadow: 0 0 9px #ffe600;
+}
+.volume-control {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 22px;
+}
+.volume-control input {
+  min-width: 0;
+  width: 100%;
+  accent-color: #ffe600;
+}
+.dial-app aside {
+  background: #111f;
+  border-color: #ffffff25;
+  backdrop-filter: blur(20px);
+}
+.mini-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 900px;
+  margin: auto;
+  padding: 10px 12px;
+  border-bottom: 1px solid #ffffff20;
+}
+.mini-player > svg {
+  color: #ffe600;
+}
+.mini-player > div {
+  flex: 1;
+  min-width: 0;
+}
+.mini-player b {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
+.mini-player small {
+  display: block;
+  color: #999;
+  font-size: 10px;
+}
+.mini-player button {
+  background: #ffe600;
+  color: #090909;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  justify-content: center;
+}
+.dial-app aside {
+  display: block;
+}
+.dial-app nav button {
+  min-height: 52px;
+}
+.side-library > a {
+  font-size: 17px;
+}
+.dial-app header > a {
+  font-size: 13px;
+}
+@media (min-width: 940px) {
+  .dial-app main {
+    grid-template-columns: 180px minmax(0, 1fr) minmax(280px, 30%);
+  }
+  .dial-app aside {
+    padding: 0 20px;
+  }
+  .mini-player {
+    border-bottom: 0;
+  }
+  .dial-app aside:has(.mini-player) {
+    display: block;
+  }
+  .dial-app aside:not(:has(.mini-player)) {
+    display: none;
+  }
+}
+@media (max-width: 939px) {
+  .console {
+    position: relative;
+    padding: 20px;
+  }
+  .record-sleeve {
+    height: 115px;
+    float: right;
+    width: 115px;
+  }
+  .discovery-banner {
+    min-height: 200px;
+  }
+  .dial-app header {
+    margin-bottom: 22px;
+  }
+  .genre-shelf b {
+    font-size: 15px;
+  }
+  .directory {
+    margin-bottom: 15px;
+  }
+}

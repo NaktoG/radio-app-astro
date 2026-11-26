@@ -1,50 +1,172 @@
 ---
-import '../styles/global.css'
-import StudioWelcome from '../components/StudioWelcome.astro'
-import Dial from '../components/Dial'
-const lang = Astro.locals.lang === 'en' ? 'en' : 'es'
+import RadioLayout from '../layouts/RadioLayout.astro'
+const en = Astro.locals.lang === 'en'
+const t = (es: string, english: string) => (en ? english : es)
+const entry = Astro.locals.user ? '/player' : '/auth/profile'
 ---
 
-<!doctype html>
-<html lang={lang}>
-  <head>
-    <meta charset="utf-8" /><meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    /><meta name="theme-color" content="#0c111d" />
-    <link rel="apple-touch-icon" href="/radio-180.png" /><meta
-      name="apple-mobile-web-app-capable"
-      content="yes"
-    /><title>Radio App · Dial</title><link rel="manifest" href="/manifest.webmanifest" /><link
-      rel="icon"
-      href="/favicon.svg"
-    />
-  </head><body
-    ><a class="sr-only focus:not-sr-only" href="#main"
-      >{lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}</a
-    ><StudioWelcome /><Dial
-      client:load
-      english={lang === 'en'}
-      profile={Boolean(Astro.locals.user)}
-    />
-    <footer class="app-footer page-shell">
-      <strong>LuVal Studio</strong><nav aria-label={lang === 'en' ? 'Footer' : 'Pie de página'}>
-        <a href="/legal/privacy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</a><a
-          href="/legal/terms">{lang === 'en' ? 'Terms' : 'Términos'}</a
-        ><a href="/legal/faq">FAQ</a><button id="language"
-          >{lang === 'en' ? 'Español' : 'English'}</button
+<RadioLayout>
+  <main id="main">
+    <section class="radio-hero">
+      <img
+        class="hero-media"
+        src="/media/hero-radio.jpg"
+        alt=""
+        fetchpriority="high"
+        width="1600"
+        height="900"
+      />
+      <video
+        id="hero-film"
+        class="hero-media"
+        muted
+        loop
+        playsinline
+        preload="none"
+        poster="/media/hero-radio.jpg"
+        aria-hidden="true"
+        data-src="/media/hero-radio.mp4"></video>
+      <div class="hero-shade"></div>
+      <header class="brand-header">
+        <a class="brand-wordmark" href="/" aria-label="Radio App"
+          ><img src="/favicon.svg" alt="" width="42" height="42" />Radio App</a
+        ><a class="outline-link" href={entry}>{t('Entrar', 'Enter')} ↗</a>
+      </header>
+      <div class="hero-copy">
+        <span class="eyebrow"
+          ><i></i>{t('TU MUNDO. TU FRECUENCIA.', 'YOUR WORLD. YOUR FREQUENCY.')}</span
         >
-      </nav>
-    </footer>
-    <script>
-      document.querySelector('#language')?.addEventListener('click', () => {
-        document.cookie =
-          'radio_lang=' +
-          (document.documentElement.lang === 'en' ? 'es' : 'en') +
-          ';path=/;max-age=31536000;SameSite=Lax'
-        location.reload()
-      })
-      if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {})
-    </script></body
-  >
-</html>
+        <h1>{t('El mundo', 'The world')}<br />{t('en el', 'on the')} <em>dial.</em></h1>
+        <p>
+          {
+            t(
+              'Descubrí emisoras de todo el mundo. Escuchá en vivo y guardá tus favoritas. La próxima conexión empieza con vos.',
+              'Discover stations from around the world. Listen live and save your favorites. Your next connection starts here.'
+            )
+          }
+        </p>
+        <a class="yellow-link" href={entry}
+          >{
+            Astro.locals.user
+              ? t('Volver a mi radio', 'Back to my radio')
+              : t('Empezar a escuchar', 'Start listening')
+          }
+          <span>↗</span></a
+        >
+        <small
+          >{
+            t('Solo un apodo. Sin email ni contraseña.', 'Just a nickname. No email or password.')
+          }</small
+        >
+      </div>
+      <div class="hero-bottom">
+        <a href="#discover">{t('Descubrí Radio App', 'Discover Radio App')} ↓</a><button
+          id="motion-toggle"
+          hidden>{t('Pausar animación', 'Pause animation')}</button
+        ><span>LIVE RADIO / WORLDWIDE</span>
+      </div>
+    </section>
+    <section id="discover" class="intro-section">
+      <div class="intro-heading">
+        <span class="eyebrow">01 / {t('SIN FRONTERAS', 'WITHOUT BORDERS')}</span><h2>
+          {t('Cada lugar tiene', 'Every place has')}<br /><em
+            >{t('su frecuencia.', 'its frequency.')}</em>
+        </h2><p>
+          {
+            t(
+              'Música, voces e historias. Encontrá lo que querés escuchar y hacelo parte de tu día.',
+              'Music, voices and stories. Find what you love and make it part of your day.'
+            )
+          }
+        </p>
+      </div>
+      <div class="feature-grid">
+        <article>
+          <span>↗</span><small>01</small><h3>{t('Explorá el mundo', 'Explore the world')}</h3><p>
+            {
+              t(
+                'Buscá por país, género o nombre. Tu emisora de siempre o una que todavía no conocés.',
+                'Search by country, genre or name. Your old favorite or your next discovery.'
+              )
+            }
+          </p>
+        </article>
+        <article>
+          <span>◉</span><small>02</small><h3>{t('Conectá en vivo', 'Connect live')}</h3><p>
+            {
+              t(
+                'Elegí una emisora y dale play. La radio sigue con vos mientras explorás la app.',
+                'Choose a station and press play. Keep listening while you explore the app.'
+              )
+            }
+          </p>
+        </article>
+        <article>
+          <span>♡</span><small>03</small><h3>{t('Hacela tuya', 'Make it yours')}</h3><p>
+            {
+              t(
+                'Guardá tus favoritas con un apodo. Tu navegador conserva el acceso a tu perfil.',
+                'Save favorites with a nickname. Your browser remembers access to your profile.'
+              )
+            }
+          </p>
+        </article>
+      </div>
+      <div class="closing-cta">
+        <h2>{t('Encontrá tu señal.', 'Find your signal.')}</h2><a class="yellow-link" href={entry}
+          >{t('Entrar a Radio App', 'Enter Radio App')} ↗</a>
+      </div>
+    </section>
+  </main>
+  <script>
+    const film = document.querySelector<HTMLVideoElement>('#hero-film')!
+    const toggle = document.querySelector<HTMLButtonElement>('#motion-toggle')!
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)')
+    const english = document.documentElement.lang === 'en'
+    let userPaused = false
+    function updateLabel() {
+      toggle.textContent = film.paused
+        ? english
+          ? 'Play animation'
+          : 'Reproducir animación'
+        : english
+          ? 'Pause animation'
+          : 'Pausar animación'
+    }
+    async function start() {
+      if (reduced.matches || userPaused || document.hidden) return
+      if (!film.src) film.src = film.dataset.src!
+      try {
+        await film.play()
+        toggle.hidden = false
+        updateLabel()
+      } catch {
+        /* The poster remains available when autoplay or media fails. */
+      }
+    }
+    film.addEventListener('error', () => {
+      film.hidden = true
+      toggle.hidden = true
+    })
+    toggle.addEventListener('click', () => {
+      userPaused = !film.paused
+      if (userPaused) film.pause()
+      else void start()
+      updateLabel()
+    })
+    reduced.addEventListener('change', () => {
+      if (reduced.matches) {
+        film.pause()
+        toggle.hidden = true
+      } else void start()
+    })
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) film.pause()
+      else void start()
+    })
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) void start()
+      else film.pause()
+    }).observe(film)
+  </script>
+</RadioLayout>

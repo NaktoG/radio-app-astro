@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
+import RadioLayout from '../../layouts/RadioLayout.astro'
 import AuthForm from '../../components/AuthForm'
 import es from '../../i18n/es.json'
 import en from '../../i18n/en.json'
@@ -11,10 +11,14 @@ const dict = lang === 'en' ? en : es
 const title = dict.AUTH.PROFILE.TITLE
 ---
 
-<BaseLayout title={title}>
+<RadioLayout title={title}>
   <section
+    id="main"
     class="min-h-[72svh] sm:min-h-[80dvh] flex flex-col items-center justify-center px-3 sm:px-4 py-12 sm:py-24"
   >
+    <a class="brand-wordmark profile-brand" href="/"
+      ><img src="/favicon.svg" alt="" width="48" height="48" />Radio App</a
+    >
     <AuthForm mode="register" copy={dict.AUTH.PROFILE} client:load />
   </section>
-</BaseLayout>
+</RadioLayout>

@@ -15,11 +15,26 @@ import { fetchStations, searchStations, fetchStationsByUuids } from '../lib/api'
 import type { Radio } from '../lib/types'
 import { syncFavorites, toggleFavorite, useFavoritesStore } from '../stores/favorites'
 import '../styles/dial.css'
+import '../styles/dial-yellow.css'
 
 const bands = ['AR', 'ES', 'MX', 'US', 'BR', 'FR', 'GB']
-export default function Dial({ english, profile }: { english: boolean; profile: boolean }) {
+export default function Dial({
+  english,
+  profile,
+  nickname = '',
+}: {
+  english: boolean
+  profile: boolean
+  nickname?: string
+}) {
   const tr = (es: string, en: string) => (english ? en : es)
   const [view, setView] = useState(0)
+  const [volume, setVolume] = useState(0.7)
+  useEffect(() => {
+    const selected = new URLSearchParams(location.search).get('view')
+    if (selected === 'favorites') setView(2)
+    if (selected === 'search') setView(1)
+  }, [])
   const [country, setCountry] = useState('AR')
   const [genre, setGenre] = useState('')
   const [query, setQuery] = useState('')
@@ -87,6 +102,11 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
   const icons = [Compass, Search, Library]
   function navigate(next: number) {
     setView(next)
+    history.replaceState(
+      null,
+      '',
+      '/player' + (next === 1 ? '?view=search' : next === 2 ? '?view=favorites' : '')
+    )
     document.querySelector('#main')?.scrollIntoView({ block: 'start' })
   }
   const navigation = labels.map((label, i) => {
@@ -107,6 +127,9 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
     <div class="dial-app page-shell">
       <audio
         ref={audio}
+        onLoadedMetadata={() => {
+          if (audio.current) audio.current.volume = volume
+        }}
         onPlaying={() => {
           setStatus('playing')
           if (station)
@@ -120,23 +143,40 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
       />
       <header>
         <strong>
-          <RadioTower /> Radio App
+          <img src="/favicon.svg" width="36" height="36" alt="" /> Radio App
         </strong>
-        <a href={profile ? '/favorites' : '/auth/profile'}>
-          {profile ? tr('Mi biblioteca', 'My library') : tr('Crear perfil', 'Create profile')}
-        </a>
+        <a href="/">{tr('Inicio', 'Home')} ↗</a>
       </header>
       <main id="main">
         <div class="side-library">
-          <a href="#studio-title">
+          <a href="/">
             <RadioTower size={22} /> Radio App
           </a>
           <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
         </div>
         <section class="discovery">
+          <p class="dial-greeting">
+            {tr('Hola', 'Hello')}
+            {nickname ? `, ${nickname}` : ''} <span>● {tr('EN VIVO', 'LIVE')}</span>
+          </p>
           <h2>{labels[view]}</h2>
           {view === 0 && (
             <>
+              <div class="discovery-banner">
+                <small>{tr('RADIO SIN FRONTERAS', 'RADIO WITHOUT BORDERS')}</small>
+                <h3>
+                  {tr('Tu próxima emisora', 'Your next favorite')}
+                  <br />
+                  <em>{tr('favorita.', 'station.')}</em>
+                </h3>
+                <p>
+                  {tr(
+                    'Encontrá tu frecuencia. Dale play al mundo.',
+                    'Find your frequency. Press play on the world.'
+                  )}
+                </p>
+                <RadioTower aria-hidden="true" />
+              </div>
               <div class="genre-shelf">
                 {['rock', 'jazz', 'electronic'].map((g, i) => (
                   <button
@@ -230,6 +270,21 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
               {tr('Sorprendeme', 'Surprise me')}
             </button>
           </div>
+          <label class="volume-control">
+            {tr('Volumen', 'Volume')}
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onInput={(event) => {
+                const value = Number(event.currentTarget.value)
+                setVolume(value)
+                if (audio.current) audio.current.volume = value
+              }}
+            />
+          </label>
           <div class="dial-bars" aria-hidden="true">
             {Array.from({ length: 32 }, (_, i) => (
               <i
@@ -282,7 +337,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
             />
           )}
           {view === 2 && !profile ? (
-            <a href="#nickname">
+            <a href="/auth/profile">
               {tr('Crear perfil para guardar favoritas', 'Create a profile to save favorites')}
             </a>
           ) : busy ? (
@@ -328,7 +383,7 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
                   </button>
                 ) : (
                   <a
-                    href="#nickname"
+                    href="/auth/profile"
                     aria-label={tr('Guardar con un perfil', 'Save with a profile')}
                   >
                     <Heart />
@@ -346,6 +401,21 @@ export default function Dial({ english, profile }: { english: boolean; profile: 
         </section>
       </main>
       <aside>
+        {station && (
+          <div class="mini-player">
+            <RadioTower size={22} />
+            <div>
+              <b>{station.name}</b>
+              <small>{tr('En directo', 'Live radio')}</small>
+            </div>
+            <button
+              aria-label={playing ? tr('Pausar', 'Pause') : tr('Escuchar', 'Play')}
+              onClick={() => play(station)}
+            >
+              {playing ? <Pause /> : <Play />}
+            </button>
+          </div>
+        )}
         <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
       </aside>
     </div>

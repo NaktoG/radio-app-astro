@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'radio-app-studio-v3'
+const CACHE_VERSION = 'radio-app-yellow-v4'
 const STATIC_CACHE = `${CACHE_VERSION}-static`
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`
 
@@ -12,17 +12,25 @@ const PRECACHE_URLS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(STATIC_CACHE).then((cache) => cache.addAll(PRECACHE_URLS)).then(() => self.skipWaiting()),
+    caches
+      .open(STATIC_CACHE)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   )
 })
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys
-        .filter((key) => key !== STATIC_CACHE && key !== RUNTIME_CACHE)
-        .map((key) => caches.delete(key)),
-    )).then(() => self.clients.claim()),
+    caches
+      .keys()
+      .then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key !== STATIC_CACHE && key !== RUNTIME_CACHE)
+            .map((key) => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
   )
 })
 
@@ -31,10 +39,11 @@ function shouldBypass(request) {
   return (
     url.origin !== self.location.origin ||
     request.destination === 'audio' ||
+    request.destination === 'video' ||
     request.method !== 'GET' ||
     url.pathname.startsWith('/api/') ||
     url.pathname.includes('image-proxy') ||
-    url.protocol !== 'http:' && url.protocol !== 'https:'
+    (url.protocol !== 'http:' && url.protocol !== 'https:')
   )
 }
 
@@ -42,7 +51,7 @@ async function networkFirst(request) {
   try {
     return await fetch(request)
   } catch {
-    return await caches.match('/offline.html') || self.Response.error()
+    return (await caches.match('/offline.html')) || self.Response.error()
   }
 }
 
