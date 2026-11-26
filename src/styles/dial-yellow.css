@@ -3,7 +3,7 @@
   --muted: #aaa;
   --ice: #ffe600;
   background: #090909;
-  padding-bottom: 145px;
+  padding-bottom: 80px;
   max-width: 1680px;
   margin: auto;
 }
@@ -204,42 +204,6 @@
   border-color: #ffffff25;
   backdrop-filter: blur(20px);
 }
-.mini-player {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: 900px;
-  margin: auto;
-  padding: 10px 12px;
-  border-bottom: 1px solid #ffffff20;
-}
-.mini-player > svg {
-  color: #ffe600;
-}
-.mini-player > div {
-  flex: 1;
-  min-width: 0;
-}
-.mini-player b {
-  display: block;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 13px;
-}
-.mini-player small {
-  display: block;
-  color: #999;
-  font-size: 10px;
-}
-.mini-player button {
-  background: #ffe600;
-  color: #090909;
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  justify-content: center;
-}
 .dial-app aside {
   display: block;
 }
@@ -257,16 +221,10 @@
     grid-template-columns: 180px minmax(0, 1fr) minmax(280px, 30%);
   }
   .dial-app aside {
-    padding: 0 20px;
-  }
-  .mini-player {
-    border-bottom: 0;
-  }
-  .dial-app aside:has(.mini-player) {
-    display: block;
-  }
-  .dial-app aside:not(:has(.mini-player)) {
     display: none;
+  }
+  .dial-app {
+    padding-bottom: 32px;
   }
 }
 @media (max-width: 939px) {

@@ -401,21 +401,6 @@ export default function Dial({
         </section>
       </main>
       <aside>
-        {station && (
-          <div class="mini-player">
-            <RadioTower size={22} />
-            <div>
-              <b>{station.name}</b>
-              <small>{tr('En directo', 'Live radio')}</small>
-            </div>
-            <button
-              aria-label={playing ? tr('Pausar', 'Pause') : tr('Escuchar', 'Play')}
-              onClick={() => play(station)}
-            >
-              {playing ? <Pause /> : <Play />}
-            </button>
-          </div>
-        )}
         <nav aria-label={tr('Secciones', 'Sections')}>{navigation}</nav>
       </aside>
     </div>
