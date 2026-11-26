@@ -20,8 +20,8 @@
       "SUBTITLE": "Nicknames are unique display handles only. They are not credentials."
     },
     "PROFILE": {
-      "TITLE": "Set up your anonymous profile",
-      "SUBTITLE": "Choose an available nickname. It is only a display handle and does not identify or recover your account.",
+      "TITLE": "Choose your nickname",
+      "SUBTITLE": "A name for your radio. No email or password.",
       "NICKNAME_LABEL": "Nickname",
       "NICKNAME_PLACEHOLDER": "e.g. Radio Fan",
       "SUBMIT": "Continue",
@@ -29,9 +29,9 @@
       "NICKNAME_REQUIRED": "Enter a nickname before continuing.",
       "NICKNAME_TAKEN": "That nickname is already taken. Choose another display nickname.",
       "CREATE_ERROR": "Could not create your anonymous profile. Try again.",
-      "RISK_TITLE": "Anonymous account risk",
-      "RISK_BODY": "This app uses an anonymous Supabase session stored in secure server cookies. If you clear cookies, switch browsers, or sign out, this anonymous account may not be recoverable.",
-      "RISK_RECOVERY": "Do not treat this profile as a permanent account. There is no email, phone, password, or nickname recovery.",
+      "RISK_TITLE": "Your profile in this browser",
+      "RISK_BODY": "This browser remembers your profile and favorites. Clearing its data, switching browsers or signing out may mean losing access.",
+      "RISK_RECOVERY": "Your nickname is a display name. It cannot sign you in or recover your favorites.",
       "RISK_ACCEPT": "I understand, create profile",
       "RISK_CANCEL": "Cancel"
     },

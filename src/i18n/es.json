@@ -20,8 +20,8 @@
       "SUBTITLE": "Los apodos son nombres visibles únicos. No son credenciales."
     },
     "PROFILE": {
-      "TITLE": "Configurá tu perfil anónimo",
-      "SUBTITLE": "Elegí un apodo disponible. Es solo un nombre visible y no identifica ni recupera tu cuenta.",
+      "TITLE": "Elegí tu apodo",
+      "SUBTITLE": "Un nombre para tu radio. Sin email ni contraseña.",
       "NICKNAME_LABEL": "Apodo",
       "NICKNAME_PLACEHOLDER": "Ej: Fan de la radio",
       "SUBMIT": "Continuar",
@@ -29,9 +29,9 @@
       "NICKNAME_REQUIRED": "Ingresá un apodo antes de continuar.",
       "NICKNAME_TAKEN": "Ese apodo ya está en uso. Elegí otro apodo visible.",
       "CREATE_ERROR": "No se pudo crear tu perfil anónimo. Intentá nuevamente.",
-      "RISK_TITLE": "Riesgo de cuenta anónima",
-      "RISK_BODY": "Esta app usa una sesión anónima de Supabase guardada en cookies seguras del servidor. Si borrás las cookies, cambiás de navegador o cerrás sesión, es posible que esta cuenta anónima no pueda recuperarse.",
-      "RISK_RECOVERY": "No trates este perfil como una cuenta permanente. No hay recuperación por email, teléfono, contraseña ni apodo.",
+      "RISK_TITLE": "Tu perfil en este navegador",
+      "RISK_BODY": "Este navegador recuerda tu perfil y tus favoritas. Si borrás sus datos, cambiás de navegador o cerrás sesión, podés perder el acceso.",
+      "RISK_RECOVERY": "Tu apodo es un nombre visible: no sirve para iniciar sesión ni recuperar tus favoritas.",
       "RISK_ACCEPT": "Entiendo, crear perfil",
       "RISK_CANCEL": "Cancelar"
     },
