@@ -18,9 +18,34 @@ import {
 import { fetchStations, searchStations, fetchStationsByUuids } from '../lib/api'
 import type { Radio } from '../lib/types'
 import { syncFavorites, toggleFavorite, useFavoritesStore } from '../stores/favorites'
-import Image from '../ui/Image'
-import { proxyImage } from '../lib/image'
 import '../styles/dial-yellow.css'
+
+function StationArtwork({ radio }: { radio: Radio }) {
+  const [failed, setFailed] = useState(false)
+  const src = /^https:\/\//i.test(radio.favicon) ? radio.favicon : ''
+  const initials = radio.name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase()
+  return (
+    <span class={'station-logo ' + (!src || failed ? 'station-initials' : '')}>
+      {src && !failed ? (
+        <img
+          src={src}
+          alt=""
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <b>{initials || 'FM'}</b>
+      )}
+    </span>
+  )
+}
 
 const bands = ['AR', 'ES', 'MX', 'US', 'BR', 'FR', 'GB']
 export default function Dial({
@@ -170,7 +195,7 @@ export default function Dial({
     )
   }
   function artwork(r: Radio) {
-    return <Image key={r.stationuuid} src={proxyImage(r.favicon)} alt="" />
+    return <StationArtwork key={r.stationuuid} radio={r} />
   }
   function stationRow(r: Radio, index: number) {
     const active = station?.stationuuid === r.stationuuid
