@@ -1,5 +1,23 @@
 # Despliegue en Vercel
 
+## Estado actual de LuVal Radio — 27 de noviembre de 2026
+
+- Repositorio: https://github.com/NaktoG/radio-app-astro
+- Rama del código nuevo: `preview/mobile-radio-dial`.
+- Demo pública para compartir: https://luval-radio.vercel.app/
+- Commit de la aplicación que sirve ese enlace al verificarlo: `5fea17ed002d6e98a1654efe55b9e5e6b3af3d72`.
+- Despliegue asociado: `dpl_3dfv7yGeZ2c8H1Aoskw3goJ75hzy`, en entorno Preview. Hacer pública esta URL no promueve el código a producción ni lo integra en la rama principal.
+- El alias estaba sujeto a Vercel Authentication. El 27 de noviembre se creó una excepción pública para `luval-radio.vercel.app` (`alias-protection-override`). Se volvió a consultar la configuración y Gastón confirmó que el enlace funciona sin pedir autorización.
+- La protección general del proyecto sigue activa. La excepción se aplica a este alias.
+- Este permiso se guarda en Vercel, no en el código ni en `vercel.json`. Clonar el repositorio no reproduce esa configuración.
+- Al publicar una versión nueva, comprobar a qué despliegue apunta el alias y verificar su acceso desde una ventana privada. No asumir que un nuevo despliegue de la rama actualiza automáticamente este alias.
+- Documentación de los cambios: [Rediseño](REDESIGN_2026-11-26.md) y [Fiabilidad y validación técnica](RELIABILITY_2026-11-26.md).
+- La raíz local está en una rama anterior; `radio-dial-preview/` es una copia local del código nuevo y no tiene un repositorio Git independiente. Para trabajar con historial y seguimiento remoto, clonar el repo y seleccionar `preview/mobile-radio-dial`.
+
+## Referencia histórica de configuración — 20 de julio de 2026
+
+La información siguiente corresponde a la configuración anterior; sus URLs, versiones y resultados de pruebas no describen por sí solos la demo actual. Para la validación del código del 26 de noviembre, consultar el informe de fiabilidad enlazado arriba.
+
 ## Proyecto
 
 `radio-app-astro`
@@ -82,6 +100,6 @@ Para rollback desde CLI:
 vercel rollback
 ```
 
-## Última revisión
+## Última revisión de esta referencia histórica
 
 2026-07-20
